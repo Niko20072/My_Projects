@@ -14,10 +14,10 @@ namespace Tmpl8
     const int screenWidth = 800;
     const int screenHeight = 512;
 
-    int cameraX = 0, cameraY = 0; // offset-ul hărții (cât s-a "mutat" harta pe ecran)
-
     int mapWidth = MapWidth; // lățimea hărții în tile-uri
     int mapHeight = MapHeight; // înălțimea hărții în tile-uri
+
+    int cameraX = 0, cameraY = 0; // offset-ul hărții (cât s-a "mutat" harta pe ecran)
 
     int px = screenWidth / 2 - 16, py = screenHeight / 2 - 16;// poziția tancului pe ecran/ 16 = jumătate din dimensiunea sprite-ului
 
@@ -204,6 +204,7 @@ namespace Tmpl8
 
     void Game::Tick(float deltaTime)
     {
+		// desenare hartă
         screen->Clear(0);
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
@@ -212,12 +213,13 @@ namespace Tmpl8
                 int ty = map[y][x * 3 + 1] - 'a';
                 DrawTile(tx, ty, screen, x * 32 - cameraX + offsetX, y * 32 - cameraY + offsetY);
             }
-
+		// desenare sprite
         tank.Draw(screen, px, py);
         tank_gun.Draw(screen, px, py);
 
         int newCameraX = cameraX;
         int newCameraY = cameraY;
+
         // orizontala
         if (GetAsyncKeyState('A')) newCameraX--, UpdateAnimation(frameA, framesA);// deplasare stânga
         if (GetAsyncKeyState('D')) newCameraX++, UpdateAnimation(frameD, framesD);// deplasare dreapta
@@ -229,6 +231,7 @@ namespace Tmpl8
         if (GetAsyncKeyState('W') && GetAsyncKeyState('D')) tank.SetFrame(2), tank_gun.SetFrame(2);
         if (GetAsyncKeyState('S') && GetAsyncKeyState('A')) tank.SetFrame(10), tank_gun.SetFrame(10);
         if (GetAsyncKeyState('S') && GetAsyncKeyState('D')) tank.SetFrame(6), tank_gun.SetFrame(6);
+		// verificare coliziuni
 		if (CheckTankCollision(newCameraX + px, newCameraY + py)) cameraX = newCameraX, cameraY = newCameraY;
     }
 };
