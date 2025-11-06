@@ -150,7 +150,7 @@ namespace Tmpl8
             src += srcPitch;
             dst += dstPitch;
         }
-    }*/
+    }
 
     void Game::DrawTile2(int tx, int ty, Surface* screen, int x, int y)// desenează un tile specific
     {
@@ -166,7 +166,7 @@ namespace Tmpl8
         int tx = (x - offsetX) / 32;
         int ty = (y - offsetY) / 32;
         return map[ty][tx * 3 + 2] != 'X';
-    }
+    }*/
 
     bool Game::CheckTankCollision(int x, int y)// verifică coliziunea dreptunghiulară
     {
