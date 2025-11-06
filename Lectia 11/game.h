@@ -10,9 +10,11 @@ public:
 	void Init();
 	void Shutdown();
 	void DrawTile(int tx, int ty, Surface* screen, int x, int y);
+	void DrawTile2(int tx, int ty, Surface* screen, int x, int y);
 	bool CheckPos(int x, int y);
-	bool CheckRectCollision(int x, int y);
+	bool CheckTankCollision(int x, int y);
 	void UpdateAnimation(int& frame_number, int frames[]);
+	void DeawMap();
 	void Tick( float deltaTime );
 	void MouseUp( int button ) { /* implement if you want to detect mouse button presses */ }
 	void MouseDown( int button ) { /* implement if you want to detect mouse button presses */ }

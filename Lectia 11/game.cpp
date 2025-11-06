@@ -2,8 +2,8 @@
 #include "surface.h"
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#define MapWidth 10
-#define MapHeight 11
+#define MapWidth 51
+#define MapHeight 35
 
 namespace Tmpl8
 {
@@ -11,13 +11,18 @@ namespace Tmpl8
     Sprite tank(new Surface("assets/ctankbase.tga"), 16);
     Sprite tank_gun(new Surface("assets/ctankgun.tga"), 16);
 
+    const int screenWidth = 800;
+    const int screenHeight = 512;
+
+    int cameraX = 0, cameraY = 0; // offset-ul hărții (cât s-a "mutat" harta pe ecran)
+
     int mapWidth = MapWidth; // lățimea hărții în tile-uri
     int mapHeight = MapHeight; // înălțimea hărții în tile-uri
 
-    int px = 0, py = 0;// poziția tancului pe ecran
+    int px = screenWidth / 2 - 16, py = screenHeight / 2 - 16;// poziția tancului pe ecran/ 16 = jumătate din dimensiunea sprite-ului
 
     int offsetX = (800 - mapWidth * 32) / 2; // offset pentru centrare pe X
-    int offsetY = (480 - mapHeight * 32) / 2; // offset pentru centrare pe Y
+    int offsetY = (512 - mapHeight * 32) / 2; // offset pentru centrare pe Y
 
     int collisionWidth = 30;// dimensiunea dreptunghiului de coliziune
     int collisionHeight = 24;
@@ -37,22 +42,117 @@ namespace Tmpl8
 
     void Game::Init() {}
     void Game::Shutdown() {}
-    
-    char map[MapHeight][31] = {
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-fbXfbXfbXkc-kc-kc-kc-kc-kc-",
-        "kc-fbXfbXfbXfbXfbXkc-kc-kc-kc-",
-        "kc-lc-lc-fbXfbXfbXkc-kc-kc-kc-",
-        "kc-kc-kc-lc-lc-lc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-",
-        "kc-kc-kc-kc-kc-kc-kc-kc-kc-kc-"
+
+    char map[MapHeight][157] = {
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXhf-eeXdeXmeXneXoeXeeXdaXfb-fb-adXfb-fb-mbXndXndXndXnb-fb-fb-fb-mbXndXndXndXnbXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-cbXfb-fb-cbXfb-fb-mcXpcXpcXpcXnc-fb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-adXfb-fb-fb-fb-fb-cbXfb-fb-qaXfb-fb-mcXpcXmfXpcXnc-fb-fb-fb-mcXpcXmfXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-abXga-ia-ha-deXeeXdcXfb-fb-fb-fb-fb-mcXpcXpcXpcXnc-fb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-qaXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-mdXmeXneXoeXod-fb-fb-fb-mdXmeXneXoeXodXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-ec-fe-fe-fd-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fa-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fa-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-ff-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-kcXkcXfe-fe-fd-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX"
     };
 
-    void Game::DrawTile(int tx, int ty, Surface* screen, int x, int y)// desenează un tile specific
+    void Game::DrawTile(int tx, int ty, Surface* screen, int x, int y)
+    {
+        // dimensiuni tile
+        int sx = 0, sy = 0;       // offset în tile (punctul de start din tile)
+        int w = 32, h = 32;       // dimensiune de copiat
+
+        // clipping stânga/ sus: dacă tile începe în afara ecranului
+        if (x < 0) sx = -x, w -= sx, x = 0;
+        if (y < 0) sy = -y, h -= sy, y = 0;
+
+        // clipping dreapta / jos
+        if (x + w > 800) w = 800 - x;
+        if (y + h > 512) h = 512 - y;
+
+        // dacă nu rămâne nimic de desenat, pleacă
+        if (w <= 0 || h <= 0) return;
+
+        // pointer la colțul tile-ului în imaginea tiles (1 px margin)
+        Pixel* src = tiles.GetBuffer() + 1 + tx * 33 + (1 + ty * 33) * 595; 
+
+        // mutăm pointerul src la (sx, sy) din tile
+        src += sy * 595 + sx;
+
+        Pixel* dst = screen->GetBuffer() + x + y * 800;
+        for (int i = 0; i < h; i++, src += 595, dst += 800)// 595 pitch în imaginea tiles (a ta), 800 pitch ecran
+            for (int j = 0; j < w; j++)
+                dst[j] = src[j];// copiem pixelii tile-ului pe ecran
+    }
+
+    /*
+    void Game::DrawTile(int tx, int ty, Surface* screen, int x, int y)
+    {
+        // adresă sursă (tile) și pitch-uri
+        Pixel* srcBuf = tiles.GetBuffer();//începutul imaginii cu tile-urile (595px lățime)
+        Pixel* dstBuf = screen->GetBuffer();//începutul ecranului (800px lățime)
+        const int srcPitch = 595; // pitch în imaginea tiles (a ta)
+        const int dstPitch = 800; // pitch ecran
+        // pointer la colțul tile-ului în imaginea tiles (1 px margin)
+        Pixel* src = srcBuf + 1 + tx * 33 + (1 + ty * 33) * srcPitch;
+
+        // dimensiuni tile
+        int sx = 0, sy = 0;       // offset în tile (punctul de start din tile)
+        int w = 32, h = 32;       // dimensiune de copiat
+
+        // clipping stânga/ sus: dacă tile începe în afara ecranului
+        if (x < 0) { sx = -x; w -= sx; x = 0; }
+        if (y < 0) { sy = -y; h -= sy; y = 0; }
+
+        // clipping dreapta / jos
+        if (x + w > screenWidth) w = screenWidth - x;
+        if (y + h > screenHeight) h = screenHeight - y;
+
+        // dacă nu rămâne nimic de desenat, pleacă
+        if (w <= 0 || h <= 0) return;
+
+        // mutăm pointerul src la (sx, sy) din tile
+        src += sy * srcPitch + sx;
+
+        // pointer dest la (drawX, drawY) pe ecran
+        Pixel* dst = dstBuf + x + y * dstPitch;
+
+        // copiem rând cu rând doar lățimea w
+        for (int row = 0; row < h; row++)
+        {
+            // copie element cu element (poți folosi memcpy dacă preferi)
+            for (int col = 0; col < w; col++) dst[col] = src[col];
+            src += srcPitch;
+            dst += dstPitch;
+        }
+    }*/
+
+    void Game::DrawTile2(int tx, int ty, Surface* screen, int x, int y)// desenează un tile specific
     {
         Pixel* src = tiles.GetBuffer() + 1 + tx * 33 + (1 + ty * 33) * 595;// calculăm buffer-ul sursă și destinație
         Pixel* dst = screen->GetBuffer() + x + y * 800;
@@ -68,7 +168,7 @@ namespace Tmpl8
         return map[ty][tx * 3 + 2] != 'X';
     }
 
-    bool Game::CheckRectCollision(int x, int y)// verifică coliziunea dreptunghiulară
+    bool Game::CheckTankCollision(int x, int y)// verifică coliziunea dreptunghiulară
     {
         // colțurile dreptunghiului
         int left = x + collisionOffsetX;
@@ -83,15 +183,15 @@ namespace Tmpl8
         int ty2 = (bottom - offsetY) / 32;
 
         // verificăm colțurile
-		if (map[ty1][tx1 * 3 + 2] == 'X') return false;//stanga sus
-		if (map[ty1][tx2 * 3 + 2] == 'X') return false;//dreapta sus
-		if (map[ty2][tx1 * 3 + 2] == 'X') return false;//stanga jos
-		if (map[ty2][tx2 * 3 + 2] == 'X') return false;//dreapta jos
+        if (map[ty1][tx1 * 3 + 2] == 'X') return false;//stanga sus
+        if (map[ty1][tx2 * 3 + 2] == 'X') return false;//dreapta sus
+        if (map[ty2][tx1 * 3 + 2] == 'X') return false;//stanga jos
+        if (map[ty2][tx2 * 3 + 2] == 'X') return false;//dreapta jos
 
         return true; // toate colțurile sunt libere
     }
-    
-    void Game::UpdateAnimation(int& frame_number,int frames[])// actualizează animația tancului și turetei
+
+    void Game::UpdateAnimation(int& frame_number, int frames[])// actualizează animația tancului și turetei
     {
         if (frame_number > 30) tank.SetFrame(frames[0]);
         if (frame_number > 45) tank_gun.SetFrame(frames[0]);
@@ -110,25 +210,25 @@ namespace Tmpl8
             {
                 int tx = map[y][x * 3] - 'a';
                 int ty = map[y][x * 3 + 1] - 'a';
-                DrawTile(tx, ty, screen, x * 32 + offsetX, y * 32 + offsetY);
+                DrawTile(tx, ty, screen, x * 32 - cameraX + offsetX, y * 32 - cameraY + offsetY);
             }
+
         tank.Draw(screen, px, py);
         tank_gun.Draw(screen, px, py);
-        int nx = px, ny = py;// poziții noi calculate
+
+        int newCameraX = cameraX;
+        int newCameraY = cameraY;
         // orizontala
-        if (GetAsyncKeyState('A')) nx--, UpdateAnimation(frameA, framesA);// deplasare stânga
-        if (GetAsyncKeyState('D')) nx++, UpdateAnimation(frameD, framesD);// deplasare dreapta
-        if (CheckRectCollision(nx, py)) // doar Y rămâne aceeași
-            px = nx;// aplică coliziunea orizontală
-		// verticala
-        if (GetAsyncKeyState('W')) ny--, UpdateAnimation(frameW, framesW);// deplasare sus
-        if (GetAsyncKeyState('S')) ny++, UpdateAnimation(frameS, framesS);// deplasare jos
-        if (CheckRectCollision(px, ny)) // folosim px actualizat
-            py = ny;// aplică coliziunea verticală
-		// diagonala
+        if (GetAsyncKeyState('A')) newCameraX--, UpdateAnimation(frameA, framesA);// deplasare stânga
+        if (GetAsyncKeyState('D')) newCameraX++, UpdateAnimation(frameD, framesD);// deplasare dreapta
+        // verticala
+        if (GetAsyncKeyState('W')) newCameraY--, UpdateAnimation(frameW, framesW);// deplasare sus
+        if (GetAsyncKeyState('S')) newCameraY++, UpdateAnimation(frameS, framesS);// deplasare jos
+        // diagonala
         if (GetAsyncKeyState('W') && GetAsyncKeyState('A')) tank.SetFrame(14), tank_gun.SetFrame(14);
         if (GetAsyncKeyState('W') && GetAsyncKeyState('D')) tank.SetFrame(2), tank_gun.SetFrame(2);
         if (GetAsyncKeyState('S') && GetAsyncKeyState('A')) tank.SetFrame(10), tank_gun.SetFrame(10);
-		if (GetAsyncKeyState('S') && GetAsyncKeyState('D')) tank.SetFrame(6), tank_gun.SetFrame(6);
+        if (GetAsyncKeyState('S') && GetAsyncKeyState('D')) tank.SetFrame(6), tank_gun.SetFrame(6);
+		if (CheckTankCollision(newCameraX + px, newCameraY + py)) cameraX = newCameraX, cameraY = newCameraY;
     }
 };
