@@ -21,13 +21,15 @@ namespace Tmpl8
 
     int px = screenWidth / 2 - 16, py = screenHeight / 2 - 16;// poziția tancului pe ecran/ 16 = jumătate din dimensiunea sprite-ului
 
+	// offset pentru centrare hartă (offset (de câţi pixeli trebuie să sari))
     int offsetX = (800 - mapWidth * 32) / 2; // offset pentru centrare pe X
     int offsetY = (512 - mapHeight * 32) / 2; // offset pentru centrare pe Y
 
+	// hitbox tanc
     int collisionWidth = 30;// dimensiunea dreptunghiului de coliziune
     int collisionHeight = 24;
     int collisionOffsetX = 8; // cât să sară de la marginea sprite-ului/decalajul dreptunghiului față de sprite
-    int collisionOffsetY = 8;
+    int collisionOffsetY = 8; // hitbox
 
     int frameA = 0, frameD = 0, frameW = 0, frameS = 0;// contor pentru animații
     // frame-urile pentru fiecare direcție
@@ -56,11 +58,11 @@ namespace Tmpl8
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXhf-eeXdeXmeXneXoeXeeXdaXfb-fb-adXfb-fb-mbXndXndXndXnb-fb-fb-fb-mbXndXndXndXnbXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-cbXfb-fb-cbXfb-fb-mcXpcXpcXpcXnc-fb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-adXfb-fb-fb-fb-fb-cbXfb-fb-qaXfb-fb-mcXpcXmfXpcXnc-fb-fb-fb-mcXpcXmfXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-abXga-ia-ha-deXeeXdcXfb-fb-fb-fb-fb-mcXpcXpcXpcXnc-fb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-qaXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-mdXmeXneXoeXod-fb-fb-fb-mdXmeXneXoeXodXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXhfXeeXdeXmeXneXoeXeeXdaXfb-fb-adXfb-fb-mbXndXndXndXnbXfb-fb-fb-mbXndXndXndXnbXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-cbXfb-fb-cbXfb-fb-mcXpcXpcXpcXncXfb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-adXfb-fb-fb-fb-fb-cbXfb-fb-qaXfb-fb-mcXpcXmfXpcXncXfb-fb-fb-mcXpcXmfXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-abXga-ia-ha-deXeeXdcXfb-fb-fb-fb-fb-mcXpcXpcXpcXncXfb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
+        "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-qaXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-mdXmeXneXoeXodXfb-fb-fb-mdXmeXneXoeXodXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-ec-fe-fe-fd-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fa-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
         "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fa-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-ff-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
@@ -95,7 +97,7 @@ namespace Tmpl8
         if (x + w > 800) w = 800 - x;
         if (y + h > 512) h = 512 - y;
 
-        // dacă nu rămâne nimic de desenat, pleacă
+        // tile complet în afara -> nu desenăm nimic
         if (w <= 0 || h <= 0) return;
 
         // pointer la colțul tile-ului în imaginea tiles (1 px margin)
@@ -188,7 +190,7 @@ namespace Tmpl8
         if (map[ty2][tx1 * 3 + 2] == 'X') return false;//stanga jos
         if (map[ty2][tx2 * 3 + 2] == 'X') return false;//dreapta jos
 
-        return true; // toate colțurile sunt libere
+        return true; // toate colțurile sunt libere, adică NU e coliziune
     }
 
     void Game::UpdateAnimation(int& frame_number, int frames[])// actualizează animația tancului și turetei
@@ -202,10 +204,8 @@ namespace Tmpl8
         frame_number++;
     }
 
-    void Game::Tick(float deltaTime)
+    void Game::DrawMap()// desenare hartă
     {
-		// desenare hartă
-        screen->Clear(0);
         for (int y = 0; y < MapHeight; y++)
             for (int x = 0; x < MapWidth; x++)
             {
@@ -213,6 +213,14 @@ namespace Tmpl8
                 int ty = map[y][x * 3 + 1] - 'a';
                 DrawTile(tx, ty, screen, x * 32 - cameraX + offsetX, y * 32 - cameraY + offsetY);
             }
+    }
+
+    void Game::Tick(float deltaTime)
+    {
+		
+        screen->Clear(0);
+        DrawMap();
+
 		// desenare sprite
         tank.Draw(screen, px, py);
         tank_gun.Draw(screen, px, py);
@@ -232,6 +240,6 @@ namespace Tmpl8
         if (GetAsyncKeyState('S') && GetAsyncKeyState('A')) tank.SetFrame(10), tank_gun.SetFrame(10);
         if (GetAsyncKeyState('S') && GetAsyncKeyState('D')) tank.SetFrame(6), tank_gun.SetFrame(6);
 		// verificare coliziuni
-		if (CheckTankCollision(newCameraX + px, newCameraY + py)) cameraX = newCameraX, cameraY = newCameraY;
+		if (CheckTankCollision(newCameraX + px, newCameraY + py) == true) cameraX = newCameraX, cameraY = newCameraY;//ma misc dacă nu e coliziune
     }
 };

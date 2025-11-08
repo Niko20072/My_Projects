@@ -14,6 +14,7 @@ public:
 	//bool CheckPos(int x, int y);
 	bool CheckTankCollision(int x, int y);
 	void UpdateAnimation(int& frame_number, int frames[]);
+	void DrawMap();
 	//void DeawMap();
 	void Tick( float deltaTime );
 	void MouseUp( int button ) { /* implement if you want to detect mouse button presses */ }
