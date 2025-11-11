@@ -8,6 +8,12 @@
     <ClCompile Include="template.cpp">
       <Filter>template code</Filter>
     </ClCompile>
+    <ClCompile Include="tank.cpp">
+      <Filter>template code</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>template code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -15,6 +21,12 @@
       <Filter>template code</Filter>
     </ClInclude>
     <ClInclude Include="template.h">
+      <Filter>template code</Filter>
+    </ClInclude>
+    <ClInclude Include="tank.h">
+      <Filter>template code</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
       <Filter>template code</Filter>
     </ClInclude>
   </ItemGroup>

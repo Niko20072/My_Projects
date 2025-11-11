@@ -223,12 +223,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="map.cpp" />
     <ClCompile Include="surface.cpp" />
+    <ClCompile Include="tank.cpp" />
     <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+    <ClInclude Include="map.h" />
     <ClInclude Include="surface.h" />
+    <ClInclude Include="tank.h" />
     <ClInclude Include="template.h" />
   </ItemGroup>
   <ItemGroup>
