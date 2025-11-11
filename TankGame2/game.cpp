@@ -23,44 +23,6 @@ namespace Tmpl8
     int offsetX = (800 - mapWidth * 32) / 2; // offset pentru centrare pe X
     int offsetY = (512 - mapHeight * 32) / 2; // offset pentru centrare pe Y
 
-    char map1[MapHeight][154] = {
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-cbXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXhfXeeXdeXmeXneXoeXeeXdaXfb-fb-adXfb-fb-mbXndXndXndXnbXfb-fb-fb-mbXndXndXndXnbXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-cbXfb-fb-cbXfb-fb-mcXpcXpcXpcXncXfb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-adXfb-fb-fb-fb-fb-cbXfb-fb-qaXfb-fb-mcXpcXmfXpcXncXfb-fb-fb-mcXpcXmfXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-abXga-ia-ha-deXeeXdcXfb-fb-fb-fb-fb-mcXpcXpcXpcXncXfb-fb-fb-mcXpcXpcXpcXncXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-qaXfb-fb-fb-fb-fb-fb-fb-fb-cbXfb-fb-mdXmeXneXoeXodXfb-fb-fb-mdXmeXneXoeXodXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-cbXfb-ec-fe-fe-fd-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-cbXfb-fa-fb-fb-fb-fb-fb-fb-cbXfb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fb-fa-fb-fb-fb-fb-fb-fb-cbXfb-fb-fb-fb-fb-ff-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXfb-fb-fb-fb-fb-fb-fb-fb-kcXkcXfe-fe-fd-fb-fb-fb-fb-fb-fb-cbXfb-fb-fb-fb-fb-fb-kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
-    "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX"
-    };
-
     char map2[MapHeight][154] = {
     "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
     "kcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcXkcX",
@@ -179,6 +141,7 @@ namespace Tmpl8
         int framesSD[3] = { 6, 7, 5 };
 
         int px, py;
+
         int ok = 0;
 
         char (*map)[154];
