@@ -36,7 +36,8 @@ namespace Tmpl8
         Tank(int startx, int starty);
         void UpdateAnimation(int& frame_number, int frames[]);// actualizează animația tancului și turetei
         bool CheckTankCollision(int x, int y, Map& map);// verifică coliziunea dreptunghiulară
-        void MoveRight(Surface* screen, Map& map); //this is for fixed map
+        bool CheckTanktoTankCollision(int px, int py, Tank* tanks[], int tankCounter);
+        void MoveRight(Surface* screen, Map& map, Tank* tanks[], int tankCount); //this is for fixed map
         void Move(Surface* screen, Map& map);
     };
 }

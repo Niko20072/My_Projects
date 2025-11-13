@@ -2,8 +2,20 @@
 
 namespace Tmpl8
 {
-
-        void Map::DrawTile(int tx, int ty, Surface* screen, int x, int y)
+    int Map::GetWidth() { return MapWidth; }
+    int Map::GetHeight() { return MapHeight; }
+    bool Map::IsBlocked(int x, int y)// verifică dacă tile-ul este blocant
+    {
+        // transformă coordonata pixel în coordonată de tile
+        int tx = x / TileSize;
+        int ty = y / TileSize;
+        // dacă coordonata e în afara hărții, considerăm că e blocată
+        if (tx < 0 || tx >= MapWidth || ty < 0 || ty >= MapHeight) return true; // în afara hărții
+        // verificăm în matrice dacă tile-ul e blocant
+        return map[ty][tx * 3 + 2] == 'X'; // 'X' indică un tile blocant
+        //true = blocat, false = liber
+    }
+    void Map::DrawTile(int tx, int ty, Surface* screen, int x, int y)
         {
             // dimensiuni tile
             int sx = 0, sy = 0;       // offset în tile (punctul de start din tile)
@@ -31,8 +43,7 @@ namespace Tmpl8
                 for (int j = 0; j < w; j++)
                     dst[j] = src[j];// copiem pixelii tile-ului pe ecran
         }
-
-        void Map::DrawMap(Surface* screen)// desenare hartă
+    void Map::DrawMap(Surface* screen)// desenare hartă
         {
             for (int y = 0; y < MapHeight; y++)
                 for (int x = 0; x < MapWidth; x++)

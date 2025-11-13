@@ -10,7 +10,6 @@ namespace Tmpl8
         px = 800 / 2 - 16;// poziția tancului pe ecran/ 16 = jumătate din dimensiunea sprite-ului
         py = 512 / 2 - 16;
     }
-
     Tank::Tank(int startx, int starty)
     {
         px = startx;
@@ -34,22 +33,45 @@ namespace Tmpl8
         int right = left + collisionWidth;
         int bottom = top + collisionHeight;
 
-        // transformăm coordonatele în tile-uri
-        int tx1 = (left) / 32;//stanga sus
-        int ty1 = (top) / 32;
-        int tx2 = (right) / 32;//dreapta jos
-        int ty2 = (bottom) / 32;
-
-        // verificăm colțurile
-        if (map.map[ty1][tx1 * 3 + 2] == 'X') return false;//stanga sus
-        if (map.map[ty1][tx2 * 3 + 2] == 'X') return false;//dreapta sus
-        if (map.map[ty2][tx1 * 3 + 2] == 'X') return false;//stanga jos
-        if (map.map[ty2][tx2 * 3 + 2] == 'X') return false;//dreapta jos
-        //primul map e obiectul, al doilea map e membrul char map[MapHeight][76]
+        // verificăm dacă vreun colț este blocat
+        if (map.IsBlocked(left, top)) return false;      // stânga sus
+        if (map.IsBlocked(right, top)) return false;     // dreapta sus
+        if (map.IsBlocked(left, bottom)) return false;   // stânga jos
+        if (map.IsBlocked(right, bottom)) return false;  // dreapta jos
 
         return true; // toate colțurile sunt libere, adică NU e coliziune
     }
-    void Tank::MoveRight(Surface* screen, Map& map) //this is for fixed map
+    bool Tank::CheckTanktoTankCollision(int x, int y, Tank* tanks[], int tankCounter)
+        {
+            // hitbox pentru tancul curent (poziția nouă propusă)
+            int leftA = x + collisionOffsetX;
+            int topA = y + collisionOffsetY;
+            int rightA = leftA + collisionWidth;
+            int bottomA = topA + collisionHeight;
+
+            for (int i = 0; i < tankCounter; i++)
+            {
+                Tank* otherTank = tanks[i];
+
+                //tanks[i] → accesează tancul de la poziția i
+                //& tanks[i] → ia adresa în memorie a acelui tanc
+                //Tank* otherTank → declară un pointer la un Tank
+
+                if (otherTank != this)// sărim peste noi înșine
+                {
+                    // hitbox pentru tancul celălalt
+                    int leftB = otherTank->px + collisionOffsetX;
+                    int topB = otherTank->py + collisionOffsetY;
+                    int rightB = leftB + collisionWidth;
+                    int bottomB = topB + collisionHeight;
+                    // verificare coliziune dreptunghiulară
+                    if (leftA < rightB && rightA > leftB && topA < bottomB && bottomA > topB)
+                        return true;
+                }
+		    }
+            return false;
+        }
+    void Tank::MoveRight(Surface* screen, Map& map, Tank* tanks[], int tankCount) //this is for fixed map
     {
         ///std::cout << "Drawing tank at: " << px << ", " << py << std::endl;
         tank.Draw(screen, px, py);
@@ -75,8 +97,11 @@ namespace Tmpl8
             else ok = 1;
         }
 
-        px = nx;
-        py = ny;
+        if (CheckTanktoTankCollision(nx,ny,tanks,tankCount) == false)
+        {
+            px = nx;
+            py = ny;
+        }
 
         if (px == 729)
             px = 24;
@@ -111,4 +136,6 @@ namespace Tmpl8
         //std::cout << "py: " << py << std::endl;
         //std::cout << "px: " << px << std::endl;
     }
+    
+
 };
