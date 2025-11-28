@@ -7,6 +7,19 @@
 
 namespace Tmpl8
 {
+	struct TGAHeader
+	{
+		unsigned char ID, colmapt;// set both to 0
+		unsigned char type;// set to 2
+		unsigned char colmap[5];// set all elements to 0
+		unsigned short xorigin, yorigin;// set to 0
+		unsigned short width, height;// put image size here
+		unsigned char bpp;// set to 32
+		unsigned char idesc;// set to 0
+	};
+
+	TGAHeader header;
+
 	Sprite image(new Surface("assets/gameover.jpg"), 1);
 	bool gameover = false;
 	int x[SnakeSize],y[SnakeSize];
@@ -97,6 +110,32 @@ namespace Tmpl8
 		}
 	}
 
+	void Game::ScreenShot(Surface* screen)
+	{
+		header.ID = 0;
+		header.colmapt = 0;
+		header.type = 2;
+		for (int i = 0; i < 5; i++) header.colmap[i] = 0;
+		header.xorigin = 0;
+		header.yorigin = 0;
+		header.width = 800;
+		header.height = 512;
+		header.bpp = 32;
+		header.idesc = 0;
+		FILE* image = fopen("screenshot.tga", "wb");
+		fwrite(&header, sizeof(TGAHeader), 1, image);
+		for (int y = 0; y < header.height; y++)
+		{
+			for (int x = 0; x < header.width; x++)
+			{
+				//Indexarea in buffer incepe de la 0. Deci ultimul rand din buffer este header.height - 1
+				Pixel p = screen->GetBuffer()[x + (header.height - 1 - y) * header.width]; //nu pun y normal pt ca imi stocheaza imaginea de jos in sus, asa ca incep de la inaltime-1 sa o iau invers
+				fwrite(&p, sizeof(p), 1, image);
+			}
+		}
+		fclose(image);
+	}
+
 	// -----------------------------------------------------------
 	// Close down application
 	// -----------------------------------------------------------
@@ -110,6 +149,8 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
+		if (GetAsyncKeyState('E'))
+			ScreenShot(screen);
 		if (gameover==true)
 		{
 			GameOverScreen(screen);

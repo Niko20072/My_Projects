@@ -7,6 +7,7 @@ class Game
 {
 public:
 	void SetTarget( Surface* surface ) { screen = surface; }
+	void Game::ScreenShot(Surface* screen);
 	void Init();
 	void Shutdown();
 	void Tick( float deltaTime );
