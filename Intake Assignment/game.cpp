@@ -1,9 +1,20 @@
 #include "game.h"
 #include "surface.h"
 #include <cstdio> //printf
+#include "template.h"
+#include "map.h"
+#include <windows.h>
 
 namespace Tmpl8
 {
+	
+
+	static Sprite player(new Surface("assets/ball.png"), 1);
+	
+	int playerX = 200, playerY = 200; //player position
+
+	Map gameMap;
+
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
@@ -18,23 +29,26 @@ namespace Tmpl8
 	{
 	}
 
-	static Sprite rotatingGun(new Surface("assets/aagun.tga"), 36);
-	static int frame = 0;
+	
 
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
 	void Game::Tick(float deltaTime)
 	{
-		// clear the graphics window
 		screen->Clear(0);
-		// print something in the graphics window
-		screen->Print("hello world", 2, 2, 0xffffff);
-		// print something to the text window
-		printf("this goes to the console window.\n");
-		// draw a sprite
-		rotatingGun.SetFrame(frame);
-		rotatingGun.Draw(screen, 100, 100);
-		if (++frame == 36) frame = 0;
+
+		gameMap.DrawMap(screen);
+		player.Draw(screen, playerX, playerY);
+
+		int newCameraX = Map::cameraX;
+		int newCameraY = Map::cameraY;
+
+		if (GetAsyncKeyState('A')) newCameraX -= 4;
+		if (GetAsyncKeyState('D')) newCameraX += 4;
+		if (GetAsyncKeyState('W')) newCameraY -= 4;
+		if (GetAsyncKeyState('S')) newCameraY += 4;
+		Map::cameraX = newCameraX, Map::cameraY = newCameraY;
+		Sleep(16); //simulate ~60fps
 	}
 };
