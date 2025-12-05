@@ -11,10 +11,26 @@ namespace Tmpl8
 
 	static Sprite player(new Surface("assets/ball.png"), 1);
 	
-	int playerX = 200, playerY = 200; //player position
+	int playerX = 648/2+50, playerY = 512/2+50; //player position
 
 	Map gameMap;
 
+	bool CheckCollision(int x, int y)
+	{
+		//sprit corners
+		int left = x;
+		int top = y;
+		int right = left + 50;
+		int bottom = top + 50;
+
+		//check all corners for collision
+		if (gameMap.IsBlocked(left, top)) return false;      
+		if (gameMap.IsBlocked(right, top)) return false;     
+		if (gameMap.IsBlocked(left, bottom)) return false;   
+		if (gameMap.IsBlocked(right, bottom)) return false;  
+
+		return true; //no collision
+	}
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
@@ -44,10 +60,11 @@ namespace Tmpl8
 		int newCameraX = Map::cameraX;
 		int newCameraY = Map::cameraY;
 
-		if (GetAsyncKeyState('A')) newCameraX -= 4;
-		if (GetAsyncKeyState('D')) newCameraX += 4;
-		if (GetAsyncKeyState('W')) newCameraY -= 4;
-		if (GetAsyncKeyState('S')) newCameraY += 4;
+		if (GetAsyncKeyState('A')) newCameraX -= 5;
+		if (GetAsyncKeyState('D')) newCameraX += 5;
+		if (GetAsyncKeyState('W')) newCameraY -= 5;
+		if (GetAsyncKeyState('S')) newCameraY += 5;
+		if(CheckCollision(newCameraX+playerX, newCameraY+playerY) == true)
 		Map::cameraX = newCameraX, Map::cameraY = newCameraY;
 		Sleep(16); //simulate ~60fps
 	}
