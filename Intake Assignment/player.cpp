@@ -1,10 +1,10 @@
 /*
 #include "player.h"
 
+
 namespace Tmpl8
 {
-	int playerX, playerY;
-	Player::Player(int playerX,int playerY)
+	Player::Player()
 	{
 		playerX = 648 / 2 + 50;
 		playerY = 512 / 2 + 50;
@@ -24,5 +24,17 @@ namespace Tmpl8
 		if (map.IsBlocked(right, bottom)) return false;
 
 		return true; //no collision
+	}
+	void Player::Move(Surface*screen, Map& map)
+	{
+		int newCameraX = Map::cameraX;
+		int newCameraY = Map::cameraY;
+
+		if (GetAsyncKeyState('A')) newCameraX -= 5;
+		if (GetAsyncKeyState('D')) newCameraX += 5;
+		if (GetAsyncKeyState('W')) newCameraY -= 5;
+		if (GetAsyncKeyState('S')) newCameraY += 5;
+		if (CheckCollision(newCameraX + playerX, newCameraY + playerY, map) == true)
+			Map::cameraX = newCameraX, Map::cameraY = newCameraY;
 	}
 };*/

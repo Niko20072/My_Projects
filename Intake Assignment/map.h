@@ -39,6 +39,7 @@ namespace Tmpl8
 		};*/
 
 		Surface tiles = ("assets/BiggerMap.png");
+
 		static const int MapWidth = 36;
 		static const int MapHeight = 36;
 		static const int TileSize = 48;
@@ -52,7 +53,7 @@ namespace Tmpl8
 			"01X11X21X31X41X51 61 71 81 91 :1 ;1 <1 =1 >1 ?1 @1 A1 B1 C1 D1 E1 F1 G1 H1 I1 J1 K1 L1 M1 N1 O1 P1 Q1 R1 S1X",
 			"02X12X22X32X42X52 62 72 82 92 :2 ;2 <2 =2 >2 ?2 @2 A2 B2 C2 D2 E2 F2 G2 H2 I2 J2 K2 L2 M2 N2 O2 P2 Q2 R2 S2X",
 			"03X13X23X33X43X53 63 73 83 93 :3X;3X<3X=3 >3 ?3 @3 A3 B3 C3 D3 E3 F3 G3 H3 I3 J3 K3 L3 M3 N3 O3 P3 Q3 R3 S3X",
-			"04X14X24X34X44X54 64 74 84 94 :4 ;4 <4 =4 >4 ?4 @4 A4 B4 C4 D4 E4 F4 G4 H4 I4 J4 K4 L4 M4 N4 O4 P4 Q4 R4 S4X",
+			"04X14 24 34 44 54 64 74 84 94 :4 ;4 <4 =4 >4 ?4 @4 A4 B4 C4 D4 E4 F4 G4 H4 I4 J4 K4 L4 M4 N4 O4 P4 Q4 R4 S4X",
 			"05X15 25 35 45 55 65 75 85 95 :5 ;5 <5 =5 >5 ?5 @5 A5 B5 C5 D5 E5 F5 G5 H5 I5 J5 K5 L5 M5 N5 O5 P5 Q5 R5 S5X",
 			"06X16 26 36 46 56 66 76 86 96 :6 ;6 <6 =6 >6 ?6 @6 A6 B6 C6 D6 E6 F6 G6 H6 I6 J6 K6 L6 M6 N6 O6 P6 Q6 R6 S6X",
 			"07X17 27 37 47 57 67 77 87 97 :7 ;7 <7 =7 >7 ?7 @7 A7 B7 C7 D7 E7 F7 G7 H7 I7 J7 K7 L7 M7 N7 O7 P7 Q7 R7 S7X",
@@ -85,6 +86,7 @@ namespace Tmpl8
 			"0RX1RX2RX3R 4R 5R 6R 7R 8R 9R :R ;R <R =R >R ?R @R AR BR CR DR ER FR GR HR IR JR KR LR MR NR ORXPRXQRXRRXSRX",
 			"0SX1SX2SX3SX4SX5SX6SX7SX8SX9SX:SX;SX<SX=SX>SX?SX@SXASXBSXCSXDSXESXFSXGSXHSXISXJSXKSXLSXMSXNSXOSXPSXQSXRSXSSX"
 		}; 
+
 		bool IsBlocked(int x, int y);
 		void DrawTile(Surface* screen, int tx, int ty, int x, int y);
 		void DrawMap(Surface* screen);

@@ -11,8 +11,8 @@ namespace Tmpl8
 		int tx = x / TileSize;
 		int ty = y / TileSize;
 		//if tile is outside map boundaries -> blocked
-		if (tx < 0 || tx >= MapWidth || ty < 0 || ty >= MapHeight) 
-			return true;
+		//if (tx < 0 || tx >= MapWidth || ty < 0 || ty >= MapHeight) 
+		//	return true;
 		//return true if tile is blocked/ false if not
 		return map[ty][tx * 3 + 2] == 'X';
 	}
@@ -42,7 +42,6 @@ namespace Tmpl8
 			for (int ix = 0; ix < TileSizeX; ix++)
 				dst[ix] = src[ix]; //copy pixel from tile to screen
 	}
-
 	void Map::DrawMap(Surface* screen)
 	{
 		for (int y = 0; y < MapHeight; y++)
@@ -55,6 +54,4 @@ namespace Tmpl8
 			}
 		}
 	}
-
-	
 };
