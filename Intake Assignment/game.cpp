@@ -143,10 +143,12 @@ namespace Tmpl8
 			if (worldX >= tileWorldX && worldX < tileWorldX + Map::TileSize && worldY >= tileWorldY && worldY < tileWorldY + Map::TileSize)
 			{
 				std::cout << "Clicked on farm tile!\n";
-				farmTile.Draw(screen);
+				farmTile.SetFrame(1);
 			}
 		}
-		else farmTile2.Draw(screen);
+		farmTile.Draw(screen);
+		farmTile2.SetFrame(1);
+		farmTile2.Draw(screen);
 		//FarmTile farmTile(screen);
 		player.Draw(screen, playerX, playerY);
 

@@ -34,5 +34,9 @@ namespace Tmpl8
 	{
 		WetFarmTile.Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);
 	}
+	void FarmTile::SetFrame(int frame)
+	{
+		WetFarmTile.SetFrame(1);
+	}
 
 };
