@@ -29,7 +29,10 @@ namespace Tmpl8
 	{
 		farmTileX = x;
 		farmTileY = y;
+		WetFarmTile = Sprite(new Surface("assets/tileset1.png"), 2);
 	}
+	//or : farmTileX(x), farmTileY(y), WetFarmTile(new Surface("assets/tileset1.png"), 2)
+
 	void FarmTile::Draw(Surface* screen)
 	{
 		WetFarmTile.Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);

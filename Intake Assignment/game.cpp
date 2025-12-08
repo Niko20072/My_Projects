@@ -5,18 +5,36 @@
 #include "map.h"
 #include <windows.h>
 #include <iostream>
+#include <vector>
 #include "farmtile.h"
+#include <cassert>
 
 namespace Tmpl8
 {
-	static Sprite player(new Surface("assets/vera.png"), 4);
-	
-	///change sprite size 50 -> ??? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	static Sprite player(new Surface("assets/vera2.png"), 4);
 
 	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 
 	Map gameMap;
 
+	std::vector<FarmTile> farmTiles;
+
+	// Convert farm tile (x,y) to index in farmTiles vector
+	int farmTileToIndex(int x, int y)
+	{
+		assert(x < Map::MapWidth);
+		assert(y < Map::MapHeight);
+
+		return  x + y * Map::MapWidth;
+	}
+
+	// Get reference to farm tile at (x,y)
+	FarmTile& getFarmTile(int x, int y)
+	{
+		int idx = farmTileToIndex(x, y);
+		assert(idx < farmTiles.size());
+		return farmTiles[idx];
+	}
 
 	FarmTile farmTile(2 * Map::TileSize, 7 * Map::TileSize);
 	FarmTile farmTile2(3 * Map::TileSize, 7 * Map::TileSize);
@@ -26,8 +44,8 @@ namespace Tmpl8
 		//sprit corners
 		int left = x;
 		int top = y;
-		int right = left + 50;
-		int bottom = top + 50;
+		int right = left + 46;
+		int bottom = top + 22;
 
 		//check all corners for collision
 		if (gameMap.IsBlocked(left, top)) return false;
@@ -96,8 +114,18 @@ namespace Tmpl8
 
 	void Game::Init()
 	{
-		//MakeFarmTile();
-		
+		// exemplu: creez douã tile-uri
+		farmTiles.emplace_back(2 * Map::TileSize, 7 * Map::TileSize);
+		farmTiles.emplace_back(3 * Map::TileSize, 7 * Map::TileSize);
+
+		// dacã ai range-uri, le pui cu for
+		for (int y = 7; y <= 31; y++)
+		{
+			for (int x = 2; x <= 29; x++)
+			{
+				farmTiles.emplace_back(x * Map::TileSize, y * Map::TileSize);
+			}
+		}
 	}
 
 	// -----------------------------------------------------------
@@ -138,8 +166,8 @@ namespace Tmpl8
 		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 
 		// Tile under the mouse
-		int tileX = worldX / Map::TileSize;
-		int tileY = worldY / Map::TileSize;
+		//int tileX = worldX / Map::TileSize;
+		//int tileY = worldY / Map::TileSize;
 
 		//Drawing stuff
 		gameMap.DrawMap(screen);
@@ -166,6 +194,10 @@ namespace Tmpl8
 
 		farmTile.Draw(screen);
 		farmTile2.Draw(screen);
+		for (FarmTile& tile : farmTiles)
+		{
+			tile.Draw(screen);
+		}
 		player.Draw(screen, playerX, playerY);
 
 
