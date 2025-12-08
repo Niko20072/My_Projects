@@ -9,13 +9,17 @@
 
 namespace Tmpl8
 {
-	static Sprite player(new Surface("assets/player3.png"), 4);
+	static Sprite player(new Surface("assets/vera.png"), 4);
 	
 	///change sprite size 50 -> ??? !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-	int playerX = 648 / 2 + 50, playerY = 512 / 2 + 50; //player position
+	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 
 	Map gameMap;
+
+
+	FarmTile farmTile(2 * Map::TileSize, 7 * Map::TileSize);
+	FarmTile farmTile2(3 * Map::TileSize, 7 * Map::TileSize);
 
 	bool CheckCollision(int x, int y)
 	{
@@ -82,6 +86,14 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
+
+	/*
+	FarmTile farmTiles[2] =
+	{
+		FarmTile(2 * Map::TileSize, 7 * Map::TileSize),
+		FarmTile(3 * Map::TileSize, 7 * Map::TileSize)
+	};*/
+
 	void Game::Init()
 	{
 		//MakeFarmTile();
@@ -101,8 +113,6 @@ namespace Tmpl8
 	// Main application tick function
 	// -----------------------------------------------------------
 	
-	FarmTile farmTile(2 * Map::TileSize, 7 * Map::TileSize);
-	FarmTile farmTile2(3 * Map::TileSize, 7 * Map::TileSize);
 
 	void Game::Tick(float deltaTime)
 	{
@@ -125,6 +135,7 @@ namespace Tmpl8
 		// Transform screen coordinates -> world coordinates
 		int worldX = Map::cameraX + mouseX;
 		int worldY = Map::cameraY + mouseY;
+		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 
 		// Tile under the mouse
 		int tileX = worldX / Map::TileSize;
@@ -136,28 +147,33 @@ namespace Tmpl8
 		// Check left click and if the mouse is on the desired tile
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			// Tile rectangle
-			int tileWorldX = 2 * Map::TileSize; // x of the farm tile
-			int tileWorldY = 7 * Map::TileSize; // y of the farm tile
-
-			if (worldX >= tileWorldX && worldX < tileWorldX + Map::TileSize && worldY >= tileWorldY && worldY < tileWorldY + Map::TileSize)
+			for (int i = 2; i <= 3; i++)
 			{
-				std::cout << "Clicked on farm tile!\n";
-				farmTile.SetFrame(1);
+				// Tile rectangle
+				int tileWorldX = i * Map::TileSize; // x of the farm tile
+				int tileWorldY = 7 * Map::TileSize; // y of the farm tile
+
+				if (worldX >= tileWorldX && worldX < tileWorldX + Map::TileSize && worldY >= tileWorldY && worldY < tileWorldY + Map::TileSize)
+				{
+					std::cout << "Clicked on farm tile!\n";
+					if(i==2)
+						farmTile.SetFrame(1);
+					if(i==3)
+						farmTile2.SetFrame(1);//??????????????????????????????????????????????????????????
+				}
 			}
 		}
+
 		farmTile.Draw(screen);
-		farmTile2.SetFrame(1);
 		farmTile2.Draw(screen);
-		//FarmTile farmTile(screen);
 		player.Draw(screen, playerX, playerY);
 
 
 		// Move camera based on WASD keys
-		if (GetAsyncKeyState('A')) newCameraX -= 5, player.SetFrame(0);
-		if (GetAsyncKeyState('D')) newCameraX += 5, player.SetFrame(1);
-		if (GetAsyncKeyState('W')) newCameraY -= 5;
-		if (GetAsyncKeyState('S')) newCameraY += 5;
+		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);
+		if (GetAsyncKeyState('D')) newCameraX += 6, player.SetFrame(1);
+		if (GetAsyncKeyState('W')) newCameraY -= 6, player.SetFrame(3);
+		if (GetAsyncKeyState('S')) newCameraY += 6, player.SetFrame(2);
 
 		// Check for collision before updating camera position
 		if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
