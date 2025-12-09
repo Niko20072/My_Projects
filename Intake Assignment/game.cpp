@@ -24,7 +24,6 @@ namespace Tmpl8
 	{
 		assert(x < Map::MapWidth);
 		assert(y < Map::MapHeight);
-
 		return  x + y * Map::MapWidth;
 	}
 
@@ -36,8 +35,8 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}
 
-	FarmTile farmTile(2 * Map::TileSize, 7 * Map::TileSize);
-	FarmTile farmTile2(3 * Map::TileSize, 7 * Map::TileSize);
+	FarmTile farmTile(2, 7);
+	FarmTile farmTile2(3, 7);
 
 	bool CheckCollision(int x, int y)
 	{
@@ -105,27 +104,13 @@ namespace Tmpl8
 	// Initialize the application
 	// -----------------------------------------------------------
 
-	/*
-	FarmTile farmTiles[2] =
-	{
-		FarmTile(2 * Map::TileSize, 7 * Map::TileSize),
-		FarmTile(3 * Map::TileSize, 7 * Map::TileSize)
-	};*/
-
 	void Game::Init()
 	{
-		// exemplu: creez douã tile-uri
-		farmTiles.emplace_back(2 * Map::TileSize, 7 * Map::TileSize);
-		farmTiles.emplace_back(3 * Map::TileSize, 7 * Map::TileSize);
-
-		// dacã ai range-uri, le pui cu for
-		for (int y = 7; y <= 31; y++)
+		/*
+		for (int x = 2; x <= 3; x++)
 		{
-			for (int x = 2; x <= 29; x++)
-			{
-				farmTiles.emplace_back(x * Map::TileSize, y * Map::TileSize);
-			}
-		}
+			farmTiles.emplace_back(x, 7);
+		}*/
 	}
 
 	// -----------------------------------------------------------
@@ -133,6 +118,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	void Game::Shutdown()
 	{
+		
 	}
 
 
@@ -187,17 +173,13 @@ namespace Tmpl8
 					if(i==2)
 						farmTile.SetFrame(1);
 					if(i==3)
-						farmTile2.SetFrame(1);//??????????????????????????????????????????????????????????
+						farmTile2.SetFrame(1);
 				}
 			}
 		}
 
 		farmTile.Draw(screen);
 		farmTile2.Draw(screen);
-		for (FarmTile& tile : farmTiles)
-		{
-			tile.Draw(screen);
-		}
 		player.Draw(screen, playerX, playerY);
 
 

@@ -10,9 +10,6 @@ namespace Tmpl8
 		//Transform screen coordinates to tile coordinates
 		int tx = x / TileSize;
 		int ty = y / TileSize;
-		//if tile is outside map boundaries -> blocked
-		//if (tx < 0 || tx >= MapWidth || ty < 0 || ty >= MapHeight) 
-		//	return true;
 		//return true if tile is blocked/ false if not
 		return map[ty][tx * 3 + 2] == 'X';
 	}

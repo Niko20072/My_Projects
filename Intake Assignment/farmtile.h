@@ -1,6 +1,9 @@
 #pragma once
 #include "surface.h"
 #include "template.h"
+#include <cassert>
+#include <vector>
+
 namespace Tmpl8
 {
 	class FarmTile
@@ -10,8 +13,8 @@ namespace Tmpl8
 		int farmTileX;
 		int farmTileY;
 		//FarmTile(Surface* screen);
-		FarmTile::FarmTile(int x, int y);
-		void FarmTile::Draw(Surface* screen);
-		void FarmTile::SetFrame(int frame);
+		FarmTile(int x, int y);
+		void Draw(Surface* screen);
+		void SetFrame(int frame);
 	};
 };

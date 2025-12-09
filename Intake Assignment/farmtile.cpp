@@ -25,13 +25,12 @@ namespace Tmpl8
 			}
 		}
 	}*/
-	FarmTile::FarmTile(int x,int y)
+	int farmTileX, farmTileY;
+
+	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize)
 	{
-		farmTileX = x;
-		farmTileY = y;
-		WetFarmTile = Sprite(new Surface("assets/tileset1.png"), 2);
+	
 	}
-	//or : farmTileX(x), farmTileY(y), WetFarmTile(new Surface("assets/tileset1.png"), 2)
 
 	void FarmTile::Draw(Surface* screen)
 	{
@@ -39,7 +38,7 @@ namespace Tmpl8
 	}
 	void FarmTile::SetFrame(int frame)
 	{
-		WetFarmTile.SetFrame(1);
+		WetFarmTile.SetFrame(frame);
 	}
-
+	
 };
