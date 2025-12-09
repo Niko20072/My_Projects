@@ -27,11 +27,7 @@ namespace Tmpl8
 	}*/
 	int farmTileX, farmTileY;
 
-	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize)
-	{
-	
-	}
-
+	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
 	void FarmTile::Draw(Surface* screen)
 	{
 		WetFarmTile.Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);

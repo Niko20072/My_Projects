@@ -8,6 +8,7 @@
 #include <vector>
 #include "farmtile.h"
 #include <cassert>
+#include "inventory.h"
 
 namespace Tmpl8
 {
@@ -16,6 +17,7 @@ namespace Tmpl8
 	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 
 	Map gameMap;
+	Inventory playerInventory(10, 10);
 
 	std::vector<FarmTile> farmTiles;
 
@@ -121,13 +123,11 @@ namespace Tmpl8
 		
 	}
 
-
-
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
 	
-
+	bool ePressedLastFrame = false;
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
@@ -182,6 +182,12 @@ namespace Tmpl8
 		farmTile2.Draw(screen);
 		player.Draw(screen, playerX, playerY);
 
+		// Open inventory on 'E' key press
+		if (GetAsyncKeyState('E'))
+		{
+			playerInventory.Draw(screen, 130, 20);
+			screen->Print("Inventory Opened", 280, 300, 0x0);
+		}
 
 		// Move camera based on WASD keys
 		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);

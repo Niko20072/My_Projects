@@ -11,6 +11,7 @@
     <ClCompile Include="map.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="farmtile.cpp" />
+    <ClCompile Include="inventory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -23,6 +24,7 @@
     <ClInclude Include="map.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="farmtile.h" />
+    <ClInclude Include="inventory.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

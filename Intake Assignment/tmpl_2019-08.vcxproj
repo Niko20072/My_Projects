@@ -224,6 +224,7 @@
   <ItemGroup>
     <ClCompile Include="farmtile.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="inventory.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="surface.cpp" />
@@ -232,6 +233,7 @@
   <ItemGroup>
     <ClInclude Include="farmtile.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="inventory.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="surface.h" />
