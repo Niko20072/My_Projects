@@ -126,8 +126,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
-	
-	bool ePressedLastFrame = false;
+	int frame_counter = 0;
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
@@ -149,11 +148,7 @@ namespace Tmpl8
 		// Transform screen coordinates -> world coordinates
 		int worldX = Map::cameraX + mouseX;
 		int worldY = Map::cameraY + mouseY;
-		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
-
-		// Tile under the mouse
-		//int tileX = worldX / Map::TileSize;
-		//int tileY = worldY / Map::TileSize;
+		std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 
 		//Drawing stuff
 		gameMap.DrawMap(screen);
@@ -181,13 +176,29 @@ namespace Tmpl8
 		farmTile.Draw(screen);
 		farmTile2.Draw(screen);
 		player.Draw(screen, playerX, playerY);
-
+		
 		// Open inventory on 'E' key press
-		if (GetAsyncKeyState('E'))
+		frame_counter++;//to limit key press speed
+		if (GetAsyncKeyState('E') && frame_counter>=10)
+		{
+			frame_counter = 0;
+			Inventory::isopen = !Inventory::isopen;
+		}
+		if (Inventory::isopen == true)
 		{
 			playerInventory.Draw(screen, 130, 20);
 			screen->Print("Inventory Opened", 280, 300, 0x0);
 		}
+		if (GetAsyncKeyState(VK_LBUTTON))
+			if (worldX >= 496 && worldX <= 649 && worldY >= 164 && worldY <= 210)
+			{
+				screen->Print("Shop Area", 280, 280, 0x0);
+			}
+		if (GetAsyncKeyState(VK_LBUTTON))
+			if (worldX >= 148 && worldX <= 185 && worldY >= 184 && worldY <= 232)
+			{
+				screen->Print("House", 280, 280, 0x0);
+			}
 
 		// Move camera based on WASD keys
 		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);
