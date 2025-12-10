@@ -4,3 +4,4 @@ truck = https://www.dreamstime.com/retro-pick-up-car-pixel-art-style-vector-illu
 well = https://opengameart.org/content/16x16-fence-and-well-tiny-16
 windmill = https://www.freepik.com/premium-vector/pixel-art-grain-mill-item-8bit_13443494.htm#from_element=cross_selling__vector
 inventory = https://www.vectorstock.com/royalty-free-vector/rolled-old-paper-in-pixel-art-style-vector-41621900
+buttons = https://kenney.nl/assets/pixel-ui-pack

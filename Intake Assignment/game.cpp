@@ -127,11 +127,15 @@ namespace Tmpl8
 	// Main application tick function
 	// -----------------------------------------------------------
 	int frame_counter = 0;
+	int invFrame = 0;
 	void Game::Tick(float deltaTime)
 	{
+
 		screen->Clear(0);
-		int newCameraX = Map::cameraX;
-		int newCameraY = Map::cameraY;
+
+		frame_counter++;//to limit key press speed
+		if(frame_counter>=100)
+			frame_counter = 100;
 
 		// Get mouse coordinates
 		POINT mousePos;
@@ -142,13 +146,21 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// Transform screen coordinates -> world coordinates
 		int worldX = Map::cameraX + mouseX;
 		int worldY = Map::cameraY + mouseY;
-		std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
+		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
+
+		int worldPlayerX = Map::cameraX + playerX;
+		int worldPlayerY = Map::cameraY + playerY;
+
+		//std::cout << "Player world position: X=" << worldPlayerX << ", Y=" << worldPlayerY << std::endl;
+
+		int newCameraX = Map::cameraX;
+		int newCameraY = Map::cameraY;
 
 		//Drawing stuff
 		gameMap.DrawMap(screen);
@@ -178,27 +190,61 @@ namespace Tmpl8
 		player.Draw(screen, playerX, playerY);
 		
 		// Open inventory on 'E' key press
-		frame_counter++;//to limit key press speed
+		
 		if (GetAsyncKeyState('E') && frame_counter>=15)
 		{
+			if (Inventory::carisopen == true)
+				Inventory::carisopen = false;
 			frame_counter = 0;
 			Inventory::isopen = !Inventory::isopen;
+			invFrame = 0;
+			playerInventory.SetFrame(invFrame);
 		}
+		
 		if (Inventory::isopen == true)
 		{
-			playerInventory.Draw(screen, 130, 20);
-			screen->Print("Inventory Opened", 280, 300, 0x0);
+			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
+			{
+				if (invFrame == 1 && frame_counter >= 15)
+					invFrame = 0, frame_counter = 0, playerInventory.SetFrame(invFrame);
+				if (invFrame == 0 && frame_counter >= 15)
+					invFrame = 1, frame_counter = 0, playerInventory.SetFrame(invFrame);
+			}
+			playerInventory.InventoryIsOpen(screen);
 		}
+
+		// Show "House" text on left click in house area
 		if (GetAsyncKeyState(VK_LBUTTON))
 			if (worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 232)
 			{
 				screen->Print("House", 280, 280, 0x0);
 			}
-		if (GetAsyncKeyState(VK_LBUTTON))
-			if (worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220)
+
+		// Open car inventory on left click in car area
+		if (GetAsyncKeyState(VK_LBUTTON) && worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220 && frame_counter >= 15 && worldPlayerX>=448 && worldPlayerX<=688 && worldPlayerY >=86 && worldPlayerY<=176)
+		{
+			if(Inventory::isopen == true)
+				Inventory::isopen = false;
+			frame_counter = 0;
+			Inventory::carisopen = !Inventory::carisopen;
+			invFrame = 2;
+			playerInventory.SetFrame(invFrame);
+		}
+		if (Inventory::carisopen == true)
+		{
+			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
 			{
-				screen->Print("Shop Area", 280, 280, 0x0);
+				if (invFrame == 2 && frame_counter >= 15)
+					invFrame = 3, frame_counter = 0, playerInventory.SetFrame(invFrame), std::cout<<"da1";
+				if (invFrame == 3 && frame_counter >= 15)
+					invFrame = 2, frame_counter = 0, playerInventory.SetFrame(invFrame), std::cout << "da3";
 			}
+			playerInventory.InventoryIsOpen(screen);
+			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 176))
+				Inventory::carisopen = false;
+			if(GetAsyncKeyState('E'))
+				Inventory::carisopen = false;
+		}
 
 		// Move camera based on WASD keys
 		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);
@@ -210,12 +256,6 @@ namespace Tmpl8
 		if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
 			Map::cameraX = newCameraX, Map::cameraY = newCameraY;
 
-		int worldPlayerX = Map::cameraX + playerX;
-		int worldPlayerY = Map::cameraY + playerY;
-
-		//std::cout << "Player world position: X=" << worldPlayerX << ", Y=" << worldPlayerY << std::endl;
-
-		
 		Sleep(16); //simulate ~60fps
 	}
 };
