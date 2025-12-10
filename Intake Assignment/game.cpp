@@ -146,7 +146,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// Transform screen coordinates -> world coordinates
@@ -200,7 +200,6 @@ namespace Tmpl8
 			invFrame = 0;
 			playerInventory.SetFrame(invFrame);
 		}
-		
 		if (Inventory::isopen == true)
 		{
 			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
@@ -240,7 +239,9 @@ namespace Tmpl8
 					invFrame = 2, frame_counter = 0, playerInventory.SetFrame(invFrame), std::cout << "da3";
 			}
 			playerInventory.InventoryIsOpen(screen);
-			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 176))
+			bool ClickedOutsideCar = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+			std::cout << "ClickedOutsideCar: " << ClickedOutsideCar << std::endl;
+			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 176) || ClickedOutsideCar)
 				Inventory::carisopen = false;
 			if(GetAsyncKeyState('E'))
 				Inventory::carisopen = false;
