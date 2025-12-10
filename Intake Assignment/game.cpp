@@ -12,7 +12,7 @@
 
 namespace Tmpl8
 {
-	static Sprite player(new Surface("assets/vera2.png"), 4);
+	static Sprite player(new Surface("assets/vera5.png"), 4);
 
 	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 
