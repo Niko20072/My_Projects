@@ -37,8 +37,8 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}
 
-	FarmTile farmTile(2, 7);
-	FarmTile farmTile2(3, 7);
+	FarmTile farmTile(3, 7);
+	FarmTile farmTile2(4, 7);
 
 	bool CheckCollision(int x, int y)
 	{
@@ -156,7 +156,7 @@ namespace Tmpl8
 		// Check left click and if the mouse is on the desired tile
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
-			for (int i = 2; i <= 3; i++)
+			for (int i = 3; i <= 4; i++)
 			{
 				// Tile rectangle
 				int tileWorldX = i * Map::TileSize; // x of the farm tile
@@ -165,9 +165,9 @@ namespace Tmpl8
 				if (worldX >= tileWorldX && worldX < tileWorldX + Map::TileSize && worldY >= tileWorldY && worldY < tileWorldY + Map::TileSize)
 				{
 					std::cout << "Clicked on farm tile!\n";
-					if(i==2)
-						farmTile.SetFrame(1);
 					if(i==3)
+						farmTile.SetFrame(1);
+					if(i==4)
 						farmTile2.SetFrame(1);
 				}
 			}
@@ -179,7 +179,7 @@ namespace Tmpl8
 		
 		// Open inventory on 'E' key press
 		frame_counter++;//to limit key press speed
-		if (GetAsyncKeyState('E') && frame_counter>=10)
+		if (GetAsyncKeyState('E') && frame_counter>=15)
 		{
 			frame_counter = 0;
 			Inventory::isopen = !Inventory::isopen;
@@ -190,14 +190,14 @@ namespace Tmpl8
 			screen->Print("Inventory Opened", 280, 300, 0x0);
 		}
 		if (GetAsyncKeyState(VK_LBUTTON))
-			if (worldX >= 496 && worldX <= 649 && worldY >= 164 && worldY <= 210)
-			{
-				screen->Print("Shop Area", 280, 280, 0x0);
-			}
-		if (GetAsyncKeyState(VK_LBUTTON))
-			if (worldX >= 148 && worldX <= 185 && worldY >= 184 && worldY <= 232)
+			if (worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 232)
 			{
 				screen->Print("House", 280, 280, 0x0);
+			}
+		if (GetAsyncKeyState(VK_LBUTTON))
+			if (worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220)
+			{
+				screen->Print("Shop Area", 280, 280, 0x0);
 			}
 
 		// Move camera based on WASD keys
