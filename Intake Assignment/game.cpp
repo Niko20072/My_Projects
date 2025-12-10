@@ -108,11 +108,10 @@ namespace Tmpl8
 
 	void Game::Init()
 	{
-		/*
-		for (int x = 2; x <= 3; x++)
+		for (int x = 6; x <= 8; x++)
 		{
 			farmTiles.emplace_back(x, 7);
-		}*/
+		}
 	}
 
 	// -----------------------------------------------------------
@@ -187,8 +186,19 @@ namespace Tmpl8
 
 		farmTile.Draw(screen);
 		farmTile2.Draw(screen);
+		for (auto& x : farmTiles)
+		{
+			x.SetFrame(1);
+			x.Draw(screen);
+		}
+
 		player.Draw(screen, playerX, playerY);
+
 		
+		
+		bool ClickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+		//std::cout << "ClickedOutsideInv: " << ClickedOutsideInv << std::endl;
+
 		// Open inventory on 'E' key press
 		
 		if (GetAsyncKeyState('E') && frame_counter>=15)
@@ -210,6 +220,8 @@ namespace Tmpl8
 					invFrame = 1, frame_counter = 0, playerInventory.SetFrame(invFrame);
 			}
 			playerInventory.InventoryIsOpen(screen);
+			if(ClickedOutsideInv)
+				Inventory::isopen = false;
 		}
 
 		// Show "House" text on left click in house area
@@ -220,7 +232,7 @@ namespace Tmpl8
 			}
 
 		// Open car inventory on left click in car area
-		if (GetAsyncKeyState(VK_LBUTTON) && worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220 && frame_counter >= 15 && worldPlayerX>=448 && worldPlayerX<=688 && worldPlayerY >=86 && worldPlayerY<=176)
+		if (GetAsyncKeyState(VK_LBUTTON) && worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220 && frame_counter >= 15 && worldPlayerX>=448 && worldPlayerX<=688 && worldPlayerY >=86 && worldPlayerY <= 195)
 		{
 			if(Inventory::isopen == true)
 				Inventory::isopen = false;
@@ -234,14 +246,13 @@ namespace Tmpl8
 			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
 			{
 				if (invFrame == 2 && frame_counter >= 15)
-					invFrame = 3, frame_counter = 0, playerInventory.SetFrame(invFrame), std::cout<<"da1";
+					invFrame = 3, frame_counter = 0, playerInventory.SetFrame(invFrame);
 				if (invFrame == 3 && frame_counter >= 15)
-					invFrame = 2, frame_counter = 0, playerInventory.SetFrame(invFrame), std::cout << "da3";
+					invFrame = 2, frame_counter = 0, playerInventory.SetFrame(invFrame);
 			}
 			playerInventory.InventoryIsOpen(screen);
-			bool ClickedOutsideCar = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-			std::cout << "ClickedOutsideCar: " << ClickedOutsideCar << std::endl;
-			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 176) || ClickedOutsideCar)
+			
+			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195) || ClickedOutsideInv)
 				Inventory::carisopen = false;
 			if(GetAsyncKeyState('E'))
 				Inventory::carisopen = false;

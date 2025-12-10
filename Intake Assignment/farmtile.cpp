@@ -30,11 +30,10 @@ namespace Tmpl8
 	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
 	void FarmTile::Draw(Surface* screen)
 	{
-		WetFarmTile.Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);
+		WetFarmTile->Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);
 	}
 	void FarmTile::SetFrame(int frame)
 	{
-		WetFarmTile.SetFrame(frame);
+		WetFarmTile->SetFrame(frame);
 	}
-	
 };
