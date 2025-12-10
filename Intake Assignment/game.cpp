@@ -12,7 +12,7 @@
 
 namespace Tmpl8
 {
-	static Sprite player(new Surface("assets/vera5.png"), 4);
+	static Sprite player(new Surface("assets/Vera.png"), 4);
 
 	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 
@@ -108,9 +108,15 @@ namespace Tmpl8
 
 	void Game::Init()
 	{
-		for (int x = 6; x <= 8; x++)
+		for (int x = 3; x <= 23; x++)
 		{
-			farmTiles.emplace_back(x, 7);
+			for(int y = 7; y <= 17; y++)
+				farmTiles.emplace_back(x, y);
+		}
+		for (int x = 3; x <= 19; x++)
+		{
+			for (int y = 18; y <= 20; y++)
+				farmTiles.emplace_back(x, y);
 		}
 	}
 
@@ -165,6 +171,7 @@ namespace Tmpl8
 		gameMap.DrawMap(screen);
 
 		// Check left click and if the mouse is on the desired tile
+		/*
 		if (GetAsyncKeyState(VK_LBUTTON))
 		{
 			for (int i = 3; i <= 4; i++)
@@ -183,9 +190,10 @@ namespace Tmpl8
 				}
 			}
 		}
+		
 
 		farmTile.Draw(screen);
-		farmTile2.Draw(screen);
+		farmTile2.Draw(screen);*/
 		for (auto& x : farmTiles)
 		{
 			x.SetFrame(1);
