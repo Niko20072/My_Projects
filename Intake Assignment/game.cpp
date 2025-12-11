@@ -132,7 +132,6 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
-
 		screen->Clear(0);
 
 		// -----------------------------------------------------------
@@ -178,6 +177,7 @@ namespace Tmpl8
 		}
 
 		// Check left click and if the mouse is on the desired tile
+		bool tileClicked = false;
 		if (GetAsyncKeyState(VK_LBUTTON) && playerInventory.InventorysClosed())
 		{
 			for (auto& x : farmTiles)
@@ -187,6 +187,7 @@ namespace Tmpl8
 
 				if (tileRectangle)
 				{
+					tileClicked = true;
 					x.SetFrame(1);
 				}
 			}
@@ -195,6 +196,7 @@ namespace Tmpl8
 		player.Draw(screen, playerX, playerY);
 		playerInventory.NormalInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
 		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
+		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
 		playerInventory.DrawOnScreen(screen);
 		
 		// Show "House" text on left click in house area

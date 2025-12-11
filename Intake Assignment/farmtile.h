@@ -9,7 +9,7 @@ namespace Tmpl8
 	class FarmTile
 	{
 	public:
-		Sprite *WetFarmTile = new Sprite(new Surface("assets/tileset1.png"), 2);
+		Sprite *farmTile = new Sprite(new Surface("assets/tileset1.png"), 2);
 		int farmTileX;
 		int farmTileY;
 		//FarmTile(Surface* screen);
@@ -17,20 +17,21 @@ namespace Tmpl8
 		FarmTile(int x, int y);
 
 		//i actually dk what ahppened here but it works now -> study
-		~FarmTile() { delete WetFarmTile; }
+		~FarmTile() { delete farmTile; }
 		FarmTile(const FarmTile&) = delete;
 		FarmTile& operator=(const FarmTile&) = delete;
 		FarmTile(FarmTile&& t) {	
-			WetFarmTile = t.WetFarmTile;
-			t.WetFarmTile = nullptr;
+			farmTile = t.farmTile;
+			t.farmTile = nullptr;
 			farmTileX = t.farmTileX;
 			farmTileY = t.farmTileY;
 		}
-		FarmTile& operator=(FarmTile&& t) {
+		FarmTile& operator=(FarmTile&& t) 
+		{
 			if (this != &t) {
-				delete WetFarmTile;
-				WetFarmTile = t.WetFarmTile;
-				t.WetFarmTile = nullptr;
+				delete farmTile;
+				farmTile = t.farmTile;
+				t.farmTile = nullptr;
 				farmTileX = t.farmTileX;
 				farmTileY = t.farmTileY;
 			}

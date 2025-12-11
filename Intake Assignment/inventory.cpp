@@ -4,6 +4,7 @@ namespace Tmpl8
 {
 	bool Inventory::isopen = false;
 	bool Inventory::carisopen = false;
+	bool Inventory::seedsisopen = false;
 	int Inventory::frame_counter = 0;
 
 	Inventory::Inventory( int x, int y) : x(x), y(y) 
@@ -91,6 +92,30 @@ namespace Tmpl8
 		}
 
 	}
+	void Inventory::SeedsInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, bool tileClicekd)
+	{
+		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
+		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
+
+		//Toggle seed inventory
+		if (GetAsyncKeyState(VK_LBUTTON) && frame_counter >= 15 && tileClicekd)
+		{
+			isopen = false;
+			carisopen = false;
+			frame_counter = 0;
+			seedsisopen = !seedsisopen;
+		}
+
+		//Click seed inventory
+		if (seedsisopen)
+		{
+			inventory.SetFrame(1);
+			if (clickedOutsideInv || GetAsyncKeyState('E') || moved)
+				seedsisopen = false;
+		}
+
+	}
 	/*void Inventory::Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
 	{
 		frame_counter++;//to limit key press speed
@@ -142,12 +167,12 @@ namespace Tmpl8
 	void Inventory::DrawOnScreen(Surface* screen)
 	{
 		frame_counter++;//to limit key press speed
-		if (isopen || carisopen)
+		if (isopen || carisopen || seedsisopen)
 			DrawInventory(screen);
 	}
 	bool Inventory::InventorysClosed()
 	{
-		if (!isopen && !carisopen)
+		if (!isopen && !carisopen && !seedsisopen)
 			return 1;
 		return 0;
 	}
