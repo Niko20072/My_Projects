@@ -18,6 +18,8 @@ namespace Tmpl8
 
 	Map gameMap;
 	Inventory playerInventory(10, 10);
+	FarmTile farmTile(3, 7);
+	FarmTile farmTile2(4, 7);
 
 	std::vector<FarmTile> farmTiles;
 
@@ -37,8 +39,6 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}
 
-	FarmTile farmTile(3, 7);
-	FarmTile farmTile2(4, 7);
 
 	bool CheckCollision(int x, int y)
 	{
@@ -123,6 +123,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Close down application
 	// -----------------------------------------------------------
+
 	void Game::Shutdown()
 	{
 		
@@ -131,18 +132,16 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
-	int frame_counter = 0;
-	int invFrame = 0;
+
 	void Game::Tick(float deltaTime)
 	{
 
 		screen->Clear(0);
 
-		frame_counter++;//to limit key press speed
-		if(frame_counter>=100)
-			frame_counter = 100;
-
+		// -----------------------------------------------------------
 		// Get mouse coordinates
+		// -----------------------------------------------------------
+		
 		POINT mousePos;
 		int mouseX = 0, mouseY = 0;
 		if (GetCursorPos(&mousePos))
@@ -154,6 +153,10 @@ namespace Tmpl8
 			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
+		// -----------------------------------------------------------
+		// Variables
+		// -----------------------------------------------------------
+		
 		// Transform screen coordinates -> world coordinates
 		int worldX = Map::cameraX + mouseX;
 		int worldY = Map::cameraY + mouseY;
@@ -167,7 +170,10 @@ namespace Tmpl8
 		int newCameraX = Map::cameraX;
 		int newCameraY = Map::cameraY;
 
-		//Drawing stuff
+		// -----------------------------------------------------------
+		// Drawing stuff
+		// -----------------------------------------------------------
+
 		gameMap.DrawMap(screen);
 
 		// Check left click and if the mouse is on the desired tile
@@ -201,37 +207,9 @@ namespace Tmpl8
 		}
 
 		player.Draw(screen, playerX, playerY);
-
+		playerInventory.Update(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
+		playerInventory.DrawOnScreen(screen);
 		
-		
-		bool ClickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-		//std::cout << "ClickedOutsideInv: " << ClickedOutsideInv << std::endl;
-
-		// Open inventory on 'E' key press
-		
-		if (GetAsyncKeyState('E') && frame_counter>=15)
-		{
-			if (Inventory::carisopen == true)
-				Inventory::carisopen = false;
-			frame_counter = 0;
-			Inventory::isopen = !Inventory::isopen;
-			invFrame = 0;
-			playerInventory.SetFrame(invFrame);
-		}
-		if (Inventory::isopen == true)
-		{
-			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
-			{
-				if (invFrame == 1 && frame_counter >= 15)
-					invFrame = 0, frame_counter = 0, playerInventory.SetFrame(invFrame);
-				if (invFrame == 0 && frame_counter >= 15)
-					invFrame = 1, frame_counter = 0, playerInventory.SetFrame(invFrame);
-			}
-			playerInventory.InventoryIsOpen(screen);
-			if(ClickedOutsideInv)
-				Inventory::isopen = false;
-		}
-
 		// Show "House" text on left click in house area
 		if (GetAsyncKeyState(VK_LBUTTON))
 			if (worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 232)
@@ -239,32 +217,9 @@ namespace Tmpl8
 				screen->Print("House", 280, 280, 0x0);
 			}
 
-		// Open car inventory on left click in car area
-		if (GetAsyncKeyState(VK_LBUTTON) && worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220 && frame_counter >= 15 && worldPlayerX>=448 && worldPlayerX<=688 && worldPlayerY >=86 && worldPlayerY <= 195)
-		{
-			if(Inventory::isopen == true)
-				Inventory::isopen = false;
-			frame_counter = 0;
-			Inventory::carisopen = !Inventory::carisopen;
-			invFrame = 2;
-			playerInventory.SetFrame(invFrame);
-		}
-		if (Inventory::carisopen == true)
-		{
-			if (GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508)
-			{
-				if (invFrame == 2 && frame_counter >= 15)
-					invFrame = 3, frame_counter = 0, playerInventory.SetFrame(invFrame);
-				if (invFrame == 3 && frame_counter >= 15)
-					invFrame = 2, frame_counter = 0, playerInventory.SetFrame(invFrame);
-			}
-			playerInventory.InventoryIsOpen(screen);
-			
-			if (!(worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195) || ClickedOutsideInv)
-				Inventory::carisopen = false;
-			if(GetAsyncKeyState('E'))
-				Inventory::carisopen = false;
-		}
+		// -----------------------------------------------------------
+		// Movement and collision
+		// -----------------------------------------------------------
 
 		// Move camera based on WASD keys
 		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);

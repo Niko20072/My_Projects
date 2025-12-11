@@ -95,9 +95,7 @@ namespace Tmpl8
 		static const int MapHeight = 26;
 		static const int TileSize = 48;
 		static const int MapSize = 1264;
-
 		static int cameraX, cameraY; //map offset
-
 		char map[MapHeight][79] =
 		{
 			"00X10X20X30X40X50X60X70X80X90X:0X;0X<0X=0X>0X?0X@0XA0XB0XC0XD0XE0XF0XG0XH0XI0X",
