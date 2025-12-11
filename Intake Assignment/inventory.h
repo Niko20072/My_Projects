@@ -18,7 +18,10 @@ namespace Tmpl8
 		void SetFrame(int frame);
 		void  DrawInventory(Surface* screen);
 		void ManageFrames(int fr1, int fr2);
-		void Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
+		void NormalInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
+		void CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
+		//void Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
 		void DrawOnScreen(Surface* screen);
+		bool InventorysClosed();
 	};
 };

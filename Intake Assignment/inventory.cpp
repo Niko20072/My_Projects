@@ -38,7 +38,60 @@ namespace Tmpl8
 		if (frame == fr2 && frame_counter >= 15)
 			frame = fr1, frame_counter = 0, inventory.SetFrame(frame);
 	}
-	void Inventory::Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
+	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
+	{
+		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
+
+		//Toggle normal inventory
+		if (GetAsyncKeyState('E') && frame_counter >= 15)
+		{
+			carisopen = false;
+			frame_counter = 0;
+			isopen = !isopen;
+			frame = 0;
+			inventory.SetFrame(frame);
+		}
+
+		//Click inventory
+		if (isopen)
+		{
+			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
+				ManageFrames(0, 1);
+			if (clickedOutsideInv)
+				isopen = false;
+		}
+
+	}
+	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
+	{
+		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
+		bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
+		bool clickedOnCar = worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220;
+
+		//Toggle car inventory
+		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && frame_counter >= 15)
+		{
+			isopen = false;
+			frame_counter = 0;
+			carisopen = !carisopen;
+			frame = 2;
+			inventory.SetFrame(frame);
+		}
+
+		//Click car inventory
+		if (carisopen)
+		{
+			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
+				ManageFrames(2, 3);
+
+			if (!playerCloseToCar || clickedOutsideInv || GetAsyncKeyState('E'))
+				carisopen = false;
+		}
+
+	}
+	/*void Inventory::Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
 	{
 		frame_counter++;//to limit key press speed
 
@@ -85,10 +138,17 @@ namespace Tmpl8
 			if (!playerCloseToCar || clickedOutsideInv || GetAsyncKeyState('E'))
 				carisopen = false;
 		}
-	}
+	}*/
 	void Inventory::DrawOnScreen(Surface* screen)
 	{
+		frame_counter++;//to limit key press speed
 		if (isopen || carisopen)
 			DrawInventory(screen);
+	}
+	bool Inventory::InventorysClosed()
+	{
+		if (!isopen && !carisopen)
+			return 1;
+		return 0;
 	}
 };

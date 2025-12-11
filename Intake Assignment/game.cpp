@@ -18,9 +18,6 @@ namespace Tmpl8
 
 	Map gameMap;
 	Inventory playerInventory(10, 10);
-	FarmTile farmTile(3, 7);
-	FarmTile farmTile2(4, 7);
-
 	std::vector<FarmTile> farmTiles;
 
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -175,39 +172,29 @@ namespace Tmpl8
 		// -----------------------------------------------------------
 
 		gameMap.DrawMap(screen);
-
-		// Check left click and if the mouse is on the desired tile
-		/*
-		if (GetAsyncKeyState(VK_LBUTTON))
-		{
-			for (int i = 3; i <= 4; i++)
-			{
-				// Tile rectangle
-				int tileWorldX = i * Map::TileSize; // x of the farm tile
-				int tileWorldY = 7 * Map::TileSize; // y of the farm tile
-
-				if (worldX >= tileWorldX && worldX < tileWorldX + Map::TileSize && worldY >= tileWorldY && worldY < tileWorldY + Map::TileSize)
-				{
-					std::cout << "Clicked on farm tile!\n";
-					if(i==3)
-						farmTile.SetFrame(1);
-					if(i==4)
-						farmTile2.SetFrame(1);
-				}
-			}
-		}
-		
-
-		farmTile.Draw(screen);
-		farmTile2.Draw(screen);*/
 		for (auto& x : farmTiles)
 		{
-			x.SetFrame(1);
 			x.Draw(screen);
 		}
 
+		// Check left click and if the mouse is on the desired tile
+		if (GetAsyncKeyState(VK_LBUTTON) && playerInventory.InventorysClosed())
+		{
+			for (auto& x : farmTiles)
+			{
+				// Tile rectangle
+				bool tileRectangle = worldX >= x.farmTileX && worldX < x.farmTileX + Map::TileSize && worldY >= x.farmTileY && worldY < x.farmTileY + Map::TileSize;
+
+				if (tileRectangle)
+				{
+					x.SetFrame(1);
+				}
+			}
+		}
+
 		player.Draw(screen, playerX, playerY);
-		playerInventory.Update(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
+		playerInventory.NormalInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
+		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
 		playerInventory.DrawOnScreen(screen);
 		
 		// Show "House" text on left click in house area
