@@ -166,6 +166,11 @@ namespace Tmpl8
 		int newCameraX = Map::cameraX;
 		int newCameraY = Map::cameraY;
 
+		int reachX1 = worldPlayerX - 50;
+		int reachY1 = worldPlayerY - 25;
+		int reachX2 = worldPlayerX + 46 + 50;
+		int reachY2 = worldPlayerY + 94 + 25;
+
 		// -----------------------------------------------------------
 		// Drawing stuff
 		// -----------------------------------------------------------
@@ -184,8 +189,9 @@ namespace Tmpl8
 			{
 				// Tile rectangle
 				bool tileRectangle = worldX >= x.farmTileX && worldX < x.farmTileX + Map::TileSize && worldY >= x.farmTileY && worldY < x.farmTileY + Map::TileSize;
+				bool tileInReach = reachX1 < x.farmTileX + Map::TileSize && reachX2 > x.farmTileX && reachY1 < x.farmTileY + Map::TileSize && reachY2 > x.farmTileY;
 
-				if (tileRectangle)
+				if (tileRectangle && tileInReach)
 				{
 					tileClicked = true;
 					x.SetFrame(1);
@@ -193,10 +199,14 @@ namespace Tmpl8
 			}
 		}
 
+		//Player range
+		screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
+		screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
+
 		player.Draw(screen, playerX, playerY);
-		playerInventory.NormalInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
-		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, worldPlayerX, worldPlayerY);
-		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
+		playerInventory.NormalInventory(screen, mouseX, mouseY);
+		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY,reachX1, reachY1, reachX2, reachY2);
+		//playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
 		playerInventory.DrawOnScreen(screen);
 		
 		// Show "House" text on left click in house area
@@ -205,6 +215,7 @@ namespace Tmpl8
 			{
 				screen->Print("House", 280, 280, 0x0);
 			}
+
 
 		// -----------------------------------------------------------
 		// Movement and collision

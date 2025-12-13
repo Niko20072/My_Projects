@@ -39,7 +39,7 @@ namespace Tmpl8
 		if (frame == fr2 && frame_counter >= 15)
 			frame = fr1, frame_counter = 0, inventory.SetFrame(frame);
 	}
-	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
+	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
@@ -64,11 +64,12 @@ namespace Tmpl8
 		}
 
 	}
-	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
+	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int reachX1, int reachY1, int reachX2, int reachY2)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
-		bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
+		//bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
+		bool playerCloseToCar = reachX2 >= 528 && reachX1 <= 686 && reachY2 >= 175 && reachY1 <= 220;
 		bool clickedOnCar = worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220;
 
 		//Toggle car inventory
@@ -95,7 +96,6 @@ namespace Tmpl8
 	void Inventory::SeedsInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, bool tileClicekd)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
 		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle seed inventory
