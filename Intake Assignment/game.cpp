@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include "farmtile.h"
-#include <cassert>
+//#include <cassert>
 #include "inventory.h"
 
 namespace Tmpl8
@@ -15,11 +15,15 @@ namespace Tmpl8
 	static Sprite player(new Surface("assets/Vera.png"), 4);
 
 	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
+	int dayCounter = 1;
+	int coinCounter = 10;
+	char day[32], coins[32];
 
 	Map gameMap;
 	Inventory playerInventory(10, 10);
 	std::vector<FarmTile> farmTiles;
 
+	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
 	int farmTileToIndex(int x, int y)
 	{
@@ -34,7 +38,7 @@ namespace Tmpl8
 		int idx = farmTileToIndex(x, y);
 		assert(idx < farmTiles.size());
 		return farmTiles[idx];
-	}
+	}*/
 
 
 	bool CheckCollision(int x, int y)
@@ -102,7 +106,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
-
+	
 	void Game::Init()
 	{
 		for (int x = 3; x <= 23; x++)
@@ -133,7 +137,7 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		screen->Clear(0);
-
+		
 		// -----------------------------------------------------------
 		// Get mouse coordinates
 		// -----------------------------------------------------------
@@ -206,16 +210,20 @@ namespace Tmpl8
 		player.Draw(screen, playerX, playerY);
 		playerInventory.NormalInventory(screen, mouseX, mouseY);
 		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY,reachX1, reachY1, reachX2, reachY2);
-		//playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
+		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
 		playerInventory.DrawOnScreen(screen);
 		
 		// Show "House" text on left click in house area
 		if (GetAsyncKeyState(VK_LBUTTON))
-			if (worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 232)
+			if (reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232)
 			{
 				screen->Print("House", 280, 280, 0x0);
 			}
 
+		sprintf(day, "DAY: %d", dayCounter);
+		sprintf(coins, "COINS: %d", coinCounter);
+		screen->Print(day, 750, 10, 0xff0000);
+		screen->Print(coins, 10, 10, 0xffff00);
 
 		// -----------------------------------------------------------
 		// Movement and collision

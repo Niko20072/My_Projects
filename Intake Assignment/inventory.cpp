@@ -48,6 +48,7 @@ namespace Tmpl8
 		if (GetAsyncKeyState('E') && frame_counter >= 15)
 		{
 			carisopen = false;
+			seedsisopen = false;
 			frame_counter = 0;
 			isopen = !isopen;
 			frame = 0;
@@ -71,11 +72,13 @@ namespace Tmpl8
 		//bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
 		bool playerCloseToCar = reachX2 >= 528 && reachX1 <= 686 && reachY2 >= 175 && reachY1 <= 220;
 		bool clickedOnCar = worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220;
+		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle car inventory
 		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && frame_counter >= 15)
 		{
 			isopen = false;
+			carisopen = false;
 			frame_counter = 0;
 			carisopen = !carisopen;
 			frame = 2;
@@ -88,7 +91,7 @@ namespace Tmpl8
 			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
 				ManageFrames(2, 3);
 
-			if (!playerCloseToCar || clickedOutsideInv || GetAsyncKeyState('E'))
+			if (moved || clickedOutsideInv || GetAsyncKeyState('E'))
 				carisopen = false;
 		}
 
@@ -105,12 +108,12 @@ namespace Tmpl8
 			carisopen = false;
 			frame_counter = 0;
 			seedsisopen = !seedsisopen;
+			inventory.SetFrame(1);
 		}
 
 		//Click seed inventory
 		if (seedsisopen)
 		{
-			inventory.SetFrame(1);
 			if (clickedOutsideInv || GetAsyncKeyState('E') || moved)
 				seedsisopen = false;
 		}
