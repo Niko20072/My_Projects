@@ -53,11 +53,11 @@ namespace Tmpl8
 		bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
 
 		//Toggle normal inventory
-		if (GetAsyncKeyState('E') && frame_counter >= 15)
+		if (GetAsyncKeyState('E') && inputCooldown <= 0.0f)
 		{
 			carisopen = false;
 			seedsisopen = false;
-			frame_counter = 0;
+			inputCooldown = 0.2f; // 200 ms
 			isopen = !isopen;
 			frame = 0;
 			inventory.SetFrame(frame);
@@ -86,7 +86,7 @@ namespace Tmpl8
 		}
 
 	}
-	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int reachX1, int reachY1, int reachX2, int reachY2)
+	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 		bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
@@ -97,11 +97,11 @@ namespace Tmpl8
 		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle car inventory
-		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && frame_counter >= 15)
+		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && inputCooldown <= 0.0f)
 		{
 			isopen = false;
 			carisopen = false;
-			frame_counter = 0;
+			inputCooldown = 0.2f; // 200 ms
 			carisopen = !carisopen;
 			frame = 4;
 			inventory.SetFrame(frame);
@@ -125,17 +125,17 @@ namespace Tmpl8
 		}
 
 	}
-	void Inventory::SeedsInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, bool tileClicekd)
+	void Inventory::SeedsInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle seed inventory
-		if (GetAsyncKeyState(VK_LBUTTON) && frame_counter >= 15 && tileClicekd)
+		if (GetAsyncKeyState(VK_LBUTTON) && inputCooldown <= 0.0f && tileClicekd)
 		{
 			isopen = false;
 			carisopen = false;
-			frame_counter = 0;
+			inputCooldown = 0.2f; // 200 ms
 			seedsisopen = !seedsisopen;
 			frame = 3;
 			inventory.SetFrame(frame);
@@ -149,9 +149,12 @@ namespace Tmpl8
 		}
 
 	}
-	void Inventory::DrawOnScreen(Surface* screen)
+	void Inventory::DrawOnScreen(Surface* screen, float deltaTime)
 	{
-		frame_counter++;//to limit key press speed
+		inputCooldown -= deltaTime;//to limit key press speed
+		if (inputCooldown <= 0.0f)
+			inputCooldown = 0.0f;
+		
 		if (isopen || carisopen || seedsisopen)
 			DrawInventory(screen);
 	}

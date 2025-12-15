@@ -2,8 +2,8 @@
 
 namespace Tmpl8
 {
-	int Map::cameraX = 0;
-	int Map::cameraY = 0;
+	float Map::cameraX = 0.0f;
+	float Map::cameraY = 0.0f;
 
 	bool Map::IsBlocked(int x,int y)
 	{
@@ -57,7 +57,7 @@ namespace Tmpl8
 			{
 				int tx = map[y][x * 3] - '0';
 				int ty = map[y][x * 3 + 1] - '0';
-				DrawTile(screen, tx, ty, x * TileSize - cameraX, y * TileSize - cameraY);
+				DrawTile(screen, tx, ty, x * TileSize - int(cameraX), y * TileSize - int(cameraY));
 			}
 		}
 	}

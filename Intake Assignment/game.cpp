@@ -14,7 +14,7 @@ namespace Tmpl8
 {
 	static Sprite player(new Surface("assets/Vera.png"), 4);
 
-	int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
+	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	int dayCounter = 1;
 	int coinCounter = 10;
 	char day[32], coins[32];
@@ -137,6 +137,7 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
+		std::cout << deltaTime << std::endl;
 		screen->Clear(0);
 		
 		// -----------------------------------------------------------
@@ -151,7 +152,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// -----------------------------------------------------------
@@ -171,20 +172,16 @@ namespace Tmpl8
 		float newCameraX = Map::cameraX;
 		float newCameraY = Map::cameraY;
 
-		float reachX1 = worldPlayerX - 50.0f;//do that
-		float reachY1 = worldPlayerY - 25;
-		float reachX2 = worldPlayerX + 46 + 50;
-		float reachY2 = worldPlayerY + 94 + 25;
+		float reachX1 = worldPlayerX - 50.0f;
+		float reachY1 = worldPlayerY - 25.0f;
+		float reachX2 = worldPlayerX + 46.0f + 50.0f;
+		float reachY2 = worldPlayerY + 94.0f + 25.0f;
 
 		// -----------------------------------------------------------
 		// Drawing stuff
 		// -----------------------------------------------------------
 
 		gameMap.DrawMap(screen);
-		for (auto& x : farmTiles)
-		{
-			x.Draw(screen);
-		}
 
 		// Tiles
 		bool tileClicked = false;
@@ -192,6 +189,11 @@ namespace Tmpl8
 		{
 			if (playerInventory.InventorysClosed())
 				x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
+		}
+
+		for (auto& x : farmTiles)
+		{
+			x.Draw(screen);
 		}
 
 		//Player range
@@ -203,7 +205,7 @@ namespace Tmpl8
 		playerInventory.NormalInventory(screen, mouseX, mouseY);
 		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY ,reachX1, reachY1, reachX2, reachY2);
 		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
-		playerInventory.DrawOnScreen(screen);
+		playerInventory.DrawOnScreen(screen,deltaTime);
 		
 		// Show "House" text on left click in house area
 		if (GetAsyncKeyState(VK_LBUTTON))

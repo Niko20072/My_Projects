@@ -44,6 +44,6 @@ namespace Tmpl8
 
 		void Draw(Surface* screen);
 		void SetFrame(int frame);
-		void Update(int x, int y, int worldX, int worldY, int reachX1, int reachX2, int reachY1, int reachY2, bool& clicked);
+		void Update(float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked);
 	};
 };

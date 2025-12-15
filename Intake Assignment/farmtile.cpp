@@ -38,7 +38,7 @@ namespace Tmpl8
 	{
 		farmTile->SetFrame(frame);
 	}
-	void FarmTile::Update(int x, int y, int worldX, int worldY, int reachX1, int reachX2, int reachY1, int reachY2, bool& clicked)
+	void FarmTile::Update(float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
 	{
 		// Tile rectangle
 		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
