@@ -1,5 +1,8 @@
 #include "farmtile.h"
 #include "map.h"
+#include "inventory.h"
+#include "game.h"
+
 
 namespace Tmpl8
 {
@@ -25,7 +28,6 @@ namespace Tmpl8
 			}
 		}
 	}*/
-	int farmTileX, farmTileY;
 
 	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
 	void FarmTile::Draw(Surface* screen)
@@ -36,4 +38,36 @@ namespace Tmpl8
 	{
 		farmTile->SetFrame(frame);
 	}
+	void FarmTile::Update(int x, int y, int worldX, int worldY, int reachX1, int reachX2, int reachY1, int reachY2, bool& clicked)
+	{
+		// Tile rectangle
+		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
+		bool tileInReach = reachX1 < x + Map::TileSize && reachX2 > x && reachY1 < y + Map::TileSize && reachY2 > y;
+
+		//click
+		if (!isClicked && GetAsyncKeyState(VK_LBUTTON) && tileRectangle && tileInReach)
+		{
+			isClicked = true;
+			clicked = true;
+			frame = 2;
+		}
+		//hover over clicked tile
+		else if (isClicked && tileRectangle)
+		{
+			frame = 3;
+		}
+		else if (isClicked)
+		{
+			frame = 2;
+		}
+		//hover over normal tile
+		else if (tileRectangle) //hover
+		{
+			frame = 1;
+		}
+		else //idle
+			frame = 0;
+		farmTile->SetFrame(frame);
+	}
+
 };

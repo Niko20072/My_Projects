@@ -187,20 +187,10 @@ namespace Tmpl8
 
 		// Check left click and if the mouse is on the desired tile
 		bool tileClicked = false;
-		if (GetAsyncKeyState(VK_LBUTTON) && playerInventory.InventorysClosed())
+		for (auto& x : farmTiles)
 		{
-			for (auto& x : farmTiles)
-			{
-				// Tile rectangle
-				bool tileRectangle = worldX >= x.farmTileX && worldX < x.farmTileX + Map::TileSize && worldY >= x.farmTileY && worldY < x.farmTileY + Map::TileSize;
-				bool tileInReach = reachX1 < x.farmTileX + Map::TileSize && reachX2 > x.farmTileX && reachY1 < x.farmTileY + Map::TileSize && reachY2 > x.farmTileY;
-
-				if (tileRectangle && tileInReach)
-				{
-					tileClicked = true;
-					x.SetFrame(1);
-				}
-			}
+			if (playerInventory.InventorysClosed())
+				x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
 		}
 
 		//Player range
@@ -209,7 +199,7 @@ namespace Tmpl8
 
 		player.Draw(screen, playerX, playerY);
 		playerInventory.NormalInventory(screen, mouseX, mouseY);
-		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY,reachX1, reachY1, reachX2, reachY2);
+		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY ,reachX1, reachY1, reachX2, reachY2);
 		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
 		playerInventory.DrawOnScreen(screen);
 		

@@ -9,9 +9,12 @@ namespace Tmpl8
 	class FarmTile
 	{
 	public:
-		Sprite *farmTile = new Sprite(new Surface("assets/tileset1.png"), 2);
+		Sprite *farmTile = new Sprite(new Surface("assets/tiles.png"), 4);
 		int farmTileX;
 		int farmTileY;
+		int frame = 0;
+		bool isClicked = false;
+
 		//FarmTile(Surface* screen);
 
 		FarmTile(int x, int y);
@@ -41,5 +44,6 @@ namespace Tmpl8
 
 		void Draw(Surface* screen);
 		void SetFrame(int frame);
+		void Update(int x, int y, int worldX, int worldY, int reachX1, int reachX2, int reachY1, int reachY2, bool& clicked);
 	};
 };
