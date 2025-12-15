@@ -150,7 +150,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// -----------------------------------------------------------

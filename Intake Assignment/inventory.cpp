@@ -2,17 +2,8 @@
 
 namespace Tmpl8
 {
-	bool Inventory::isopen = false;
-	bool Inventory::carisopen = false;
-	bool Inventory::seedsisopen = false;
-	int Inventory::frame_counter = 0;
-
 	Inventory::Inventory( int x, int y) : x(x), y(y) 
 	{
-	}
-	void Inventory::Draw(Surface* screen, int x, int y)
-	{
-		inventory.Draw(screen, x, y);
 	}
 	void Inventory::SetFrame(int frame)
 	{
@@ -21,28 +12,45 @@ namespace Tmpl8
 	void Inventory::DrawInventory(Surface* screen)
 	{
 		inventory.Draw(screen, 140, 20);
-		screen->Print("Plant      x0", 270, 220, 0x0);
-		screen->Print("Inventory Opened", 270, 240, 0x0);
-		screen->Print("Inventory Opened", 270, 260, 0x0);
-		screen->Print("Inventory Opened", 270, 280, 0x0);
-		screen->Print("Inventory Opened", 270, 300, 0x0);
-		screen->Print("Inventory Opened", 270, 320, 0x0);
-		screen->Print("Inventory Opened", 270, 340, 0x0);
-		screen->Print("Inventory Opened", 270, 360, 0x0);
-		screen->Print("Inventory Opened", 270, 380, 0x0);
-		screen->Print("Inventory Opened", 270, 400, 0x0);
-	}
-	void Inventory::ManageFrames(int fr1, int fr2)
-	{
-		if (frame == fr1 && frame_counter >= 15)
-			frame = fr2, frame_counter = 0, inventory.SetFrame(frame);
-		if (frame == fr2 && frame_counter >= 15)
-			frame = fr1, frame_counter = 0, inventory.SetFrame(frame);
-	}
+		if (isopen && frame == 0)
+		{
+			screen->Print("Sunblossom          x0", 350, 236, 0x0);
+			screen->Print("Moonleaf            x0", 350, 280, 0x0);
+			screen->Print("Emberroot           x0", 350, 321, 0x0);
+			screen->Print("Frostmint           x0", 350, 367, 0x0);
+			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
+		}
+		if (isopen && frame == 1)
+		{
+			screen->Print("Vital Tonic         x0", 350, 241, 0x0);
+			screen->Print("Calm Mind Elixir    x0", 350, 285, 0x0);
+			screen->Print("Dream Draught       x0", 350, 328, 0x0);
+			screen->Print("FireHeart Brew      x0", 350, 373, 0x0);
+			screen->Print("Frostveil Potion    x0", 350, 418, 0x0);
+		}
+		if (isopen && frame == 2)
+		{
+			screen->Print("Sunblossom          x0", 350, 236, 0x0);
+			screen->Print("Moonleaf            x0", 350, 280, 0x0);
+			screen->Print("Emberroot           x0", 350, 321, 0x0);
+			screen->Print("Frostmint           x0", 350, 367, 0x0);
+			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
+		}
+		if (seedsisopen && frame == 3)
+		{
+			screen->Print("Sunblossom          x0", 350, 236, 0x0);
+			screen->Print("Moonleaf            x0", 350, 280, 0x0);
+			screen->Print("Emberroot           x0", 350, 321, 0x0);
+			screen->Print("Frostmint           x0", 350, 367, 0x0);
+			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
+		}
+	}	
 	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
+		bool clickedOnPlantButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 323 && mouseX <= 366 && mouseY >= 471 && mouseY <= 510;
+		bool clickedOnPotionButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 375 && mouseX <= 510 && mouseY >= 471 && mouseY <= 510;
+		bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
 
 		//Toggle normal inventory
 		if (GetAsyncKeyState('E') && frame_counter >= 15)
@@ -58,8 +66,9 @@ namespace Tmpl8
 		//Click inventory
 		if (isopen)
 		{
-			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
-				ManageFrames(0, 1);
+			if (clickedOnPlantButton) frame = 0, inventory.SetFrame(frame);
+			if (clickedOnPotionButton) frame = 1, inventory.SetFrame(frame);
+			if (clickedOnSeedButton) frame = 2, inventory.SetFrame(frame);
 			if (clickedOutsideInv)
 				isopen = false;
 		}
@@ -68,7 +77,8 @@ namespace Tmpl8
 	void Inventory::CarInventory(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int reachX1, int reachY1, int reachX2, int reachY2)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
+		bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
+		bool clickedOnOrdersButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 399 && mouseX <= 444 && mouseY >= 471 && mouseY <= 510;
 		//bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
 		bool playerCloseToCar = reachX2 >= 528 && reachX1 <= 686 && reachY2 >= 175 && reachY1 <= 220;
 		bool clickedOnCar = worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220;
@@ -81,16 +91,15 @@ namespace Tmpl8
 			carisopen = false;
 			frame_counter = 0;
 			carisopen = !carisopen;
-			frame = 2;
+			frame = 4;
 			inventory.SetFrame(frame);
 		}
 
 		//Click car inventory
 		if (carisopen)
 		{
-			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
-				ManageFrames(2, 3);
-
+			if (clickedOnShopButton)  frame = 4, inventory.SetFrame(frame);
+			if (clickedOnOrdersButton)  frame = 5, inventory.SetFrame(frame);
 			if (moved || clickedOutsideInv || GetAsyncKeyState('E'))
 				carisopen = false;
 		}
@@ -108,7 +117,8 @@ namespace Tmpl8
 			carisopen = false;
 			frame_counter = 0;
 			seedsisopen = !seedsisopen;
-			inventory.SetFrame(1);
+			frame = 3;
+			inventory.SetFrame(frame);
 		}
 
 		//Click seed inventory
@@ -119,54 +129,6 @@ namespace Tmpl8
 		}
 
 	}
-	/*void Inventory::Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY)
-	{
-		frame_counter++;//to limit key press speed
-
-		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
-		bool clickedOnInvButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 390 && mouseX <= 421 && mouseY >= 470 && mouseY <= 508;
-		bool playerCloseToCar = worldPlayerX >= 448 && worldPlayerX <= 688 && worldPlayerY >= 86 && worldPlayerY <= 195;
-		bool clickedOnCar = worldX >= 528 && worldX <= 686 && worldY >= 175 && worldY <= 220;
-
-		//Toggle normal inventory
-		if (GetAsyncKeyState('E') && frame_counter >= 15)
-		{
-			carisopen = false;
-			frame_counter = 0;
-			isopen = !isopen;
-			frame = 0;
-			inventory.SetFrame(frame);
-		}
-
-		//Click inventory
-		if (isopen)
-		{
-			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
-				ManageFrames(0, 1);
-			if (clickedOutsideInv)
-				isopen = false;
-		}
-
-		//Toggle car inventory
-		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && frame_counter >= 15)
-		{
-			isopen = false;
-			frame_counter = 0;
-			carisopen = !carisopen;
-			frame = 2;
-			inventory.SetFrame(frame);
-		}
-
-		//Click car inventory
-		if (carisopen)
-		{
-			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnInvButton)
-				ManageFrames(2, 3);
-
-			if (!playerCloseToCar || clickedOutsideInv || GetAsyncKeyState('E'))
-				carisopen = false;
-		}
-	}*/
 	void Inventory::DrawOnScreen(Surface* screen)
 	{
 		frame_counter++;//to limit key press speed
