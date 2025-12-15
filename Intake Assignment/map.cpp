@@ -21,8 +21,18 @@ namespace Tmpl8
 		int TileSizeY = TileSize;
 
 		// clip tile to screen boundaries (up left)
-		if (x < 0) TileStartX = -x, TileSizeX -= TileStartX, x = 0;
-		if (y < 0) TileStartY = -y, TileSizeY -= TileStartY, y = 0;
+		if (x < 0)
+		{
+			TileStartX = -x;
+			TileSizeX -= TileStartX;
+			x = 0;
+		}
+		if (y < 0) 
+		{ 
+			TileStartY = -y;
+			TileSizeY -= TileStartY;
+			y = 0;
+		}
 
 		// clip tile to screen boundaries (down right)
 		if (x + TileSizeX > ScreenWidth) TileSizeX = ScreenWidth - x;

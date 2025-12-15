@@ -66,9 +66,21 @@ namespace Tmpl8
 		//Click inventory
 		if (isopen)
 		{
-			if (clickedOnPlantButton) frame = 0, inventory.SetFrame(frame);
-			if (clickedOnPotionButton) frame = 1, inventory.SetFrame(frame);
-			if (clickedOnSeedButton) frame = 2, inventory.SetFrame(frame);
+			if (clickedOnPlantButton)
+			{
+				frame = 0;
+				inventory.SetFrame(frame);
+			}
+			if (clickedOnPotionButton) 
+			{
+				frame = 1;
+				inventory.SetFrame(frame);
+			}
+			if (clickedOnSeedButton)
+			{
+				frame = 2;
+				inventory.SetFrame(frame);
+			}
 			if (clickedOutsideInv)
 				isopen = false;
 		}
@@ -98,8 +110,16 @@ namespace Tmpl8
 		//Click car inventory
 		if (carisopen)
 		{
-			if (clickedOnShopButton)  frame = 4, inventory.SetFrame(frame);
-			if (clickedOnOrdersButton)  frame = 5, inventory.SetFrame(frame);
+			if (clickedOnShopButton)
+			{
+				frame = 4;
+				inventory.SetFrame(frame);
+			}
+			if (clickedOnOrdersButton)
+			{
+				frame = 5;
+				inventory.SetFrame(frame);
+			}
 			if (moved || clickedOutsideInv || GetAsyncKeyState('E'))
 				carisopen = false;
 		}

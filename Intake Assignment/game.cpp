@@ -223,10 +223,26 @@ namespace Tmpl8
 		// Move camera based on WASD keys
 		vec2 movedir = 0.0f;
 		
-		if (GetAsyncKeyState('A')) player.SetFrame(0), movedir.x = -1;
-		if (GetAsyncKeyState('D')) player.SetFrame(1), movedir.x = 1;
-		if (GetAsyncKeyState('W')) player.SetFrame(3), movedir.y = -1;
-		if (GetAsyncKeyState('S')) player.SetFrame(2), movedir.y = 1;
+		if (GetAsyncKeyState('A'))
+		{
+			player.SetFrame(0);
+			movedir.x = -1;
+		}
+		if (GetAsyncKeyState('D'))
+		{
+			player.SetFrame(1);
+			movedir.x = 1;
+		}
+		if (GetAsyncKeyState('W'))
+		{
+			player.SetFrame(3);
+			movedir.y = -1;
+		}
+		if (GetAsyncKeyState('S'))
+		{
+			player.SetFrame(2);
+			movedir.y = 1;
+		}
 		if (movedir.sqrLentgh() > 0)
 		{
 			movedir.normalize();
@@ -236,7 +252,11 @@ namespace Tmpl8
 
 		// Check for collision before updating camera position
 		if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
-			Map::cameraX = newCameraX, Map::cameraY = newCameraY;
+		{
+			Map::cameraX = newCameraX;
+			Map::cameraY = newCameraY;
+		}
+			
 
 		//Sleep(16); //simulate ~60fps
 	}
