@@ -136,6 +136,7 @@ namespace Tmpl8
 
 	void Game::Tick(float deltaTime)
 	{
+		deltaTime /= 1000.0f; // convert to seconds.
 		screen->Clear(0);
 		
 		// -----------------------------------------------------------
@@ -158,22 +159,22 @@ namespace Tmpl8
 		// -----------------------------------------------------------
 		
 		// Transform screen coordinates -> world coordinates
-		int worldX = Map::cameraX + mouseX;
-		int worldY = Map::cameraY + mouseY;
+		float worldX = Map::cameraX + mouseX;
+		float worldY = Map::cameraY + mouseY;
 		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 
-		int worldPlayerX = Map::cameraX + playerX;
-		int worldPlayerY = Map::cameraY + playerY;
+		float worldPlayerX = Map::cameraX + playerX;
+		float worldPlayerY = Map::cameraY + playerY;
 
 		//std::cout << "Player world position: X=" << worldPlayerX << ", Y=" << worldPlayerY << std::endl;
 
-		int newCameraX = Map::cameraX;
-		int newCameraY = Map::cameraY;
+		float newCameraX = Map::cameraX;
+		float newCameraY = Map::cameraY;
 
-		int reachX1 = worldPlayerX - 50;
-		int reachY1 = worldPlayerY - 25;
-		int reachX2 = worldPlayerX + 46 + 50;
-		int reachY2 = worldPlayerY + 94 + 25;
+		float reachX1 = worldPlayerX - 50.0f;//do that
+		float reachY1 = worldPlayerY - 25;
+		float reachX2 = worldPlayerX + 46 + 50;
+		float reachY2 = worldPlayerY + 94 + 25;
 
 		// -----------------------------------------------------------
 		// Drawing stuff
@@ -185,7 +186,7 @@ namespace Tmpl8
 			x.Draw(screen);
 		}
 
-		// Check left click and if the mouse is on the desired tile
+		// Tiles
 		bool tileClicked = false;
 		for (auto& x : farmTiles)
 		{
@@ -197,6 +198,7 @@ namespace Tmpl8
 		screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
 		screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
 
+		//drawing
 		player.Draw(screen, playerX, playerY);
 		playerInventory.NormalInventory(screen, mouseX, mouseY);
 		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY ,reachX1, reachY1, reachX2, reachY2);
@@ -206,10 +208,9 @@ namespace Tmpl8
 		// Show "House" text on left click in house area
 		if (GetAsyncKeyState(VK_LBUTTON))
 			if (reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232)
-			{
 				screen->Print("House", 280, 280, 0x0);
-			}
 
+		//days and coins
 		sprintf(day, "DAY: %d", dayCounter);
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->Print(day, 750, 10, 0xff0000);
@@ -220,15 +221,23 @@ namespace Tmpl8
 		// -----------------------------------------------------------
 
 		// Move camera based on WASD keys
-		if (GetAsyncKeyState('A')) newCameraX -= 6, player.SetFrame(0);
-		if (GetAsyncKeyState('D')) newCameraX += 6, player.SetFrame(1);
-		if (GetAsyncKeyState('W')) newCameraY -= 6, player.SetFrame(3);
-		if (GetAsyncKeyState('S')) newCameraY += 6, player.SetFrame(2);
+		vec2 movedir = 0.0f;
+		
+		if (GetAsyncKeyState('A')) player.SetFrame(0), movedir.x = -1;
+		if (GetAsyncKeyState('D')) player.SetFrame(1), movedir.x = 1;
+		if (GetAsyncKeyState('W')) player.SetFrame(3), movedir.y = -1;
+		if (GetAsyncKeyState('S')) player.SetFrame(2), movedir.y = 1;
+		if (movedir.sqrLentgh() > 0)
+		{
+			movedir.normalize();
+			newCameraX += movedir.x * 360.0f * deltaTime;
+			newCameraY += movedir.y * 360.0f * deltaTime;
+		}
 
 		// Check for collision before updating camera position
 		if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
 			Map::cameraX = newCameraX, Map::cameraY = newCameraY;
 
-		Sleep(16); //simulate ~60fps
+		//Sleep(16); //simulate ~60fps
 	}
 };

@@ -69,5 +69,4 @@ namespace Tmpl8
 			frame = 0;
 		farmTile->SetFrame(frame);
 	}
-
 };
