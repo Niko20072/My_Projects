@@ -12,37 +12,51 @@ namespace Tmpl8
 	void Inventory::DrawInventory(Surface* screen)
 	{
 		inventory.Draw(screen, 140, 20);
+		char sunBlossom[32], moonLeaf[32], emberRoot[32], frostMint[32], berry[32];
+		char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
+		char seedSunBlossom[32], seedMoonLeaf[32], seedEmberRoot[32], seedFrostMint[32], seedBerry[32];
+
+		sprintf(sunBlossom, "Sunblossom          x%d", contSunblossom);
+		sprintf(moonLeaf, "Moonleaf            x%d", contMoonleaf);
+		sprintf(emberRoot, "Emberroot           x%d", contEmberroot);
+		sprintf(frostMint, "Frostmint           x%d", contFrostmint);
+		sprintf(berry, "Nightshade Berry    x%d", contBerry);
+
+		sprintf(vitalTonic, "Vital Tonic         x%d", contVitalTonic);
+		sprintf(calmMind, "Calm Mind Elixir    x%d", contCalmMind);
+		sprintf(dreamDraught, "Dream Draught       x%d", contDreamDraught);
+		sprintf(fireHeart, "FireHeart Brew      x%d", contFireHeart);
+		sprintf(frostVeil, "Frostveil Potion    x%d", contFrostveil);
+
+		sprintf(seedSunBlossom, "Sunblossom          x%d", contSeedSunblossom);
+		sprintf(seedMoonLeaf, "Moonleaf            x%d", contSeedMoonleaf);
+		sprintf(seedEmberRoot, "Emberroot           x%d", contSeedEmberroot);
+		sprintf(seedFrostMint, "Frostmint           x%d", contSeedFrostmint);
+		sprintf(seedBerry, "Nightshade Berry    x%d", contSeedBerry);
+
 		if (isopen && frame == 0)
 		{
-			screen->Print("Sunblossom          x0", 350, 236, 0x0);
-			screen->Print("Moonleaf            x0", 350, 280, 0x0);
-			screen->Print("Emberroot           x0", 350, 321, 0x0);
-			screen->Print("Frostmint           x0", 350, 367, 0x0);
-			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
+			screen->Print(sunBlossom, 350, 236, 0x0);
+			screen->Print(moonLeaf, 350, 280, 0x0);
+			screen->Print(emberRoot, 350, 321, 0x0);
+			screen->Print(frostMint, 350, 367, 0x0);
+			screen->Print(berry, 350, 411, 0x0);
 		}
 		if (isopen && frame == 1)
 		{
-			screen->Print("Vital Tonic         x0", 350, 241, 0x0);
-			screen->Print("Calm Mind Elixir    x0", 350, 285, 0x0);
-			screen->Print("Dream Draught       x0", 350, 328, 0x0);
-			screen->Print("FireHeart Brew      x0", 350, 373, 0x0);
-			screen->Print("Frostveil Potion    x0", 350, 418, 0x0);
+			screen->Print(vitalTonic, 350, 241, 0x0);
+			screen->Print(calmMind, 350, 285, 0x0);
+			screen->Print(dreamDraught, 350, 328, 0x0);
+			screen->Print(fireHeart, 350, 373, 0x0);
+			screen->Print(frostVeil, 350, 418, 0x0);
 		}
-		if (isopen && frame == 2)
+		if ((isopen && frame == 2) || (seedsisopen && frame == 3))
 		{
-			screen->Print("Sunblossom          x0", 350, 236, 0x0);
-			screen->Print("Moonleaf            x0", 350, 280, 0x0);
-			screen->Print("Emberroot           x0", 350, 321, 0x0);
-			screen->Print("Frostmint           x0", 350, 367, 0x0);
-			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
-		}
-		if (seedsisopen && frame == 3)
-		{
-			screen->Print("Sunblossom          x0", 350, 236, 0x0);
-			screen->Print("Moonleaf            x0", 350, 280, 0x0);
-			screen->Print("Emberroot           x0", 350, 321, 0x0);
-			screen->Print("Frostmint           x0", 350, 367, 0x0);
-			screen->Print("Nightshade Berry    x0", 350, 411, 0x0);
+			screen->Print(seedSunBlossom, 350, 236, 0x0);
+			screen->Print(seedMoonLeaf, 350, 280, 0x0);
+			screen->Print(seedEmberRoot, 350, 321, 0x0);
+			screen->Print(seedFrostMint, 350, 367, 0x0);
+			screen->Print(seedBerry, 350, 411, 0x0);
 		}
 	}	
 	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY)

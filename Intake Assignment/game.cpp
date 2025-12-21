@@ -22,6 +22,12 @@ namespace Tmpl8
 	int coinCounter = 10;
 	char day[32], coins[32];
 
+	int contSunblossom = 0;
+	int contMoonleaf = 0;
+	int contEmberroot = 0;
+	int contFrostmint = 0;
+	int contBerry = 0;
+
 	Map gameMap;
 	Inventory playerInventory(10, 10);
 	std::vector<FarmTile> farmTiles;

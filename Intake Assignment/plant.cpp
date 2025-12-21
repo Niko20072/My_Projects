@@ -2,12 +2,6 @@
 
 namespace Tmpl8
 {
-	int Plant::contSunblossom = 0;
-	int Plant::contMoonleaf = 0;
-	int Plant::contEmberroot = 0;
-	int Plant::contFrostmint = 0;
-	int Plant::contBerry = 0;
-
 	Plant::Plant(std::string& plantName)
 	{
 		name = plantName;
@@ -33,16 +27,6 @@ namespace Tmpl8
 		daysPassed++;
 		if (grown)
 		{
-			if (name == "Sunblossom")
-				contSunblossom++;
-			else if (name == "Moonleaf")
-				contMoonleaf++;
-			else if (name == "Emberroot")
-				contEmberroot++;
-			else if (name == "Frostmint")
-				contFrostmint++;
-			else if (name == "Berry")
-				contBerry++;
 			return;
 		}
 			

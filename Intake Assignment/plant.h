@@ -13,7 +13,6 @@ namespace Tmpl8
 		int harvestDay; //the day when the plant is grown
 		int daysPassed; //plant age
 		bool grown;
-		static int contSunblossom, contMoonleaf, contEmberroot, contFrostmint, contBerry;
 
 		Plant(std::string& plantName);
 		void NextDay();

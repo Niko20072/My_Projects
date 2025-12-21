@@ -15,6 +15,25 @@ namespace Tmpl8
 		bool isopen = false;
 		bool carisopen = false;
 		bool seedsisopen = false;
+
+		int contSunblossom = 2;
+		int contMoonleaf = 3;
+		int contEmberroot = 1;
+		int contFrostmint = 2;
+		int contBerry = 1;
+
+		int contVitalTonic = 1;
+		int contCalmMind = 2;
+		int contDreamDraught = 3;
+		int contFireHeart = 4;
+		int contFrostveil = 5;
+
+		int contSeedSunblossom = 12;
+		int contSeedMoonleaf = 0;
+		int contSeedEmberroot = 3;
+		int contSeedFrostmint = 0;
+		int contSeedBerry = 0;
+
 		Sprite inventory = Sprite(new Surface("assets/Inventory.png"), 6);
 		Inventory(int x, int y);
 		void Draw(Surface* screen, int x, int y);
