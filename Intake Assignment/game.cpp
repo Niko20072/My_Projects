@@ -10,10 +10,12 @@
 //#include <cassert>
 #include "inventory.h"
 #include "plant.h"
+#include "house.h"
 
 namespace Tmpl8
 {
 	static Sprite player(new Surface("assets/Vera.png"), 4);
+	
 
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	int dayCounter = 1;
@@ -139,7 +141,7 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
-		std::cout << deltaTime << std::endl;
+		//std::cout << deltaTime << std::endl;
 		screen->Clear(0);
 		
 		// -----------------------------------------------------------
@@ -154,7 +156,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// -----------------------------------------------------------
@@ -183,36 +185,17 @@ namespace Tmpl8
 		// Drawing stuff
 		// -----------------------------------------------------------
 
-		gameMap.DrawMap(screen);
-
-		// Tiles
-		bool tileClicked = false;
-		for (auto& x : farmTiles)
+		// Show House when left click in house area
+		House::ShowHouse(screen, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
+		House::Update(screen, deltaTime);
+		House::ShowCrafting(screen, mouseX, mouseY);
+		if (House::craftingisopen == true)
 		{
-			if (playerInventory.InventorysClosed())
-				x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
+			playerInventory.NormalInventory(screen, mouseX, mouseY);
+			playerInventory.DrawOnScreen(screen, deltaTime);
 		}
-
-		for (auto& x : farmTiles)
-		{
-			x.Draw(screen);
-		}
-
-		//Player range
-		screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
-		screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
-
-		//drawing
-		player.Draw(screen, playerX, playerY);
-		playerInventory.NormalInventory(screen, mouseX, mouseY);
-		playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY ,reachX1, reachY1, reachX2, reachY2);
-		playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
-		playerInventory.DrawOnScreen(screen,deltaTime);
-		
-		// Show "House" text on left click in house area
-		if (GetAsyncKeyState(VK_LBUTTON))
-			if (reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232)
-				screen->Print("House", 280, 280, 0x0);
+			
+		House::DayUpdate(dayCounter, mouseX, mouseY);
 
 		//days and coins
 		sprintf(day, "DAY: %d", dayCounter);
@@ -220,48 +203,77 @@ namespace Tmpl8
 		screen->Print(day, 750, 10, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
 
-		// -----------------------------------------------------------
-		// Movement and collision
-		// -----------------------------------------------------------
 
-		// Move camera based on WASD keys
-		vec2 movedir = 0.0f;
-		
-		if (GetAsyncKeyState('A'))
+		if (House::houseisopen == false)
 		{
-			player.SetFrame(0);
-			movedir.x = -1;
-		}
-		if (GetAsyncKeyState('D'))
-		{
-			player.SetFrame(1);
-			movedir.x = 1;
-		}
-		if (GetAsyncKeyState('W'))
-		{
-			player.SetFrame(3);
-			movedir.y = -1;
-		}
-		if (GetAsyncKeyState('S'))
-		{
-			player.SetFrame(2);
-			movedir.y = 1;
-		}
-		if (movedir.sqrLentgh() > 0)
-		{
-			movedir.normalize();
-			newCameraX += movedir.x * 360.0f * deltaTime;
-			newCameraY += movedir.y * 360.0f * deltaTime;
-		}
+			gameMap.DrawMap(screen);
 
-		// Check for collision before updating camera position
-		if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
-		{
-			Map::cameraX = newCameraX;
-			Map::cameraY = newCameraY;
-		}
-			
+			// Tiles
+			bool tileClicked = false;
+			for (auto& x : farmTiles)
+			{
+				if (playerInventory.InventorysClosed())
+					x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
+			}
 
+			for (auto& x : farmTiles)
+			{
+				x.Draw(screen);
+			}
+
+			//Player range
+			screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
+			screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
+
+			//drawing
+			player.Draw(screen, playerX, playerY);
+			playerInventory.NormalInventory(screen, mouseX, mouseY);
+			playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
+			playerInventory.DrawOnScreen(screen, deltaTime);
+
+			// -----------------------------------------------------------
+			// Movement and collision
+			// -----------------------------------------------------------
+
+			// Move camera based on WASD keys
+			vec2 movedir = 0.0f;
+
+			if (GetAsyncKeyState('A'))
+			{
+				player.SetFrame(0);
+				movedir.x = -1;
+			}
+			if (GetAsyncKeyState('D'))
+			{
+				player.SetFrame(1);
+				movedir.x = 1;
+			}
+			if (GetAsyncKeyState('W'))
+			{
+				player.SetFrame(3);
+				movedir.y = -1;
+			}
+			if (GetAsyncKeyState('S'))
+			{
+				player.SetFrame(2);
+				movedir.y = 1;
+			}
+			if (movedir.sqrLentgh() > 0)
+			{
+				movedir.normalize();
+				newCameraX += movedir.x * 360.0f * deltaTime;
+				newCameraY += movedir.y * 360.0f * deltaTime;
+			}
+
+			// Check for collision before updating camera position
+			if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
+			{
+				Map::cameraX = newCameraX;
+				Map::cameraY = newCameraY;
+			}
+
+		}
 		//Sleep(16); //simulate ~60fps
 	}
 };

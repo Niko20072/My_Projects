@@ -12,9 +12,8 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="farmtile.cpp" />
     <ClCompile Include="inventory.cpp" />
-    <ClCompile Include="plant.cpp">
-      <Filter>template code</Filter>
-    </ClCompile>
+    <ClCompile Include="plant.cpp" />
+    <ClCompile Include="house.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -28,9 +27,8 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="farmtile.h" />
     <ClInclude Include="inventory.h" />
-    <ClInclude Include="plant.h">
-      <Filter>template code</Filter>
-    </ClInclude>
+    <ClInclude Include="plant.h" />
+    <ClInclude Include="house.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

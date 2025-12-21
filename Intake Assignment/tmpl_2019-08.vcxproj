@@ -224,6 +224,7 @@
   <ItemGroup>
     <ClCompile Include="farmtile.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="house.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="plant.cpp" />
@@ -234,6 +235,7 @@
   <ItemGroup>
     <ClInclude Include="farmtile.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="house.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="plant.h" />
