@@ -2,6 +2,8 @@
 #include "surface.h"
 #include "template.h"
 #include <windows.h>
+#include <cstdio> //printf
+
 namespace Tmpl8
 {
 	class Inventory

@@ -12,6 +12,9 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="farmtile.cpp" />
     <ClCompile Include="inventory.cpp" />
+    <ClCompile Include="plant.cpp">
+      <Filter>template code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -25,6 +28,9 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="farmtile.h" />
     <ClInclude Include="inventory.h" />
+    <ClInclude Include="plant.h">
+      <Filter>template code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

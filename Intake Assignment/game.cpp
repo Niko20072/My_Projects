@@ -9,6 +9,7 @@
 #include "farmtile.h"
 //#include <cassert>
 #include "inventory.h"
+#include "plant.h"
 
 namespace Tmpl8
 {
@@ -22,6 +23,7 @@ namespace Tmpl8
 	Map gameMap;
 	Inventory playerInventory(10, 10);
 	std::vector<FarmTile> farmTiles;
+	std::vector<Plant> plants;
 
 	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -39,7 +41,6 @@ namespace Tmpl8
 		assert(idx < farmTiles.size());
 		return farmTiles[idx];
 	}*/
-
 
 	bool CheckCollision(int x, int y)
 	{
@@ -119,6 +120,7 @@ namespace Tmpl8
 			for (int y = 18; y <= 20; y++)
 				farmTiles.emplace_back(x, y);
 		}
+		//plants.emplace_back("Moonleaf");
 	}
 
 	// -----------------------------------------------------------
