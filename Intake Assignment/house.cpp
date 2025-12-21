@@ -4,12 +4,25 @@ namespace Tmpl8
 	namespace House
 	{
 		Sprite house(new Surface("assets/house1.png"), 1);
-		Sprite crafting(new Surface("assets/crafting.png"), 3);
+		Sprite crafting(new Surface("assets/crafting2.png"), 3);
 
 		float inputCooldown = 0.0f;
 		bool houseisopen = false;
 		bool craftingisopen = false;
 
+		void ManageFrames(int mouseX, int mouseY)
+		{
+			bool button1 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 244 && mouseX <= 314 && mouseY >= 516 && mouseY <= 584;
+			bool button2 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 364 && mouseX <= 434 && mouseY >= 516 && mouseY <= 584;
+			bool button3 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 485 && mouseX <= 554 && mouseY >= 516 && mouseY <= 584;
+			if (button1)
+				crafting.SetFrame(0);
+			if (button2)
+				crafting.SetFrame(1);
+			if (button3)
+				crafting.SetFrame(2);
+
+		}
 		void ShowHouse(Surface* screen, float reachX1, float reachX2, float reachY1, float reachY2, int worldX, int worldY)
 		{
 			bool houseInReach = reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232;
@@ -29,10 +42,11 @@ namespace Tmpl8
 		void ShowCrafting(Surface* screen, int mouseX, int mouseY)
 		{
 			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 32 && mouseX <= 241 && mouseY >= 243 && mouseY <= 427;
-			if (clickedOnTable && inputCooldown <= 0.0f)
+			if (clickedOnTable && houseisopen && inputCooldown <= 0.0f)
 			{
 				inputCooldown = 0.2f; // 200 ms
 				craftingisopen = true;
+				crafting.SetFrame(0);
 			}
 			if (GetAsyncKeyState('Q'))
 			{
@@ -41,6 +55,7 @@ namespace Tmpl8
 			}
 			if (craftingisopen)
 			{
+				ManageFrames(mouseX, mouseY);
 				crafting.Draw(screen, 0, 0);
 			}
 
@@ -48,7 +63,7 @@ namespace Tmpl8
 		void DayUpdate(int &dayCounter, int mouseX, int mouseY)
 		{
 			bool clickedOnBed = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 483 && mouseX <= 772 && mouseY >= 256 && mouseY <= 534;
-			if (clickedOnBed && inputCooldown <= 0.0f)
+			if (clickedOnBed && !craftingisopen && inputCooldown <= 0.0f)
 			{
 				inputCooldown = 0.2f; // 200 ms
 				dayCounter++;
