@@ -199,6 +199,7 @@ namespace Tmpl8
 		{
 			playerInventory.NormalInventory(screen, mouseX, mouseY);
 			playerInventory.DrawOnScreen(screen, deltaTime);
+			House::Craft(mouseX, mouseY);
 		}
 			
 		House::DayUpdate(dayCounter, mouseX, mouseY);

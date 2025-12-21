@@ -16,23 +16,23 @@ namespace Tmpl8
 		bool carisopen = false;
 		bool seedsisopen = false;
 
-		int contSunblossom = 2;
-		int contMoonleaf = 3;
-		int contEmberroot = 1;
-		int contFrostmint = 2;
-		int contBerry = 1;
+		static int contSunblossom;
+		static int contMoonleaf;
+		static int contEmberroot;
+		static int contFrostmint;
+		static int contBerry;
 
-		int contVitalTonic = 1;
-		int contCalmMind = 2;
-		int contDreamDraught = 3;
-		int contFireHeart = 4;
-		int contFrostveil = 5;
+		static int contVitalTonic;
+		static int contCalmMind;
+		static int contDreamDraught;
+		static int contFireHeart;
+		static int contFrostveil;
 
-		int contSeedSunblossom = 12;
-		int contSeedMoonleaf = 0;
-		int contSeedEmberroot = 3;
-		int contSeedFrostmint = 0;
-		int contSeedBerry = 0;
+		static int contSeedSunblossom;
+		static int contSeedMoonleaf;
+		static int contSeedEmberroot;
+		static int contSeedFrostmint;
+		static int contSeedBerry;
 
 		Sprite inventory = Sprite(new Surface("assets/Inventory.png"), 6);
 		Inventory(int x, int y);

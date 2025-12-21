@@ -2,6 +2,24 @@
 
 namespace Tmpl8
 {
+	int Inventory::contSunblossom = 2;
+	int Inventory::contMoonleaf = 3;
+	int Inventory::contEmberroot = 1;
+	int Inventory::contFrostmint = 2;
+	int Inventory::contBerry = 1;
+
+	int Inventory::contVitalTonic = 0;
+	int Inventory::contCalmMind = 0;
+	int Inventory::contDreamDraught = 0;
+	int Inventory::contFireHeart = 0;
+	int Inventory::contFrostveil = 0;
+
+	int Inventory::contSeedSunblossom = 12;
+	int Inventory::contSeedMoonleaf = 0;
+	int Inventory::contSeedEmberroot = 3;
+	int Inventory::contSeedFrostmint = 0;
+	int Inventory::contSeedBerry = 0;
+
 	Inventory::Inventory( int x, int y) : x(x), y(y) 
 	{
 	}

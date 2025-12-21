@@ -1,4 +1,5 @@
 #include "house.h"
+#include "inventory.h"
 namespace Tmpl8
 {
 	namespace House
@@ -9,6 +10,7 @@ namespace Tmpl8
 		float inputCooldown = 0.0f;
 		bool houseisopen = false;
 		bool craftingisopen = false;
+		int frame = 0;
 
 		void ManageFrames(int mouseX, int mouseY)
 		{
@@ -16,12 +18,49 @@ namespace Tmpl8
 			bool button2 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 364 && mouseX <= 434 && mouseY >= 516 && mouseY <= 584;
 			bool button3 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 485 && mouseX <= 554 && mouseY >= 516 && mouseY <= 584;
 			if (button1)
-				crafting.SetFrame(0);
+				frame = 0;
 			if (button2)
-				crafting.SetFrame(1);
+				frame = 1;
 			if (button3)
-				crafting.SetFrame(2);
+				frame = 2;
+			crafting.SetFrame(frame);
 
+		}
+		void CraftLogic(bool button, int Frame, int &ingredient1, int &ingredient2, int &potion)
+		{
+			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1)
+			{
+				ingredient1--;
+				ingredient2--;
+				potion++;
+			}
+		}
+		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion)
+		{
+			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1 && ingredient3 >= 1)
+			{
+				ingredient1--;
+				ingredient2--;
+				ingredient3--;
+				potion++;
+			}
+		}
+		void Craft(int mouseX, int mouseY)
+		{
+			bool clickedCraft1 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 295 && mouseX <= 359 && mouseY >= 111 && mouseY <= 154;
+			bool clickedCraft2 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 643 && mouseX <= 704 && mouseY >= 111 && mouseY <= 154;
+
+			///crafting vital tonic
+			CraftLogic(clickedCraft1, 0, Inventory::contSunblossom, Inventory::contEmberroot, Inventory::contVitalTonic);
+			///crafting calm mind elixir
+			CraftLogic(clickedCraft2, 0, Inventory::contMoonleaf, Inventory::contFrostmint, Inventory::contCalmMind);
+			///crafting dream draught
+			CraftLogic(clickedCraft1, 1, Inventory::contFrostmint, Inventory::contBerry, Inventory::contDreamDraught);
+			///crafting fireheart brew
+			CraftLogic(clickedCraft2, 1, Inventory::contEmberroot, Inventory::contSunblossom, Inventory::contBerry, Inventory::contFireHeart);
+			//crafting frostveil potion
+			CraftLogic(clickedCraft1, 2, Inventory::contFrostmint, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contFrostveil);
+			
 		}
 		void ShowHouse(Surface* screen, float reachX1, float reachX2, float reachY1, float reachY2, int worldX, int worldY)
 		{
@@ -46,7 +85,8 @@ namespace Tmpl8
 			{
 				inputCooldown = 0.2f; // 200 ms
 				craftingisopen = true;
-				crafting.SetFrame(0);
+				frame = 0;
+				crafting.SetFrame(frame);
 			}
 			if (GetAsyncKeyState('Q'))
 			{
