@@ -222,6 +222,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="buttons.cpp" />
     <ClCompile Include="farmtile.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="house.cpp" />
@@ -233,6 +234,7 @@
     <ClCompile Include="template.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="buttons.h" />
     <ClInclude Include="farmtile.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="house.h" />

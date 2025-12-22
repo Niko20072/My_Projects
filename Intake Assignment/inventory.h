@@ -3,6 +3,8 @@
 #include "template.h"
 #include <windows.h>
 #include <cstdio> //printf
+#include <iostream>
+#include "buttons.h"
 
 namespace Tmpl8
 {

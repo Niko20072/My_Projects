@@ -11,6 +11,7 @@
 #include "inventory.h"
 #include "plant.h"
 #include "house.h"
+#include "buttons.h"
 
 namespace Tmpl8
 {
@@ -18,15 +19,10 @@ namespace Tmpl8
 	
 
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
+	const float cameraSpeed = 360.0f;
 	int dayCounter = 1;
 	int coinCounter = 10;
 	char day[32], coins[32];
-
-	int contSunblossom = 0;
-	int contMoonleaf = 0;
-	int contEmberroot = 0;
-	int contFrostmint = 0;
-	int contBerry = 0;
 
 	Map gameMap;
 	Inventory playerInventory(10, 10);
@@ -147,6 +143,8 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
+		Buttons::SetDeltaTime(deltaTime);
+
 		//std::cout << deltaTime << std::endl;
 		screen->Clear(0);
 		
@@ -162,7 +160,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 
 		// -----------------------------------------------------------
@@ -201,15 +199,6 @@ namespace Tmpl8
 			playerInventory.DrawOnScreen(screen, deltaTime);
 			House::Craft(mouseX, mouseY);
 		}
-			
-		House::DayUpdate(dayCounter, mouseX, mouseY);
-
-		//days and coins
-		sprintf(day, "DAY: %d", dayCounter);
-		sprintf(coins, "COINS: %d", coinCounter);
-		screen->Print(day, 750, 10, 0xff0000);
-		screen->Print(coins, 10, 10, 0xffff00);
-
 
 		if (House::houseisopen == false)
 		{
@@ -269,8 +258,8 @@ namespace Tmpl8
 			if (movedir.sqrLentgh() > 0)
 			{
 				movedir.normalize();
-				newCameraX += movedir.x * 360.0f * deltaTime;
-				newCameraY += movedir.y * 360.0f * deltaTime;
+				newCameraX += movedir.x * cameraSpeed * deltaTime;
+				newCameraY += movedir.y * cameraSpeed * deltaTime;
 			}
 
 			// Check for collision before updating camera position
@@ -281,6 +270,13 @@ namespace Tmpl8
 			}
 
 		}
-		//Sleep(16); //simulate ~60fps
+		else
+			House::DayUpdate(dayCounter, mouseX, mouseY);
+		//days and coins
+		sprintf(day, "DAY: %d", dayCounter);
+		sprintf(coins, "COINS: %d", coinCounter);
+		screen->Print(day, 750, 10, 0xff0000);
+		screen->Print(coins, 10, 10, 0xffff00);
+
 	}
 };
