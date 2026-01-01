@@ -124,7 +124,7 @@ namespace Tmpl8
 			}
 
 		}
-		void CarInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
+		void CarInventory(Surface* screen, bool ePressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
@@ -157,12 +157,12 @@ namespace Tmpl8
 					frame = 5;
 					inventory.SetFrame(frame);
 				}
-				if (moved || clickedOutsideInv || GetAsyncKeyState('E'))
+				if (moved || clickedOutsideInv || ePressed)
 					carisopen = false;
 			}
 
 		}
-		void SeedsInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
+		void SeedsInventory(Surface* screen, bool ePressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
@@ -180,7 +180,7 @@ namespace Tmpl8
 			//Click seed inventory
 			if (seedsisopen)
 			{
-				if (clickedOutsideInv || GetAsyncKeyState('E') || moved)
+				if (clickedOutsideInv || ePressed || moved)
 					seedsisopen = false;
 			}
 

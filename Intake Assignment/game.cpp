@@ -157,7 +157,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 		// -----------------------------------------------------------
 		// Buttons
@@ -197,11 +197,7 @@ namespace Tmpl8
 		House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
 		House::ShowCrafting(screen, qPressed, mouseX, mouseY);
 		if (House::craftingisopen == true)
-		{
-			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
-			Inventory::DrawOnScreen(screen, deltaTime);
-			House::Craft(mouseX, mouseY);
-		}
+			House::Craft(leftClickPressed, mouseX, mouseY);
 
 		if (House::houseisopen == false)
 		{
@@ -227,8 +223,8 @@ namespace Tmpl8
 			//drawing
 			player.Draw(screen, playerX, playerY);
 			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
-			Inventory::CarInventory(screen, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-			Inventory::SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
+			Inventory::CarInventory(screen, ePressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			Inventory::SeedsInventory(screen, ePressed, mouseX, mouseY, worldX, worldY, tileClicked);
 			Inventory::DrawOnScreen(screen, deltaTime);
 
 			// -----------------------------------------------------------
