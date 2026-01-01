@@ -7,7 +7,6 @@ namespace Tmpl8
 		Sprite house(new Surface("assets/house1.png"), 1);
 		Sprite crafting(new Surface("assets/crafting2.png"), 3);
 
-		float inputCooldown = 0.0f;
 		bool houseisopen = false;
 		bool craftingisopen = false;
 		int frame = 0;
@@ -62,59 +61,40 @@ namespace Tmpl8
 			CraftLogic(clickedCraft1, 2, Inventory::contFrostmint, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contFrostveil);
 			
 		}
-		void ShowHouse(Surface* screen, float reachX1, float reachX2, float reachY1, float reachY2, int worldX, int worldY)
+		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, int worldX, int worldY)
 		{
 			bool houseInReach = reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232;
 			bool clicekdOnDoor = worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 234;
-			if (GetAsyncKeyState(VK_LBUTTON) && houseInReach && clicekdOnDoor && inputCooldown <= 0.0f)
-			{
-				inputCooldown = 0.2f; // 200 ms
+			if (GetAsyncKeyState(VK_LBUTTON) && houseInReach && clicekdOnDoor)
 				houseisopen = true;
-			}
-			if (GetAsyncKeyState('Q') && craftingisopen==false && inputCooldown <= 0.0f)
+			if (qPressed && craftingisopen == false)
 				houseisopen = false;
 			if (houseisopen)
-			{
 				house.Draw(screen, 0, 0);
-			}
 		}
-		void ShowCrafting(Surface* screen, int mouseX, int mouseY)
+		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY)
 		{
 			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 32 && mouseX <= 241 && mouseY >= 243 && mouseY <= 427;
-			if (clickedOnTable && houseisopen && inputCooldown <= 0.0f)
+			if (clickedOnTable && houseisopen)
 			{
-				inputCooldown = 0.2f; // 200 ms
 				craftingisopen = true;
 				frame = 0;
 				crafting.SetFrame(frame);
 			}
-			if (GetAsyncKeyState('Q'))
-			{
+			if (qPressed && craftingisopen)
 				craftingisopen = false;
-				inputCooldown = 0.2f; // 200 ms
-			}
 			if (craftingisopen)
 			{
 				ManageFrames(mouseX, mouseY);
 				crafting.Draw(screen, 0, 0);
 			}
-
 		}
-		void DayUpdate(int &dayCounter, int mouseX, int mouseY)
+		void DayUpdate(bool leftPressed, int &dayCounter, int mouseX, int mouseY)
 		{
-			bool clickedOnBed = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 483 && mouseX <= 772 && mouseY >= 256 && mouseY <= 534;
-			if (clickedOnBed && !craftingisopen && inputCooldown <= 0.0f)
-			{
-				inputCooldown = 0.2f; // 200 ms
+			bool clickedOnBed = leftPressed && mouseX >= 483 && mouseX <= 772 && mouseY >= 256 && mouseY <= 534;
+			if (clickedOnBed && !craftingisopen)
 				dayCounter++;
-			}
 				
-		}
-		void Update(Surface* screen, float deltaTime)
-		{
-			inputCooldown -= deltaTime;//to limit key press speed
-			if (inputCooldown <= 0.0f)
-				inputCooldown = 0.0f;
 		}
 	}
 };

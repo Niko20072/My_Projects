@@ -4,39 +4,30 @@ namespace Tmpl8
 {
 	namespace Buttons
 	{
-		float inputKeyCooldown = 0.0f;
-		float inputLeftClickCooldown = 0.0f;
-		float deltaTime;
-
-		void SetDeltaTime(float dt) 
+		//pressed-once edge detection
+		bool KeyQ()
 		{
-			deltaTime = dt; 
-			inputKeyCooldown -= deltaTime;//to limit key press speed
-			if (inputKeyCooldown <= 0.0f)
-				inputKeyCooldown = 0.0f;
-
-			inputLeftClickCooldown -= deltaTime;//to limit key press speed
-			if (inputLeftClickCooldown <= 0.0f)
-				inputLeftClickCooldown = 0.0f;
+			static bool wasDown = false;
+			bool isDown = GetAsyncKeyState('Q');
+			bool pressed = isDown && !wasDown;
+			wasDown = isDown;
+			return pressed;
 		}
-
-		bool Key(char key)
+		bool KeyE()
 		{
-			if (GetAsyncKeyState(key) && inputKeyCooldown <= 0.0f)
-			{
-				inputKeyCooldown = 0.2f; // 200 ms
-				return true;
-			}
-			return false;
+			static bool wasDown = false;
+			bool isDown = GetAsyncKeyState('E');
+			bool pressed = isDown && !wasDown;
+			wasDown = isDown;
+			return pressed;
 		}
 		bool LeftClick()
 		{
-			if (GetAsyncKeyState(VK_LBUTTON) && inputLeftClickCooldown <= 0.0f)
-			{
-				inputLeftClickCooldown = 0.2f; // 200 ms
-				return true;
-			}
-			return false;
+			static bool wasDown = false;
+			bool isDown = GetAsyncKeyState(VK_LBUTTON);
+			bool pressed = isDown && !wasDown;
+			wasDown = isDown;
+			return pressed;
 		}
 	}
 };

@@ -143,8 +143,6 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
-		Buttons::SetDeltaTime(deltaTime);
-
 		//std::cout << deltaTime << std::endl;
 		screen->Clear(0);
 		
@@ -162,6 +160,13 @@ namespace Tmpl8
 			mouseY = mousePos.y;
 			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
+		// -----------------------------------------------------------
+		// Buttons
+		// -----------------------------------------------------------
+
+		bool qPressed = Buttons::KeyQ();
+		bool ePressed = Buttons::KeyE();
+		bool leftClickPressed = Buttons::LeftClick();
 
 		// -----------------------------------------------------------
 		// Variables
@@ -190,12 +195,11 @@ namespace Tmpl8
 		// -----------------------------------------------------------
 
 		// Show House when left click in house area
-		House::ShowHouse(screen, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
-		House::Update(screen, deltaTime);
-		House::ShowCrafting(screen, mouseX, mouseY);
+		House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
+		House::ShowCrafting(screen, qPressed, mouseX, mouseY);
 		if (House::craftingisopen == true)
 		{
-			playerInventory.NormalInventory(screen, mouseX, mouseY);
+			playerInventory.NormalInventory(screen, ePressed, mouseX, mouseY);
 			playerInventory.DrawOnScreen(screen, deltaTime);
 			House::Craft(mouseX, mouseY);
 		}
@@ -223,7 +227,7 @@ namespace Tmpl8
 
 			//drawing
 			player.Draw(screen, playerX, playerY);
-			playerInventory.NormalInventory(screen, mouseX, mouseY);
+			playerInventory.NormalInventory(screen, ePressed, mouseX, mouseY);
 			playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
 			playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
 			playerInventory.DrawOnScreen(screen, deltaTime);
@@ -271,7 +275,7 @@ namespace Tmpl8
 
 		}
 		else
-			House::DayUpdate(dayCounter, mouseX, mouseY);
+			House::DayUpdate(leftClickPressed, dayCounter, mouseX, mouseY);
 		//days and coins
 		sprintf(day, "DAY: %d", dayCounter);
 		sprintf(coins, "COINS: %d", coinCounter);

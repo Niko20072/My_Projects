@@ -77,7 +77,7 @@ namespace Tmpl8
 			screen->Print(seedBerry, 350, 411, 0x0);
 		}
 	}	
-	void Inventory::NormalInventory(Surface* screen, int mouseX, int mouseY)
+	void Inventory::NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY)
 	{
 		bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 		bool clickedOnPlantButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 323 && mouseX <= 366 && mouseY >= 471 && mouseY <= 510;
@@ -85,11 +85,10 @@ namespace Tmpl8
 		bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
 
 		//Toggle normal inventory
-		if (GetAsyncKeyState('E') && inputCooldown <= 0.0f)
+		if (ePressed)
 		{
 			carisopen = false;
 			seedsisopen = false;
-			inputCooldown = 0.2f; // 200 ms
 			isopen = !isopen;
 			frame = 0;
 			inventory.SetFrame(frame);
@@ -129,11 +128,10 @@ namespace Tmpl8
 		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle car inventory
-		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar && inputCooldown <= 0.0f)
+		if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar)
 		{
 			isopen = false;
 			carisopen = false;
-			inputCooldown = 0.2f; // 200 ms
 			carisopen = !carisopen;
 			frame = 4;
 			inventory.SetFrame(frame);
@@ -163,11 +161,10 @@ namespace Tmpl8
 		bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 		//Toggle seed inventory
-		if (GetAsyncKeyState(VK_LBUTTON) && inputCooldown <= 0.0f && tileClicekd)
+		if (GetAsyncKeyState(VK_LBUTTON) && tileClicekd)
 		{
 			isopen = false;
 			carisopen = false;
-			inputCooldown = 0.2f; // 200 ms
 			seedsisopen = !seedsisopen;
 			frame = 3;
 			inventory.SetFrame(frame);
@@ -183,10 +180,6 @@ namespace Tmpl8
 	}
 	void Inventory::DrawOnScreen(Surface* screen, float deltaTime)
 	{
-		inputCooldown -= deltaTime;//to limit key press speed
-		if (inputCooldown <= 0.0f)
-			inputCooldown = 0.0f;
-		
 		if (isopen || carisopen || seedsisopen)
 			DrawInventory(screen);
 	}
