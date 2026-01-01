@@ -100,7 +100,7 @@ namespace Tmpl8
 			///crafting calm mind elixir
 			CraftLogic(clickedCraft2, 0, Inventory::contMoonleaf, Inventory::contFrostmint, Inventory::contCalmMind);
 			///crafting dream draught
-			CraftLogic(clickedCraft1, 1, Inventory::contFrostmint, Inventory::contBerry, Inventory::contDreamDraught);
+			CraftLogic(clickedCraft1, 1, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contDreamDraught);
 			///crafting fireheart brew
 			CraftLogic(clickedCraft2, 1, Inventory::contEmberroot, Inventory::contSunblossom, Inventory::contBerry, Inventory::contFireHeart);
 			//crafting frostveil potion

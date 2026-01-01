@@ -209,12 +209,25 @@ namespace Tmpl8
 			{
 				if (Inventory::InventorysClosed())
 					x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
+				/*
+				if (tileClicked)
+				{
+					plants.emplace_back("Sunblossom");
+				}*/
+				if(tileClicked)
+					break;
 			}
 
 			for (auto& x : farmTiles)
 			{
 				x.Draw(screen);
 			}
+
+			/*
+			for (auto& x : plants)
+			{
+				x.Draw(screen);
+			}*/
 
 			//Player range
 			screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);

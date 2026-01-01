@@ -21,7 +21,10 @@ namespace Tmpl8
 		else
 			harvestDay = 0;
 	}
-
+	void Plant::Draw(Surface* screen)
+	{
+		sun->Draw(screen, 100, 100); //example position
+	}
 	void Plant::NextDay()
 	{
 		daysPassed++;

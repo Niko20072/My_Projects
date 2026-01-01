@@ -12,7 +12,7 @@ namespace Tmpl8
 
 		int contSunblossom = 2;
 		int contMoonleaf = 3;
-		int contEmberroot = 1;
+		int contEmberroot = 2;
 		int contFrostmint = 2;
 		int contBerry = 1;
 
@@ -75,13 +75,29 @@ namespace Tmpl8
 				screen->Print(fireHeart, 350, 373, 0x0);
 				screen->Print(frostVeil, 350, 418, 0x0);
 			}
-			if ((isopen && frame == 2) || (seedsisopen && frame == 3))
+			if (isopen && frame == 2)
 			{
 				screen->Print(seedSunBlossom, 350, 236, 0x0);
 				screen->Print(seedMoonLeaf, 350, 280, 0x0);
 				screen->Print(seedEmberRoot, 350, 321, 0x0);
 				screen->Print(seedFrostMint, 350, 367, 0x0);
 				screen->Print(seedBerry, 350, 411, 0x0);
+			}
+			if (seedsisopen && frame == 3)
+			{
+				screen->Print(seedSunBlossom, 350, 236, 0x0);
+				screen->Print(seedMoonLeaf, 350, 280, 0x0);
+				screen->Print(seedEmberRoot, 350, 321, 0x0);
+				screen->Print(seedFrostMint, 350, 367, 0x0);
+				screen->Print(seedBerry, 350, 411, 0x0);
+			}
+			if (carisopen && frame == 4)
+			{
+				screen->Print(sunBlossom, 350 - 30, 236, 0x0);
+				screen->Print(moonLeaf, 350 - 30, 280, 0x0);
+				screen->Print(emberRoot, 350 - 30, 321, 0x0);
+				screen->Print(frostMint, 350 - 30, 367, 0x0);
+				screen->Print(berry, 350 - 30, 411, 0x0);
 			}
 		}
 		void NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY)
