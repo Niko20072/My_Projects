@@ -25,7 +25,6 @@ namespace Tmpl8
 	char day[32], coins[32];
 
 	Map gameMap;
-	Inventory playerInventory(10, 10);
 	std::vector<FarmTile> farmTiles;
 	std::vector<Plant> plants;
 
@@ -199,8 +198,8 @@ namespace Tmpl8
 		House::ShowCrafting(screen, qPressed, mouseX, mouseY);
 		if (House::craftingisopen == true)
 		{
-			playerInventory.NormalInventory(screen, ePressed, mouseX, mouseY);
-			playerInventory.DrawOnScreen(screen, deltaTime);
+			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
+			Inventory::DrawOnScreen(screen, deltaTime);
 			House::Craft(mouseX, mouseY);
 		}
 
@@ -212,7 +211,7 @@ namespace Tmpl8
 			bool tileClicked = false;
 			for (auto& x : farmTiles)
 			{
-				if (playerInventory.InventorysClosed())
+				if (Inventory::InventorysClosed())
 					x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
 			}
 
@@ -227,10 +226,10 @@ namespace Tmpl8
 
 			//drawing
 			player.Draw(screen, playerX, playerY);
-			playerInventory.NormalInventory(screen, ePressed, mouseX, mouseY);
-			playerInventory.CarInventory(screen, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-			playerInventory.SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
-			playerInventory.DrawOnScreen(screen, deltaTime);
+			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
+			Inventory::CarInventory(screen, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			Inventory::SeedsInventory(screen, mouseX, mouseY, worldX, worldY, tileClicked);
+			Inventory::DrawOnScreen(screen, deltaTime);
 
 			// -----------------------------------------------------------
 			// Movement and collision

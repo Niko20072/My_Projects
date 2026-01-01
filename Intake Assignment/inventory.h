@@ -8,43 +8,42 @@
 
 namespace Tmpl8
 {
-	class Inventory
+	namespace Inventory
 	{
-	public:
-		int x, y;
-		int frame = 0;
-		bool isopen = false;
-		bool carisopen = false;
-		bool seedsisopen = false;
+		extern int x, y;
+		extern int frame;
+		extern bool isopen;
+		extern bool carisopen;
+		extern bool seedsisopen;
 
-		static int contSunblossom;
-		static int contMoonleaf;
-		static int contEmberroot;
-		static int contFrostmint;
-		static int contBerry;
+		extern int contSunblossom;
+		extern int contMoonleaf;
+		extern int contEmberroot;
+		extern int contFrostmint;
+		extern int contBerry;
 
-		static int contVitalTonic;
-		static int contCalmMind;
-		static int contDreamDraught;
-		static int contFireHeart;
-		static int contFrostveil;
+		extern int contVitalTonic;
+		extern int contCalmMind;
+		extern int contDreamDraught;
+		extern int contFireHeart;
+		extern int contFrostveil;
 
-		static int contSeedSunblossom;
-		static int contSeedMoonleaf;
-		static int contSeedEmberroot;
-		static int contSeedFrostmint;
-		static int contSeedBerry;
+		extern int contSeedSunblossom;
+		extern int contSeedMoonleaf;
+		extern int contSeedEmberroot;
+		extern int contSeedFrostmint;
+		extern int contSeedBerry;
 
-		Sprite inventory = Sprite(new Surface("assets/Inventory.png"), 6);
-		Inventory(int x, int y);
+		extern Sprite inventory;
+
 		void Draw(Surface* screen, int x, int y);
 		void SetFrame(int frame);
 		void DrawInventory(Surface* screen);
-		void Inventory::NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY);
+		void NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY);
 		void CarInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2);
 		void SeedsInventory(Surface* screen, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd);
 		//void Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
 		void DrawOnScreen(Surface* screen, float deltaTime);
 		bool InventorysClosed();
-	};
+	}
 };
