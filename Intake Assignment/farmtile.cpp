@@ -38,14 +38,14 @@ namespace Tmpl8
 	{
 		farmTile->SetFrame(frame);
 	}
-	void FarmTile::Update(float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
+	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
 	{
 		// Tile rectangle
 		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
 		bool tileInReach = reachX1 < x + Map::TileSize && reachX2 > x && reachY1 < y + Map::TileSize && reachY2 > y;
 
 		//click
-		if (!isClicked && GetAsyncKeyState(VK_LBUTTON) && tileRectangle && tileInReach)
+		if (!isClicked && leftClicked && tileRectangle && tileInReach)
 		{
 			isClicked = true;
 			clicked = true;

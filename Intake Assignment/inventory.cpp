@@ -28,7 +28,7 @@ namespace Tmpl8
 		int contSeedFrostmint = 0;
 		int contSeedBerry = 0;
 
-		Sprite inventory = Sprite(new Surface("assets/Inventory.png"), 6);
+		Sprite inventory = Sprite(new Surface("assets/invagain.png"), 6);
 
 		void SetFrame(int frame)
 		{
@@ -40,6 +40,7 @@ namespace Tmpl8
 			char sunBlossom[32], moonLeaf[32], emberRoot[32], frostMint[32], berry[32];
 			char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
 			char seedSunBlossom[32], seedMoonLeaf[32], seedEmberRoot[32], seedFrostMint[32], seedBerry[32];
+			char counterSeedSunBlossom[32], counterSeedMoonLeaf[32], counterSeedEmberRoot[32], counterSeedFrostMint[32], counterSeedBerry[32];
 
 			sprintf(sunBlossom, "Sunblossom          x%d", contSunblossom);
 			sprintf(moonLeaf, "Moonleaf            x%d", contMoonleaf);
@@ -58,6 +59,12 @@ namespace Tmpl8
 			sprintf(seedEmberRoot, "Emberroot           x%d", contSeedEmberroot);
 			sprintf(seedFrostMint, "Frostmint           x%d", contSeedFrostmint);
 			sprintf(seedBerry, "Nightshade Berry    x%d", contSeedBerry);
+
+			sprintf(counterSeedSunBlossom, "x%d", contSeedSunblossom);
+			sprintf(counterSeedMoonLeaf, "x%d", contSeedMoonleaf);
+			sprintf(counterSeedEmberRoot, "x%d", contSeedEmberroot);
+			sprintf(counterSeedFrostMint, "x%d", contSeedFrostmint);
+			sprintf(counterSeedBerry, "x%d", contSeedBerry);
 
 			if (isopen && frame == 0)
 			{
@@ -85,19 +92,19 @@ namespace Tmpl8
 			}
 			if (seedsisopen && frame == 3)
 			{
-				screen->Print(seedSunBlossom, 350, 236, 0x0);
-				screen->Print(seedMoonLeaf, 350, 280, 0x0);
-				screen->Print(seedEmberRoot, 350, 321, 0x0);
-				screen->Print(seedFrostMint, 350, 367, 0x0);
-				screen->Print(seedBerry, 350, 411, 0x0);
+				screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
+				screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
+				screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
+				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
+				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
 			if (carisopen && frame == 4)
 			{
-				screen->Print(sunBlossom, 350 - 30, 236, 0x0);
-				screen->Print(moonLeaf, 350 - 30, 280, 0x0);
-				screen->Print(emberRoot, 350 - 30, 321, 0x0);
-				screen->Print(frostMint, 350 - 30, 367, 0x0);
-				screen->Print(berry, 350 - 30, 411, 0x0);
+				screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
+				screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
+				screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
+				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
+				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
 		}
 		void NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY)
@@ -140,7 +147,7 @@ namespace Tmpl8
 			}
 
 		}
-		void CarInventory(Surface* screen, bool ePressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
+		void CarInventory(Surface* screen, bool ePressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
@@ -151,10 +158,11 @@ namespace Tmpl8
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 			//Toggle car inventory
-			if (GetAsyncKeyState(VK_LBUTTON) && clickedOnCar && playerCloseToCar)
+			if (leftPressed && clickedOnCar && playerCloseToCar && !carisopen)
 			{
+				leftPressed = false;
 				isopen = false;
-				carisopen = false;
+				seedsisopen = false;
 				carisopen = !carisopen;
 				frame = 4;
 				inventory.SetFrame(frame);
@@ -178,17 +186,18 @@ namespace Tmpl8
 			}
 
 		}
-		void SeedsInventory(Surface* screen, bool ePressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
+		void SeedsInventory(Surface* screen, bool ePressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 			//Toggle seed inventory
-			if (GetAsyncKeyState(VK_LBUTTON) && tileClicekd)
+			if (leftPressed && tileClicekd && seedsisopen == false)
 			{
 				isopen = false;
 				carisopen = false;
-				seedsisopen = !seedsisopen;
+				leftPressed = false;
+				seedsisopen = true;
 				frame = 3;
 				inventory.SetFrame(frame);
 			}
@@ -205,6 +214,82 @@ namespace Tmpl8
 		{
 			if (isopen || carisopen || seedsisopen)
 				DrawInventory(screen);
+		}
+		void BuySeeds(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY)
+		{
+			//buying seeds
+			bool button1 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
+			bool button2 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 267 && mouseY <= 293;
+			bool button3 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 310 && mouseY <= 337;
+			bool button4 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 355 && mouseY <= 379;
+			bool button5 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 394 && mouseY <= 420;
+			if (carisopen && frame == 4)
+			{
+				if (button1 && coinCounter >= 10)
+				{
+					Inventory::contSeedSunblossom++;
+					coinCounter -= 10;
+				}
+				if (button2 && coinCounter >= 12)
+				{
+					Inventory::contSeedMoonleaf++;
+					coinCounter -= 12;
+				}
+				if (button3 && coinCounter >= 18)
+				{
+					Inventory::contSeedEmberroot++;
+					coinCounter -= 18;
+				}
+				if (button4 && coinCounter >= 20)
+				{
+					Inventory::contSeedFrostmint++;
+					coinCounter -= 20;
+				}
+				if (button5 && coinCounter >= 30)
+				{
+					Inventory::contSeedBerry++;
+					coinCounter -= 30;
+				}
+			}
+		}
+		void PlantSeeds(Surface* screen, bool leftPressed, int mouseX, int mouseY)
+		{
+			//buying seeds
+			bool button1 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
+			bool button2 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 267 && mouseY <= 293;
+			bool button3 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 310 && mouseY <= 337;
+			bool button4 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 355 && mouseY <= 379;
+			bool button5 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 394 && mouseY <= 420;
+			if (seedsisopen)
+			{
+				if (button1 && contSeedSunblossom > 0)
+				{
+					Inventory::contSeedSunblossom--;
+					seedsisopen = false;
+				}
+				if (button2 && contSeedMoonleaf > 0)
+				{
+					Inventory::contSeedMoonleaf--;
+					seedsisopen = false;
+				}
+				if (button3 && contSeedEmberroot > 0)
+				{
+					Inventory::contSeedEmberroot--;
+					seedsisopen = false;
+					
+				}
+				if (button4 && contSeedFrostmint > 0)
+				{
+					Inventory::contSeedFrostmint--;
+					seedsisopen = false;
+					
+				}
+				if (button5 && contSeedBerry > 0)
+				{
+					Inventory::contSeedBerry--;
+					seedsisopen = false;
+				}
+			}
 		}
 		bool InventorysClosed()
 		{

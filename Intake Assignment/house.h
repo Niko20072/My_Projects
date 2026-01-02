@@ -2,6 +2,7 @@
 #include "surface.h"
 #include <windows.h>
 #include "inventory.h"
+#include "template.h"
 
 namespace Tmpl8
 {

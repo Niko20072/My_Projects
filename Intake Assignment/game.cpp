@@ -21,7 +21,7 @@ namespace Tmpl8
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 1;
-	int coinCounter = 10;
+	int coinCounter = 1000;
 	char day[32], coins[32];
 
 	Map gameMap;
@@ -208,7 +208,7 @@ namespace Tmpl8
 			for (auto& x : farmTiles)
 			{
 				if (Inventory::InventorysClosed())
-					x.Update(x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
+					x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
 				/*
 				if (tileClicked)
 				{
@@ -236,9 +236,12 @@ namespace Tmpl8
 			//drawing
 			player.Draw(screen, playerX, playerY);
 			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
-			Inventory::CarInventory(screen, ePressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-			Inventory::SeedsInventory(screen, ePressed, mouseX, mouseY, worldX, worldY, tileClicked);
+			Inventory::CarInventory(screen, ePressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			Inventory::SeedsInventory(screen, ePressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
 			Inventory::DrawOnScreen(screen, deltaTime);
+			//logic
+			Inventory::BuySeeds(screen, leftClickPressed, coinCounter, mouseX, mouseY);
+			Inventory::PlantSeeds(screen, leftClickPressed, mouseX, mouseY);
 
 			// -----------------------------------------------------------
 			// Movement and collision
