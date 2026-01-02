@@ -29,7 +29,7 @@ namespace Tmpl8
 		}
 	}*/
 
-	FarmTile::FarmTile(int x,int y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
+	FarmTile::FarmTile(float x,float y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
 	void FarmTile::Draw(Surface* screen)
 	{
 		farmTile->Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);

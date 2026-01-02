@@ -1,6 +1,7 @@
 #pragma once
 #include "surface.h"
 #include "template.h"
+#include "map.h"
 #include <vector>
 #include <iostream>
 
@@ -14,8 +15,10 @@ namespace Tmpl8
 		int harvestDay; //the day when the plant is grown
 		int daysPassed; //plant age
 		bool grown;
+		float x, y;
 
-		Plant(std::string& plantName);
+		//Plant(std::string plantName);
+		Plant(float x, float y);
 
 		~Plant() { delete sun; }
 		Plant(const Plant&) = delete;

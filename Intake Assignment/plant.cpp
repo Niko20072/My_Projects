@@ -2,7 +2,8 @@
 
 namespace Tmpl8
 {
-	Plant::Plant(std::string& plantName)
+	/*
+	Plant::Plant(std::string plantName)
 	{
 		name = plantName;
 		daysPassed = 0;
@@ -20,10 +21,12 @@ namespace Tmpl8
 			harvestDay = 4;
 		else
 			harvestDay = 0;
-	}
+	}*/
+	Plant::Plant(float x, float y) : x(x), y(y) {}
+
 	void Plant::Draw(Surface* screen)
 	{
-		sun->Draw(screen, 100, 100); //example position
+		sun->Draw(screen, x - Map::cameraX, y - Map::cameraY);
 	}
 	void Plant::NextDay()
 	{

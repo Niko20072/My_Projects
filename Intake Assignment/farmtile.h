@@ -17,7 +17,7 @@ namespace Tmpl8
 
 		//FarmTile(Surface* screen);
 
-		FarmTile(int x, int y);
+		FarmTile(float x, float y);
 
 		//i actually dk what ahppened here but it works now -> study
 		~FarmTile() { delete farmTile; }

@@ -17,7 +17,7 @@ namespace Tmpl8
 		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion);
 		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion);
 		void Craft(bool leftPressed, int mouseX, int mouseY);
-		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, int worldX, int worldY);
+		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, float worldX, float worldY);
 		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY);
 		void DayUpdate(bool leftPressed, int& dayCounter, int mouseX, int mouseY);
 	}
