@@ -12,6 +12,7 @@
 #include "plant.h"
 #include "house.h"
 #include "buttons.h"
+#include "orders.h"
 
 namespace Tmpl8
 {
@@ -21,12 +22,17 @@ namespace Tmpl8
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 1;
-	int coinCounter = 1000;
+	int coinCounter = 50;
 	char day[32], coins[32];
 
 	Map gameMap;
+
+	///add game days:
+	std::vector<std::string> weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
 	std::vector<FarmTile> farmTiles;
 	std::vector<Plant> plants;
+	std::vector<Order> orders;
 
 	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -113,6 +119,7 @@ namespace Tmpl8
 	
 	void Game::Init()
 	{
+		srand(time(0));
 		for (int x = 3; x <= 23; x++)
 		{
 			for(int y = 7; y <= 17; y++)
@@ -124,8 +131,11 @@ namespace Tmpl8
 				farmTiles.emplace_back(x, y);
 		}
 		//plants.emplace_back("Moonleaf");
-	}
 
+		for(int i = 0;i <= 5; i++)
+			orders.emplace_back(i);
+	}
+	
 	// -----------------------------------------------------------
 	// Close down application
 	// -----------------------------------------------------------
@@ -157,7 +167,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
-			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 		// -----------------------------------------------------------
 		// Buttons
@@ -221,10 +231,10 @@ namespace Tmpl8
 				x.Draw(screen);
 			}
 
-			for (auto& x : plants)
-			{
-				x.Draw(screen);
-			}
+			//for (auto& x : plants)
+			//{
+			//	x.Draw(screen);
+			//}
 
 			//Player range
 			screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
@@ -290,5 +300,14 @@ namespace Tmpl8
 		screen->Print(day, 750, 10, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
 
+		///move this to inventory draw function
+		if (Inventory::carisopen && Inventory::frame == 5)
+		{
+			for (auto& x : orders)
+			{
+				x.Logic(screen, mouseX, mouseY, coinCounter);
+				x.Draw(screen);
+			}
+		}
 	}
 };

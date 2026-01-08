@@ -16,10 +16,10 @@ namespace Tmpl8
 		int contFrostmint = 2;
 		int contBerry = 1;
 
-		int contVitalTonic = 0;
-		int contCalmMind = 0;
-		int contDreamDraught = 0;
-		int contFireHeart = 0;
+		int contVitalTonic = 10;
+		int contCalmMind = 10;
+		int contDreamDraught = 10;
+		int contFireHeart = 1;
 		int contFrostveil = 0;
 
 		int contSeedSunblossom = 12;
@@ -27,6 +27,8 @@ namespace Tmpl8
 		int contSeedEmberroot = 3;
 		int contSeedFrostmint = 0;
 		int contSeedBerry = 0;
+
+		std::vector<int*> potionCounters = { &contVitalTonic, &contCalmMind, &contDreamDraught, &contFireHeart, &contFrostveil };
 
 		Sprite inventory = Sprite(new Surface("assets/invagain.png"), 6);
 

@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <cstdio> //printf
 #include <iostream>
+#include <vector>
 #include "house.h"
 
 namespace Tmpl8
@@ -33,6 +34,8 @@ namespace Tmpl8
 		extern int contSeedEmberroot;
 		extern int contSeedFrostmint;
 		extern int contSeedBerry;
+
+		extern std::vector<int*> potionCounters;
 
 		extern Sprite inventory;
 

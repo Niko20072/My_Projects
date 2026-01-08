@@ -228,6 +228,7 @@
     <ClCompile Include="house.cpp" />
     <ClCompile Include="inventory.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="orders.cpp" />
     <ClCompile Include="plant.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="surface.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="house.h" />
     <ClInclude Include="inventory.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="orders.h" />
     <ClInclude Include="plant.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="surface.h" />
