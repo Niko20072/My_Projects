@@ -10,17 +10,17 @@ namespace Tmpl8
 		bool carisopen = false;
 		bool seedsisopen = false;
 
-		int contSunblossom = 2;
-		int contMoonleaf = 3;
-		int contEmberroot = 2;
-		int contFrostmint = 2;
-		int contBerry = 1;
+		int contSunblossom = 20;
+		int contMoonleaf = 30;
+		int contEmberroot = 20;
+		int contFrostmint = 20;
+		int contBerry = 20;
 
-		int contVitalTonic = 10;
-		int contCalmMind = 10;
-		int contDreamDraught = 10;
-		int contFireHeart = 1;
-		int contFrostveil = 0;
+		int contVitalTonic = 100;
+		int contCalmMind = 100;
+		int contDreamDraught = 100;
+		int contFireHeart = 100;
+		int contFrostveil = 100;
 
 		int contSeedSunblossom = 12;
 		int contSeedMoonleaf = 0;
@@ -109,7 +109,7 @@ namespace Tmpl8
 				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
 		}
-		void NormalInventory(Surface* screen, bool ePressed, int mouseX, int mouseY)
+		void NormalInventory(Surface* screen, bool ePressed, bool qPressed, int mouseX, int mouseY)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnPlantButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 323 && mouseX <= 366 && mouseY >= 471 && mouseY <= 510;
@@ -121,7 +121,7 @@ namespace Tmpl8
 			{
 				carisopen = false;
 				seedsisopen = false;
-				isopen = !isopen;
+				isopen = true;
 				frame = 0;
 				inventory.SetFrame(frame);
 			}
@@ -144,12 +144,12 @@ namespace Tmpl8
 					frame = 2;
 					inventory.SetFrame(frame);
 				}
-				if (clickedOutsideInv)
+				if (clickedOutsideInv || qPressed)
 					isopen = false;
 			}
 
 		}
-		void CarInventory(Surface* screen, bool ePressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
+		void CarInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
@@ -183,12 +183,12 @@ namespace Tmpl8
 					frame = 5;
 					inventory.SetFrame(frame);
 				}
-				if (moved || clickedOutsideInv || ePressed)
+				if (moved || clickedOutsideInv || ePressed || qPressed)
 					carisopen = false;
 			}
 
 		}
-		void SeedsInventory(Surface* screen, bool ePressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
+		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
 		{
 			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
@@ -207,7 +207,7 @@ namespace Tmpl8
 			//Click seed inventory
 			if (seedsisopen)
 			{
-				if (clickedOutsideInv || ePressed || moved)
+				if (clickedOutsideInv || ePressed || qPressed || moved)
 					seedsisopen = false;
 			}
 
@@ -225,6 +225,7 @@ namespace Tmpl8
 			bool button3 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 310 && mouseY <= 337;
 			bool button4 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 355 && mouseY <= 379;
 			bool button5 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 394 && mouseY <= 420;
+
 			if (carisopen && frame == 4)
 			{
 				if (button1 && coinCounter >= 10)

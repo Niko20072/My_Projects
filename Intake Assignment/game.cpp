@@ -22,13 +22,13 @@ namespace Tmpl8
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 1;
-	int coinCounter = 50;
-	char day[32], coins[32];
+	int coinCounter = 550;
+	char day[32], coins[32], weekDay[32];
 
 	Map gameMap;
 
 	///add game days:
-	std::vector<std::string> weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+	std::vector<const char*> weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 	std::vector<FarmTile> farmTiles;
 	std::vector<Plant> plants;
@@ -66,6 +66,16 @@ namespace Tmpl8
 		if (gameMap.IsBlocked(right, bottom)) return false;
 
 		return true; //no collision
+	}
+
+	bool CheckAllCompleted()
+	{
+		for (auto order : orders)
+		{
+			if (order.completed == false)
+				return false;
+		}
+		return true;
 	}
 
 	/*
@@ -231,10 +241,10 @@ namespace Tmpl8
 				x.Draw(screen);
 			}
 
-			//for (auto& x : plants)
-			//{
-			//	x.Draw(screen);
-			//}
+			for (auto& x : plants)
+			{
+				x.Draw(screen);
+			}
 
 			//Player range
 			screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
@@ -242,9 +252,9 @@ namespace Tmpl8
 
 			//drawing
 			player.Draw(screen, playerX, playerY);
-			Inventory::NormalInventory(screen, ePressed, mouseX, mouseY);
-			Inventory::CarInventory(screen, ePressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-			Inventory::SeedsInventory(screen, ePressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
+			Inventory::NormalInventory(screen, ePressed, qPressed, mouseX, mouseY);
+			Inventory::CarInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
 			Inventory::DrawOnScreen(screen, deltaTime);
 			//logic
 			Inventory::BuySeeds(screen, leftClickPressed, coinCounter, mouseX, mouseY);
@@ -294,10 +304,17 @@ namespace Tmpl8
 		}
 		else
 			House::DayUpdate(leftClickPressed, dayCounter, mouseX, mouseY);
+
 		//days and coins
+		/*
+		if(dayCounter <= 7)
+			sprintf(weekDay, "%s", weekDays[dayCounter - 1]);
+		else
+			sprintf(weekDay, "%s", weekDays[dayCounter % 7]);*/
 		sprintf(day, "DAY: %d", dayCounter);
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->Print(day, 750, 10, 0xff0000);
+		//screen->Print(weekDay, 750, 30, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
 
 		///move this to inventory draw function
@@ -305,9 +322,20 @@ namespace Tmpl8
 		{
 			for (auto& x : orders)
 			{
-				x.Logic(screen, mouseX, mouseY, coinCounter);
+				x.Logic(screen, leftClickPressed, mouseX, mouseY, coinCounter);
 				x.Draw(screen);
 			}
+		}
+
+		//check if all orders are completed
+		
+		if (CheckAllCompleted())
+		{
+			//generate new orders
+			orders.clear();
+			srand(time(0));
+			for (int i = 0; i <= 5; i++)
+				orders.emplace_back(i);
 		}
 	}
 };

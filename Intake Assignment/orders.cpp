@@ -28,10 +28,10 @@ namespace Tmpl8
 		//std::cout <<" Potion number: " << potionNumber << std::endl;
 	}
 
-	void Order::Logic(Surface* screen, int mouseX, int mouseY, int& coinCounter)
+	void Order::Logic(Surface* screen, bool &LeftPressed, int mouseX, int mouseY, int& coinCounter)
 	{
 		int range = 5;
-		int button = GetAsyncKeyState(VK_LBUTTON) && mouseX >= (475 - range) && mouseX <= (526 + range) && mouseY >= (235 + orderNumber * 35 - range) && mouseY <= (242 + orderNumber * 35 + range);
+		int button = LeftPressed && mouseX >= (475 - range) && mouseX <= (526 + range) && mouseY >= (235 + orderNumber * 35 - range) && mouseY <= (242 + orderNumber * 35 + range);
 		screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0);
 		/*
 		if (button && !completed)
@@ -88,6 +88,7 @@ namespace Tmpl8
 	}*/
 		if (button && !completed)
 		{
+			LeftPressed = false;
 			if (potionNumber == 1)
 			{
 				if (*Inventory::potionCounters[potionType1] - potionTypeNumber1 >= 0)
@@ -121,6 +122,7 @@ namespace Tmpl8
 		{
 			screen->Print(order, 265, 236 + orderNumber * 35, 0x0);
 			screen->Print(complete, 475, 236 + orderNumber * 35, 0x00ff00);
+			completed = true;
 		}
 	}
 	

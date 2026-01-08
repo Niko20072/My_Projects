@@ -20,7 +20,7 @@ namespace Tmpl8
 		bool completed = false;
 		char order[64], send[32], complete[32];
 		Order(int number);
-		void Logic(Surface* screen, int mouseX, int mouseY, int& coinCounter);
+		void Logic(Surface* screen, bool& LeftPressed, int mouseX, int mouseY, int& coinCounter);
 		void Draw(Surface* screen);
 	};
 };
