@@ -13,6 +13,7 @@
 #include "house.h"
 #include "buttons.h"
 #include "orders.h"
+#include "house.h"
 
 namespace Tmpl8
 {
@@ -215,9 +216,9 @@ namespace Tmpl8
 
 		// Show House when left click in house area
 		House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
-		House::ShowCrafting(screen, qPressed, mouseX, mouseY);
-		if (House::craftingisopen == true)
-			House::Craft(leftClickPressed, mouseX, mouseY);
+		Crafting::ShowCrafting(screen, qPressed, mouseX, mouseY);
+		if (Crafting::craftingisopen == true)
+			Crafting::Craft(leftClickPressed, mouseX, mouseY);
 
 		if (House::houseisopen == false)
 		{
