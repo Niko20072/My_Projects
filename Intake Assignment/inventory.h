@@ -49,8 +49,8 @@ namespace Tmpl8
 		// Frame 4 : Car Shop
 		// Frame 5 : Car Orders
 
-		void BuySeeds(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY); // Buying seeds logic
-		void PlantSeeds(Surface* screen, bool leftPressed, int mouseX, int mouseY); // Planting seeds logic
+		void BuySeeds(Surface* screen, bool &leftPressed, int& coinCounter, int mouseX, int mouseY); // Buying seeds logic
+		void PlantSeeds(Surface* screen, bool &leftPressed, int mouseX, int mouseY); // Planting seeds logic
 		void DrawInventory(Surface* screen); // Drawing inventory on screen
 		void NormalInventory(Surface* screen, bool ePressed, bool qPressed, int mouseX, int mouseY); // Normal inventory management
 		void CarInventory(Surface* screen, int& coinCounter, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2); // Car inventory management

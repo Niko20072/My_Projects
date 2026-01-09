@@ -144,7 +144,7 @@ namespace Tmpl8
 		House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
 
 		// Crafting
-		Crafting::ShowCrafting(screen, qPressed, mouseX, mouseY);
+		Crafting::ShowCrafting(screen, leftClickPressed, qPressed, mouseX, mouseY);
 		if (Crafting::craftingisopen == true)
 			Crafting::Craft(leftClickPressed, mouseX, mouseY);
 

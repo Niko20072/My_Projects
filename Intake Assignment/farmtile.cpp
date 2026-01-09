@@ -47,6 +47,7 @@ namespace Tmpl8
 		// Click
 		if (!isClicked && leftClicked && tileRectangle && tileInReach)
 		{
+			leftClicked = false; // Reset left click state to avoid multiple clicks
 			isClicked = true;
 			clicked = true;
 			frame = 2;

@@ -14,7 +14,7 @@ namespace Tmpl8
 		void ManageFrames(int mouseX, int mouseY); // Manage frame selection
 		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion); // For potions with two ingredients
 		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion); // For potions with three ingredients
-		void Craft(bool leftPressed, int mouseX, int mouseY); // Handle crafting logic
-		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY); // Show crafting interface
+		void Craft(bool &leftPressed, int mouseX, int mouseY); // Handle crafting logic
+		void ShowCrafting(Surface* screen, bool &leftPressed, bool &qPressed, int mouseX, int mouseY); // Show crafting interface
 	}
 };

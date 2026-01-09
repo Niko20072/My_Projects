@@ -32,7 +32,7 @@ namespace Tmpl8
 
 		Sprite inventory = Sprite(new Surface("assets/inventory.png"), 6);
 
-		void BuySeeds(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY)
+		void BuySeeds(Surface* screen, bool &leftPressed, int& coinCounter, int mouseX, int mouseY)
 		{
 			// Buying seeds buttons
 			bool button1 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
@@ -49,34 +49,39 @@ namespace Tmpl8
 				{
 					Inventory::contSeedSunblossom++;
 					coinCounter -= 10;
+					leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Moonleaf seeds
 				if (button2 && coinCounter >= 12)
 				{
 					Inventory::contSeedMoonleaf++;
 					coinCounter -= 12;
+					leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Emberroot seeds
 				if (button3 && coinCounter >= 18)
 				{
 					Inventory::contSeedEmberroot++;
 					coinCounter -= 18;
+					leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Frostmint seeds
 				if (button4 && coinCounter >= 20)
 				{
 					Inventory::contSeedFrostmint++;
 					coinCounter -= 20;
+					leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Nightshade Berry seeds
 				if (button5 && coinCounter >= 30)
 				{
 					Inventory::contSeedBerry++;
 					coinCounter -= 30;
+					leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 			}
 		}
-		void PlantSeeds(Surface* screen, bool leftPressed, int mouseX, int mouseY)
+		void PlantSeeds(Surface* screen, bool &leftPressed, int mouseX, int mouseY)
 		{
 			// Planting seeds buttons
 			bool button1 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
@@ -93,32 +98,35 @@ namespace Tmpl8
 				{
 					Inventory::contSeedSunblossom--;
 					seedsisopen = false;
+					leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 				// Planting Moonleaf seed
 				if (button2 && contSeedMoonleaf > 0)
 				{
 					Inventory::contSeedMoonleaf--;
 					seedsisopen = false;
+					leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 				// Planting Emberroot seed
 				if (button3 && contSeedEmberroot > 0)
 				{
 					Inventory::contSeedEmberroot--;
 					seedsisopen = false;
-
+					leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 				// Planting Frostmint seed
 				if (button4 && contSeedFrostmint > 0)
 				{
 					Inventory::contSeedFrostmint--;
 					seedsisopen = false;
-
+					leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 				// Planting Nightshade Berry seed
 				if (button5 && contSeedBerry > 0)
 				{
 					Inventory::contSeedBerry--;
 					seedsisopen = false;
+					leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 			}
 		}

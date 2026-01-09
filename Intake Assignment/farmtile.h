@@ -6,6 +6,7 @@
 
 namespace Tmpl8
 {
+	//fix click problem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	class FarmTile
 	{
 	public:

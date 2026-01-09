@@ -89,11 +89,14 @@ namespace Tmpl8
 				potion++;
 			}
 		}
-		void Craft(bool leftPressed, int mouseX, int mouseY)
+		void Craft(bool &leftPressed, int mouseX, int mouseY)
 		{
 			// Detect crafting button clicks
 			bool clickedCraft1 = leftPressed && mouseX >= 295 && mouseX <= 359 && mouseY >= 111 && mouseY <= 154;
 			bool clickedCraft2 = leftPressed && mouseX >= 643 && mouseX <= 704 && mouseY >= 111 && mouseY <= 154;
+
+			if(clickedCraft1 || clickedCraft2)
+				leftPressed = false; // Reset left click state to avoid multiple clicks
 
 			///crafting vital tonic
 			CraftLogic(clickedCraft1, 0, Inventory::contSunblossom, Inventory::contEmberroot, Inventory::contVitalTonic);
@@ -107,20 +110,24 @@ namespace Tmpl8
 			CraftLogic(clickedCraft1, 2, Inventory::contFrostmint, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contFrostveil);
 
 		}
-		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY)
+		void ShowCrafting(Surface* screen, bool &leftPressed, bool &qPressed, int mouseX, int mouseY)
 		{
-			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 103 && mouseX <= 294 && mouseY >= 331 && mouseY <= 476;
+			bool clickedOnTable = leftPressed && mouseX >= 103 && mouseX <= 294 && mouseY >= 331 && mouseY <= 476;
 
 			// Open crafting interface when clicking on crafting table inside house
 			if (clickedOnTable && House::houseisopen && House::frame == 0)
 			{
+				leftPressed = false; // Reset left click state to avoid multiple clicks
 				craftingisopen = true;
 				frame = 0;
 				crafting.SetFrame(frame);
 			}
 			// Close crafting interface when pressing Q
 			if (qPressed && craftingisopen)
+			{
+				qPressed = false; // Reset Q key state to avoid multiple toggles
 				craftingisopen = false;
+			}
 			// Draw crafting interface
 			if (craftingisopen)
 			{
