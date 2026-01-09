@@ -4,7 +4,7 @@ namespace Tmpl8
 {
 	namespace Crafting
 	{
-		Sprite crafting(new Surface("assets/crafting2.png"), 3);
+		Sprite crafting(new Surface("assets/crafting3.png"), 3);
 		bool craftingisopen = false;
 		int frame = 0;
 		void CraftingDraw(Surface* screen)
@@ -25,30 +25,26 @@ namespace Tmpl8
 			sprintf(fireHeart, "x%d", Inventory::contFireHeart);
 			sprintf(frostVeil, "x%d", Inventory::contFrostveil);
 
+			if (craftingisopen)
+			{
+				screen->Print(sunBlossom, 291 - 5, 48, 0x0);
+				screen->Print(moonLeaf, 341 - 5, 48, 0x0);
+				screen->Print(emberRoot, 392 - 3, 48, 0x0);
+				screen->Print(frostMint, 443 - 4, 48, 0x0);
+				screen->Print(berry, 499 - 5, 48, 0x0);
+			}
 			if (frame == 0 && craftingisopen)
 			{
-				screen->Print(emberRoot, 171, 275, 0x0);
-				screen->Print(sunBlossom, 282 - 4, 275, 0x0);
-				screen->Print(moonLeaf, 520 - 4, 275, 0x0);
-				screen->Print(frostMint, 620 - 4, 275, 0x0);
 				screen->Print(vitalTonic, 329 - 4, 163, 0x0);
 				screen->Print(calmMind, 676 - 4, 163, 0x0);
 			}
 			if (frame == 1 && craftingisopen)
 			{
-				screen->Print(moonLeaf, 175 - 4, 275, 0x0);
-				screen->Print(berry, 272 - 4, 275, 0x0);
-				screen->Print(emberRoot, 478 - 4, 275, 0x0);
-				screen->Print(sunBlossom, 567 - 4, 275, 0x0);
-				screen->Print(berry, 665 - 4, 275, 0x0);
 				screen->Print(dreamDraught, 329 - 4, 163, 0x0);
 				screen->Print(fireHeart, 676 - 4, 163, 0x0);
 			}
 			if (frame == 2 && craftingisopen)
 			{
-				screen->Print(frostMint, 139 - 4, 275, 0x0);
-				screen->Print(moonLeaf, 225 - 4, 275, 0x0);
-				screen->Print(berry, 315 - 4, 275, 0x0);
 				screen->Print(frostVeil, 329 - 4, 163, 0x0);
 			}
 		}

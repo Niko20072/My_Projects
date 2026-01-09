@@ -10,17 +10,17 @@ namespace Tmpl8
 		bool carisopen = false;
 		bool seedsisopen = false;
 
-		int contSunblossom = 20;
-		int contMoonleaf = 30;
-		int contEmberroot = 20;
-		int contFrostmint = 20;
-		int contBerry = 20;
+		int contSunblossom = 1;
+		int contMoonleaf = 3;
+		int contEmberroot = 2;
+		int contFrostmint = 2;
+		int contBerry = 2;
 
-		int contVitalTonic = 100;
-		int contCalmMind = 100;
-		int contDreamDraught = 100;
-		int contFireHeart = 100;
-		int contFrostveil = 100;
+		int contVitalTonic = 0;
+		int contCalmMind = 0;
+		int contDreamDraught = 0;
+		int contFireHeart = 0;
+		int contFrostveil = 0;
 
 		int contSeedSunblossom = 12;
 		int contSeedMoonleaf = 0;
