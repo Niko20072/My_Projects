@@ -304,7 +304,11 @@ namespace Tmpl8
 
 		}
 		else
+		{
 			House::DayUpdate(leftClickPressed, dayCounter, mouseX, mouseY);
+			House::ClickedNightstand(screen, leftClickPressed, coinCounter, mouseX, mouseY);
+		}
+			
 
 		//days and coins
 		/*

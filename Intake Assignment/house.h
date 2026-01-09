@@ -11,7 +11,9 @@ namespace Tmpl8
 	{
 		extern Sprite house;
 		extern bool houseisopen;
+		extern int frame;
 		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, float worldX, float worldY);
-		void DayUpdate(bool leftPressed, int& dayCounter, int mouseX, int mouseY);
+		void DayUpdate(bool &leftPressed, int& dayCounter, int mouseX, int mouseY);
+		void ClickedNightstand(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY);
 	}
 };

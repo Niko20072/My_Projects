@@ -100,8 +100,8 @@ namespace Tmpl8
 		}
 		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY)
 		{
-			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 32 && mouseX <= 241 && mouseY >= 243 && mouseY <= 427;
-			if (clickedOnTable && House::houseisopen)
+			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 103 && mouseX <= 294 && mouseY >= 331 && mouseY <= 476;
+			if (clickedOnTable && House::houseisopen && House::frame == 0)
 			{
 				craftingisopen = true;
 				frame = 0;
