@@ -1,39 +1,9 @@
 #include "game.h"
-#include "surface.h"
-#include <cstdio> //printf
-#include "template.h"
-#include "map.h"
-#include <windows.h>
-#include <iostream>
-#include <vector>
-#include "farmtile.h"
-//#include <cassert>
-#include "inventory.h"
-#include "plant.h"
-#include "house.h"
-#include "buttons.h"
-#include "orders.h"
-#include "house.h"
+
 
 namespace Tmpl8
 {
 	static Sprite player(new Surface("assets/Vera.png"), 4);
-	
-
-	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
-	const float cameraSpeed = 360.0f;
-	int dayCounter = 1;
-	int coinCounter = 550;
-	char day[32], coins[32], weekDay[32];
-
-	Map gameMap;
-
-	///add game days:
-	std::vector<const char*> weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-
-	std::vector<FarmTile> farmTiles;
-	std::vector<Plant> plants;
-	std::vector<Order> orders;
 
 	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -52,7 +22,10 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}*/
 
-	bool CheckCollision(int x, int y)
+	// -----------------------------------------------------------
+	// Initialize the application
+	// -----------------------------------------------------------
+	bool Game::CheckCollision(int x, int y)
 	{
 		//sprit corners
 		int left = x;
@@ -68,8 +41,7 @@ namespace Tmpl8
 
 		return true; //no collision
 	}
-
-	bool CheckAllCompleted()
+	bool Game::CheckAllCompleted()
 	{
 		for (auto order : orders)
 		{
@@ -79,55 +51,6 @@ namespace Tmpl8
 		return true;
 	}
 
-	/*
-	
-	Sprite WetFarmTile (new Surface("assets/FarmLand_Tile.png"), 1);
-
-	int farmTiles[] = { NULL };
-	int size = 0;
-
-	void MakeFarmTile()
-	{
-		
-		for (int y = 7; y <= 31; y++)
-		{
-			for (int x = 2; x <= 29; x++)
-			{
-				farmTiles[size++] = x * Map::TileSize;
-				farmTiles[size++] = y * Map::TileSize;
-			}
-		}
-		for (int x = 4; x <= 29; x++)
-		{
-			farmTiles[size++] = x * Map::TileSize;
-			farmTiles[size++] = 31 * Map::TileSize;
-		}
-		for (int y = 7; y <= 27; y++)
-		{
-			for (int x = 30; x <= 33; x++)
-			{
-				farmTiles[size++] = x * Map::TileSize;
-				farmTiles[size++] = y * Map::TileSize;
-			}
-		}
-	}
-	
-
-	void DrawFarmTile(Surface* screen)
-	{
-		int size2 = 0;
-		while (size2 <= size)
-		{
-			WetFarmTile.Draw(screen, (farmTiles[size2] - Map::cameraX), (farmTiles[size2 + 1]) - Map::cameraY);
-			size2 += 2;
-		}
-	}*/
-
-
-	// -----------------------------------------------------------
-	// Initialize the application
-	// -----------------------------------------------------------
-	
 	void Game::Init()
 	{
 		srand(time(0));
@@ -178,6 +101,7 @@ namespace Tmpl8
 			ScreenToClient(hwnd, &mousePos);
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
+			// Mouse coordinates on screen
 			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 		// -----------------------------------------------------------
@@ -192,19 +116,21 @@ namespace Tmpl8
 		// Variables
 		// -----------------------------------------------------------
 		
-		// Transform screen coordinates -> world coordinates
+		// Transform screen coordinates -> world coordinates -> mouse screen position
 		float worldX = Map::cameraX + mouseX;
 		float worldY = Map::cameraY + mouseY;
 		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 
+		// Player world position
 		float worldPlayerX = Map::cameraX + playerX;
 		float worldPlayerY = Map::cameraY + playerY;
-
 		//std::cout << "Player world position: X=" << worldPlayerX << ", Y=" << worldPlayerY << std::endl;
 
+		// New camera position
 		float newCameraX = Map::cameraX;
 		float newCameraY = Map::cameraY;
 
+		// Player reach area
 		float reachX1 = worldPlayerX - 50.0f;
 		float reachY1 = worldPlayerY - 25.0f;
 		float reachX2 = worldPlayerX + 46.0f + 50.0f;
@@ -216,11 +142,14 @@ namespace Tmpl8
 
 		// Show House when left click in house area
 		House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
+
+		// Crafting
 		Crafting::ShowCrafting(screen, qPressed, mouseX, mouseY);
 		if (Crafting::craftingisopen == true)
 			Crafting::Craft(leftClickPressed, mouseX, mouseY);
 
-		if (House::houseisopen == false)
+		// Main game view
+		if (!House::houseisopen)
 		{
 			gameMap.DrawMap(screen);
 
@@ -237,29 +166,48 @@ namespace Tmpl8
 				}				
 			}
 
+			// Draw farm tiles
 			for (auto& x : farmTiles)
 			{
 				x.Draw(screen);
 			}
 
+			// Draw plants
 			for (auto& x : plants)
 			{
 				x.Draw(screen);
+			}
+
+			//check if all orders are completed
+			if (CheckAllCompleted())
+			{
+				//generate new orders
+				orders.clear();
+				srand(time(0));
+				for (int i = 0; i <= 5; i++)
+					orders.emplace_back(i);
 			}
 
 			//Player range
 			screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
 			screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
 
-			//drawing
+			//drawing stuff on screen
 			player.Draw(screen, playerX, playerY);
 			Inventory::NormalInventory(screen, ePressed, qPressed, mouseX, mouseY);
-			Inventory::CarInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
+			Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
 			Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
 			Inventory::DrawOnScreen(screen, deltaTime);
-			//logic
-			Inventory::BuySeeds(screen, leftClickPressed, coinCounter, mouseX, mouseY);
-			Inventory::PlantSeeds(screen, leftClickPressed, mouseX, mouseY);
+
+			///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?
+			if (Inventory::carisopen && Inventory::frame == 5)
+			{
+				for (auto& x : orders)
+				{
+					x.Logic(screen, leftClickPressed, mouseX, mouseY, coinCounter);
+					x.Draw(screen);
+				}
+			}
 
 			// -----------------------------------------------------------
 			// Movement and collision
@@ -303,44 +251,16 @@ namespace Tmpl8
 			}
 
 		}
-		else
+		else // Inside house
 		{
 			House::DayUpdate(leftClickPressed, dayCounter, mouseX, mouseY);
 			House::ClickedNightstand(screen, leftClickPressed, coinCounter, mouseX, mouseY);
 		}
-			
-
-		//days and coins
-		/*
-		if(dayCounter <= 7)
-			sprintf(weekDay, "%s", weekDays[dayCounter - 1]);
-		else
-			sprintf(weekDay, "%s", weekDays[dayCounter % 7]);*/
+		
+		// Draw day and coins
 		sprintf(day, "DAY: %d", dayCounter);
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->Print(day, 750, 10, 0xff0000);
-		//screen->Print(weekDay, 750, 30, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
-
-		///move this to inventory draw function
-		if (Inventory::carisopen && Inventory::frame == 5)
-		{
-			for (auto& x : orders)
-			{
-				x.Logic(screen, leftClickPressed, mouseX, mouseY, coinCounter);
-				x.Draw(screen);
-			}
-		}
-
-		//check if all orders are completed
-		
-		if (CheckAllCompleted())
-		{
-			//generate new orders
-			orders.clear();
-			srand(time(0));
-			for (int i = 0; i <= 5; i++)
-				orders.emplace_back(i);
-		}
 	}
 };

@@ -4,15 +4,18 @@ namespace Tmpl8
 {
 	namespace Crafting
 	{
-		Sprite crafting(new Surface("assets/crafting3.png"), 3);
+		Sprite crafting(new Surface("assets/crafting.png"), 3);
 		bool craftingisopen = false;
 		int frame = 0;
 		void CraftingDraw(Surface* screen)
 		{
 			crafting.Draw(screen, 0, 0);
+
+			// Display ingredient counts
 			char sunBlossom[32], moonLeaf[32], emberRoot[32], frostMint[32], berry[32];
 			char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
 
+			// Format strings with current counts
 			sprintf(sunBlossom, "x%d", Inventory::contSunblossom);
 			sprintf(moonLeaf, "x%d", Inventory::contMoonleaf);
 			sprintf(emberRoot, "x%d", Inventory::contEmberroot);
@@ -25,6 +28,7 @@ namespace Tmpl8
 			sprintf(fireHeart, "x%d", Inventory::contFireHeart);
 			sprintf(frostVeil, "x%d", Inventory::contFrostveil);
 
+			// Display ingredients
 			if (craftingisopen)
 			{
 				screen->Print(sunBlossom, 291 - 5, 48, 0x0);
@@ -33,6 +37,7 @@ namespace Tmpl8
 				screen->Print(frostMint, 443 - 4, 48, 0x0);
 				screen->Print(berry, 499 - 5, 48, 0x0);
 			}
+			// Display potions based on selected frame
 			if (frame == 0 && craftingisopen)
 			{
 				screen->Print(vitalTonic, 329 - 4, 163, 0x0);
@@ -47,9 +52,10 @@ namespace Tmpl8
 			{
 				screen->Print(frostVeil, 329 - 4, 163, 0x0);
 			}
-		}
-		void ManageFrames(int mouseX, int mouseY)
+		} 
+		void ManageFrames(int mouseX, int mouseY) 
 		{
+			// Manage frame selection buttons
 			bool button1 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 244 && mouseX <= 314 && mouseY >= 516 && mouseY <= 584;
 			bool button2 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 364 && mouseX <= 434 && mouseY >= 516 && mouseY <= 584;
 			bool button3 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 485 && mouseX <= 554 && mouseY >= 516 && mouseY <= 584;
@@ -62,8 +68,9 @@ namespace Tmpl8
 			crafting.SetFrame(frame);
 
 		}
-		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion)
+		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion) 
 		{
+			// Crafting logic for potions with two ingredients
 			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1)
 			{
 				ingredient1--;
@@ -73,6 +80,7 @@ namespace Tmpl8
 		}
 		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion)
 		{
+			// Crafting logic for potions with three ingredients
 			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1 && ingredient3 >= 1)
 			{
 				ingredient1--;
@@ -83,6 +91,7 @@ namespace Tmpl8
 		}
 		void Craft(bool leftPressed, int mouseX, int mouseY)
 		{
+			// Detect crafting button clicks
 			bool clickedCraft1 = leftPressed && mouseX >= 295 && mouseX <= 359 && mouseY >= 111 && mouseY <= 154;
 			bool clickedCraft2 = leftPressed && mouseX >= 643 && mouseX <= 704 && mouseY >= 111 && mouseY <= 154;
 
@@ -101,14 +110,18 @@ namespace Tmpl8
 		void ShowCrafting(Surface* screen, bool qPressed, int mouseX, int mouseY)
 		{
 			bool clickedOnTable = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 103 && mouseX <= 294 && mouseY >= 331 && mouseY <= 476;
+
+			// Open crafting interface when clicking on crafting table inside house
 			if (clickedOnTable && House::houseisopen && House::frame == 0)
 			{
 				craftingisopen = true;
 				frame = 0;
 				crafting.SetFrame(frame);
 			}
+			// Close crafting interface when pressing Q
 			if (qPressed && craftingisopen)
 				craftingisopen = false;
+			// Draw crafting interface
 			if (craftingisopen)
 			{
 				ManageFrames(mouseX, mouseY);

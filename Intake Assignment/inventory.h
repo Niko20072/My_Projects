@@ -11,44 +11,51 @@ namespace Tmpl8
 {
 	namespace Inventory
 	{
-		extern int x, y;
-		extern int frame;
-		extern bool isopen;
-		extern bool carisopen;
-		extern bool seedsisopen;
+		extern int x, y; // Inventory position
+		extern int frame; // Inventory frame
+		extern bool isopen; // Inventory open state
+		extern bool carisopen; // Car inventory open state
+		extern bool seedsisopen; // Seed inventory open state
 
-		extern int contSunblossom;
-		extern int contMoonleaf;
-		extern int contEmberroot;
-		extern int contFrostmint;
-		extern int contBerry;
+		// Ingredient counters
+		extern int contSunblossom; // Sunblossom counter
+		extern int contMoonleaf; // Moonleaf counter
+		extern int contEmberroot; // Emberroot counter
+		extern int contFrostmint; // Frostmint counter
+		extern int contBerry; // Nightshade Berry counter
 
-		extern int contVitalTonic;
-		extern int contCalmMind;
-		extern int contDreamDraught;
-		extern int contFireHeart;
-		extern int contFrostveil;
+		// Potion counters
+		extern int contVitalTonic; // Vital Tonic counter
+		extern int contCalmMind; // Calm Mind Elixir counter
+		extern int contDreamDraught; // Dream Draught counter
+		extern int contFireHeart; // FireHeart Brew counter
+		extern int contFrostveil; // Frostveil Potion counter
 
-		extern int contSeedSunblossom;
-		extern int contSeedMoonleaf;
-		extern int contSeedEmberroot;
-		extern int contSeedFrostmint;
-		extern int contSeedBerry;
+		// Seed counters
+		extern int contSeedSunblossom; // Sunblossom Seed counter
+		extern int contSeedMoonleaf; // Moonleaf Seed counter
+		extern int contSeedEmberroot; // Emberroot Seed counter
+		extern int contSeedFrostmint; // Frostmint Seed counter
+		extern int contSeedBerry; // Nightshade Berry Seed counter
 
+		// Vector of pointers to potion counters
 		extern std::vector<int*> potionCounters;
 
 		extern Sprite inventory;
+		// Frame 0 : Ingredients
+		// Frame 1 : Potions
+		// Frame 2 : Seeds
+		// Frame 3 : Planting seeds
+		// Frame 4 : Car Shop
+		// Frame 5 : Car Orders
 
-		void Draw(Surface* screen, int x, int y);
-		void SetFrame(int frame);
-		void DrawInventory(Surface* screen);
-		void BuySeeds(Surface* screen, bool leftPressed, int &coinCounter, int mouseX, int mouseY);
-		void PlantSeeds(Surface* screen, bool leftPressed, int mouseX, int mouseY);
-		void NormalInventory(Surface* screen, bool ePressed, bool qPressed, int mouseX, int mouseY);
-		void CarInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2);
-		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd);
-		//void Update(Surface* screen, int mouseX, int mouseY, int worldX, int worldY, int worldPlayerX, int worldPlayerY);
-		void DrawOnScreen(Surface* screen, float deltaTime);
-		bool InventorysClosed();
+		void BuySeeds(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY); // Buying seeds logic
+		void PlantSeeds(Surface* screen, bool leftPressed, int mouseX, int mouseY); // Planting seeds logic
+		void DrawInventory(Surface* screen); // Drawing inventory on screen
+		void NormalInventory(Surface* screen, bool ePressed, bool qPressed, int mouseX, int mouseY); // Normal inventory management
+		void CarInventory(Surface* screen, int& coinCounter, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2); // Car inventory management
+		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd); // Seed inventory management
+		void DrawOnScreen(Surface* screen, float deltaTime); // Draw inventory if open
+		bool InventorysClosed(); // Check if all inventories are closed
 	}
 };

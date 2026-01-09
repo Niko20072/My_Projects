@@ -44,14 +44,14 @@ namespace Tmpl8
 		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
 		bool tileInReach = reachX1 < x + Map::TileSize && reachX2 > x && reachY1 < y + Map::TileSize && reachY2 > y;
 
-		//click
+		// Click
 		if (!isClicked && leftClicked && tileRectangle && tileInReach)
 		{
 			isClicked = true;
 			clicked = true;
 			frame = 2;
 		}
-		//hover over clicked tile
+		// Hover over clicked tile
 		else if (isClicked && tileRectangle)
 		{
 			frame = 3;
@@ -60,12 +60,12 @@ namespace Tmpl8
 		{
 			frame = 2;
 		}
-		//hover over normal tile
+		// Hover over normal tile
 		else if (tileRectangle) //hover
 		{
 			frame = 1;
 		}
-		else //idle
+		else //Idle
 			frame = 0;
 		farmTile->SetFrame(frame);
 	}

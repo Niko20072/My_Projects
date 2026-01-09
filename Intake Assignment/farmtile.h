@@ -12,8 +12,8 @@ namespace Tmpl8
 		Sprite *farmTile = new Sprite(new Surface("assets/tiles.png"), 4);
 		int farmTileX;
 		int farmTileY;
-		int frame = 0;
-		bool isClicked = false;
+		int frame = 0; // Current frame of the farm tile sprite
+		bool isClicked = false; // Whether the tile has been clicked
 
 		//FarmTile(Surface* screen);
 
@@ -42,8 +42,8 @@ namespace Tmpl8
 		}
 		//i actually dk what ahppened here but it works now
 
-		void Draw(Surface* screen);
-		void SetFrame(int frame);
-		void Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked);
+		void Draw(Surface* screen);// Draw farm tile at its position
+		void SetFrame(int frame); // Set the current frame of the farm tile sprite
+		void Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked); // Update tile state based on interaction
 	};
 };
