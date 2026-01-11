@@ -5,6 +5,7 @@ namespace Tmpl8
 {
 	namespace Buttons
 	{
+		void GetValues(float MouseX, float MouseY);
 		bool KeyQ();
 		bool KeyE();
 		bool LeftClick();

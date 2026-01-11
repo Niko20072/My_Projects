@@ -5,9 +5,15 @@ namespace Tmpl8
 {
 	namespace House
 	{
+		//fix exit when sleep screen is open si q pressed
 		Sprite house(new Surface("assets/house.png"), 3);
+		Sprite nightstand(new Surface("assets/nightstand.png"), 1);
+		Sprite gameendscreen(new Surface("assets/endgame.png"), 7);
 		bool houseisopen = false;
+		bool nightstandisopen = false;
+		bool bedisopen = false;
 		int frame = 0;
+		int gameframe = 0;
 		bool clickedYes = 0;
 		bool clickedNo = 0;
 		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, float worldX, float worldY)
@@ -25,14 +31,14 @@ namespace Tmpl8
 			}	
 
 			// Close house if Q is pressed and crafting menu is not open
-			if (qPressed && Crafting::craftingisopen == false)
+			if (qPressed && !Crafting::craftingisopen && !bedisopen && !nightstandisopen)
 				houseisopen = false;
 
 			// Draw house if it is open
 			if (houseisopen)
 				house.Draw(screen, 0, 0);
 		}
-		void DayUpdate(bool &leftPressed, int &dayCounter, int mouseX, int mouseY)
+		void DayUpdate(bool &leftPressed, bool& qPressed, int &dayCounter, int mouseX, int mouseY)
 		{
 			// Check if player clicked on bed, yes or no buttons
 			bool clickedOnBed = leftPressed && mouseX >= 511 && mouseX <= 742 && mouseY >= 320 && mouseY <= 565;
@@ -45,38 +51,85 @@ namespace Tmpl8
 			// Frame 1: Sleep confirmation view
 			// Frame 2: Day passed view
 
-			if (clickedOnBed && !Crafting::craftingisopen && frame == 0)
+			// Open bed menu if clicked on bed
+			if (clickedOnBed && !Crafting::craftingisopen && !nightstandisopen && frame == 0)
 			{
+				bedisopen = true;
 				frame = 1;
 				leftPressed = false; // Reset left click state to avoid multiple clicks
 			}
-			if (clickedYes && frame == 1)
+
+			// Handle bed menu interactions
+			if (bedisopen == true)
 			{
-				frame = 2;
-				dayCounter++;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
-			}
-			if (frame == 2 && leftPressed)
-			{		
-				frame = 0;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
-			}
-			if (clickedNo && frame == 1)
-			{
-				frame = 0;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				if (clickedYes && frame == 1) // Player confirmed to sleep
+				{
+					frame = 2;
+					dayCounter++;
+					leftPressed = false; // Reset left click state to avoid multiple clicks
+				}
+				else if ((frame == 2 && leftPressed) || (clickedNo && frame == 1)) // Player clicked to exit day passed view or declined to sleep
+				{
+					bedisopen = false;
+					frame = 0;
+					leftPressed = false; // Reset left click state to avoid multiple clicks
+				}
+				else if (qPressed && Crafting::craftingisopen == false) // Close bed menu if Q is pressed
+				{
+					bedisopen = false;
+					frame = 0;
+					qPressed = false; // Reset q click state to avoid multiple clicks
+				}
 			}
 			house.SetFrame(frame);	
 		}
-		void ClickedNightstand(Surface* screen, bool leftPressed, int& coinCounter, int mouseX, int mouseY)
+		void ClickedNightstand(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY)
 		{
 			// Check if player clicked on nightstand
 			bool clickedOnNightstand = leftPressed && mouseX >= 386 && mouseX <= 497 && mouseY >= 351 && mouseY <= 454;
-			if (clickedOnNightstand && !Crafting::craftingisopen && frame == 0)
+			
+			if (clickedOnNightstand && !Crafting::craftingisopen && !bedisopen && frame == 0)
 			{
-				screen->Print("You found 10 coins!", 300, 200, 0xffff00);
+				nightstandisopen = true;
+				leftPressed = false; // Reset left click state to avoid multiple clicks
+				frame = 0;
+				nightstand.SetFrame(frame);
 			}
-				
+			// Close nightstand if Q is pressed and crafting menu is not open
+			if (qPressed && !Crafting::craftingisopen && !bedisopen)
+				nightstandisopen = false;
+
+			// Draw nightstand if it is open
+			if (nightstandisopen)
+				nightstand.Draw(screen, 0, 0);
+		}
+		void GameCompleted(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY, bool &gameCompleted)
+		{
+			// Check if player clicked on send money button
+			bool sendMoney = leftPressed && mouseX >= 336 && mouseX <= 468 && mouseY >= 446 && mouseY <= 498;
+
+			// Complete game if send money button is clicked, nightstand is open, and player has enough coins
+			if (sendMoney && nightstandisopen && coinCounter >= 2000 && !gameCompleted)
+			{
+				gameCompleted = true;
+				leftPressed = false; // Reset left click state to avoid multiple clicks
+				gameframe = 0;
+			}
+
+			// Draw game end screen
+			if (gameCompleted)
+			{
+				if(leftPressed)
+				{
+					gameframe++;
+					leftPressed = false; // Reset left click state to avoid multiple clicks
+					gameendscreen.SetFrame(gameframe);
+				}
+				if(gameframe <= 6)
+					gameendscreen.Draw(screen, 0, 0);	
+			}
+			if (House::gameframe > 6)
+				exit(0);
 		}
 	}
 };

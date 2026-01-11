@@ -5,6 +5,12 @@ namespace Tmpl8
 	namespace Buttons
 	{
 		//pressed-once edge detection
+		float mouseX, mouseY;
+		void GetValues(float MouseX, float MouseY)
+		{
+			mouseX = MouseX;
+			mouseY = MouseY;
+		}
 		bool KeyQ()
 		{
 			static bool wasDown = false;
@@ -24,7 +30,7 @@ namespace Tmpl8
 		bool LeftClick()
 		{
 			static bool wasDown = false;
-			bool isDown = GetAsyncKeyState(VK_LBUTTON);
+			bool isDown = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 0 && mouseX <= 800 && mouseY >= 0 && mouseY <= 600;
 			bool pressed = isDown && !wasDown;
 			wasDown = isDown;
 			return pressed;
