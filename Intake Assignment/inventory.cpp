@@ -211,10 +211,10 @@ namespace Tmpl8
 				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
 		}
-		void NormalInventory(Surface* screen, bool ePressed, bool qPressed, int mouseX, int mouseY)
+		void NormalInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY)
 		{
 			// Detect clicks
-			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+			bool clickedOutsideInv = leftPressed && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnPlantButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 323 && mouseX <= 366 && mouseY >= 471 && mouseY <= 510;
 			bool clickedOnPotionButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 375 && mouseX <= 510 && mouseY >= 471 && mouseY <= 510;
 			bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
@@ -256,7 +256,7 @@ namespace Tmpl8
 		void CarInventory(Surface* screen, int& coinCounter, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2)
 		{
 			// Detect clicks and player proximity
-			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+			bool clickedOutsideInv = leftPressed && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 345 && mouseX <= 389 && mouseY >= 471 && mouseY <= 510;
 			bool clickedOnOrdersButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 399 && mouseX <= 444 && mouseY >= 471 && mouseY <= 510;
 			bool playerCloseToCar = reachX2 >= 528 && reachX1 <= 686 && reachY2 >= 175 && reachY1 <= 220;
@@ -298,7 +298,7 @@ namespace Tmpl8
 		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
 		{
 			// Detect clicks
-			bool clickedOutsideInv = GetAsyncKeyState(VK_LBUTTON) && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
+			bool clickedOutsideInv = leftPressed && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 			//Toggle seed inventory

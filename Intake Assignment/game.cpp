@@ -199,7 +199,7 @@ namespace Tmpl8
 
 				//drawing stuff on screen
 				player.Draw(screen, playerX, playerY);
-				Inventory::NormalInventory(screen, ePressed, qPressed, mouseX, mouseY);
+				Inventory::NormalInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
 				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
 				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
 				Inventory::DrawOnScreen(screen, deltaTime);
