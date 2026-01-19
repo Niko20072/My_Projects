@@ -3,6 +3,10 @@
 
 namespace Tmpl8
 {
+	/// <summary>
+	/// ecapsulation and data hiding!!!!
+	/// getter, setter!!!!!!!
+	/// </summary>
 	static Sprite player(new Surface("assets/Vera.png"), 4);
 
 	/*
@@ -64,9 +68,7 @@ namespace Tmpl8
 			for (int y = 18; y <= 20; y++)
 				farmTiles.emplace_back(x, y);
 		}
-		//plants.emplace_back("Moonleaf");
-
-		for(int i = 0;i <= 5; i++)
+		for(int i = 0; i <= 5; i++)
 			orders.emplace_back(i);
 	}
 	
@@ -76,12 +78,13 @@ namespace Tmpl8
 
 	void Game::Shutdown()
 	{
+		
 	}
 
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
-
+	float plantX, plantY;
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
@@ -160,17 +163,23 @@ namespace Tmpl8
 
 				// Tiles
 				bool tileClicked = false;
+				
 				for (auto& x : farmTiles)
 				{
 					if (Inventory::InventorysClosed())
 						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
 					if (tileClicked)
 					{
-						plants.emplace_back(x.farmTileX, x.farmTileY);
+						//plants.emplace_back(x.farmTileX, x.farmTileY);
+						// Plant seeds logic
+						//Plant::plants.emplace_back(x.farmTileX, x.farmTileY, 2, 1);
+						//Inventory::PlantSeeds(screen, leftClickPressed, mouseX, mouseY, x.farmTileX, x.farmTileY);
+						plantX = x.farmTileX;
+						plantY = x.farmTileY;
 						break;
 					}
 				}
-
+	
 				// Draw farm tiles
 				for (auto& x : farmTiles)
 				{
@@ -178,7 +187,8 @@ namespace Tmpl8
 				}
 
 				// Draw plants
-				for (auto& x : plants)
+				
+				for (auto& x : Plant::plants)
 				{
 					x.Draw(screen);
 				}
@@ -194,14 +204,14 @@ namespace Tmpl8
 				}
 
 				//Player range
-				screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
+				//screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
 				screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
 
 				//drawing stuff on screen
 				player.Draw(screen, playerX, playerY);
 				Inventory::NormalInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
 				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, tileClicked);
+				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, plantX, plantY, tileClicked);
 				Inventory::DrawOnScreen(screen, deltaTime);
 
 				///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?

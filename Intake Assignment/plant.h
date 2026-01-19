@@ -4,12 +4,14 @@
 #include "map.h"
 #include <vector>
 #include <iostream>
+#include "farmtile.h"
 
 namespace Tmpl8
 {
 	class Plant
 	{
 	public:
+		/*
 		Sprite *sun = new Sprite(new Surface("assets/ball.png"), 1);
 		std::string name;
 		int harvestDay; //the day when the plant is grown
@@ -37,8 +39,18 @@ namespace Tmpl8
 				harvestDay = t.harvestDay;
 			}
 			return *this;
-		}
-		void Plant::Draw(Surface* screen);
-		void NextDay();
+		}*/
+		static std::vector<Plant> plants;   
+		std::unique_ptr<Sprite> sun;
+		std::string name;
+		int harvestDay; //the day when the plant is grown
+		int daysPassed = 0; //plant age
+		bool grown = false;
+		int frame; //sprite frame
+		float x, y;
+
+		Plant(float x, float y, int harvestDay, int frame);
+		void Draw(Surface* screen);
+		void Grow();
 	};
 };

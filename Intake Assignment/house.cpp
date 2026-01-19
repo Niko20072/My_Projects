@@ -64,6 +64,10 @@ namespace Tmpl8
 			{
 				if (clickedYes && frame == 1) // Player confirmed to sleep
 				{
+					for (auto& x : Plant::plants)
+					{
+						x.Grow();
+					}
 					frame = 2;
 					dayCounter++;
 					leftPressed = false; // Reset left click state to avoid multiple clicks

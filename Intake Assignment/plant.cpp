@@ -22,21 +22,22 @@ namespace Tmpl8
 		else
 			harvestDay = 0;
 	}*/
-	Plant::Plant(float x, float y) : x(x), y(y) {}
+	std::vector<Plant> Plant::plants;   
+	Plant::Plant(float x, float y, int harvestDay, int frame) : x(x), y(y), harvestDay(harvestDay), frame(frame), sun(std::make_unique<Sprite>(new Surface("assets/plants1.png"), 19)) {}
 
 	void Plant::Draw(Surface* screen)
 	{
+		sun->SetFrame(frame);
 		sun->Draw(screen, x - Map::cameraX, y - Map::cameraY);
 	}
-	void Plant::NextDay()
+	void Plant::Grow()
 	{
 		daysPassed++;
-		if (grown)
+		if (daysPassed <= harvestDay)
 		{
-			return;
+			frame++;
 		}
-			
-		if (daysPassed >= harvestDay)
+		if (daysPassed > harvestDay)
 			grown = true;
 	}
 };

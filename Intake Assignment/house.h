@@ -4,6 +4,7 @@
 #include "inventory.h"
 #include "template.h"
 #include "crafting.h"
+#include "plant.h"
 
 namespace Tmpl8
 {

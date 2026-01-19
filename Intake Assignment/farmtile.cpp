@@ -1,8 +1,4 @@
 #include "farmtile.h"
-#include "map.h"
-#include "inventory.h"
-#include "game.h"
-
 
 namespace Tmpl8
 {
@@ -38,6 +34,11 @@ namespace Tmpl8
 	{
 		farmTile->SetFrame(frame);
 	}
+	void FarmTile::Clicked()
+	{
+		isClicked = true;
+		frame = 2;
+	}
 	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
 	{
 		// Tile rectangle
@@ -48,10 +49,10 @@ namespace Tmpl8
 		if (!isClicked && leftClicked && tileRectangle && tileInReach)
 		{
 			leftClicked = false; // Reset left click state to avoid multiple clicks
-			isClicked = true;
 			clicked = true;
-			frame = 2;
+			Clicked();
 		}
+		
 		// Hover over clicked tile
 		else if (isClicked && tileRectangle)
 		{

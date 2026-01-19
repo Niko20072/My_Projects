@@ -9,6 +9,7 @@ namespace Tmpl8
 		bool isopen = false;
 		bool carisopen = false;
 		bool seedsisopen = false;
+		bool planted = false;
 
 		int contSunblossom = 10;
 		int contMoonleaf = 30;
@@ -23,10 +24,10 @@ namespace Tmpl8
 		int contFrostveil = 10;
 
 		int contSeedSunblossom = 12;
-		int contSeedMoonleaf = 0;
+		int contSeedMoonleaf = 10;
 		int contSeedEmberroot = 3;
-		int contSeedFrostmint = 0;
-		int contSeedBerry = 0;
+		int contSeedFrostmint = 10;
+		int contSeedBerry = 10;
 
 		std::vector<int*> potionCounters = { &contVitalTonic, &contCalmMind, &contDreamDraught, &contFireHeart, &contFrostveil };
 
@@ -81,7 +82,7 @@ namespace Tmpl8
 				}
 			}
 		}
-		void PlantSeeds(Surface* screen, bool &leftPressed, int mouseX, int mouseY)
+		void PlantSeeds(Surface* screen, bool &leftPressed, int mouseX, int mouseY, float plantX, float plantY)
 		{
 			// Planting seeds buttons
 			bool button1 = leftPressed && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
@@ -96,6 +97,8 @@ namespace Tmpl8
 				// Planting Sunblossom seed
 				if (button1 && contSeedSunblossom > 0)
 				{
+					planted = true;
+					Plant::plants.emplace_back(plantX, plantY, 2, 0);
 					Inventory::contSeedSunblossom--;
 					seedsisopen = false;
 					leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -103,6 +106,8 @@ namespace Tmpl8
 				// Planting Moonleaf seed
 				if (button2 && contSeedMoonleaf > 0)
 				{
+					planted = true;
+					Plant::plants.emplace_back(plantX, plantY, 2, 3);
 					Inventory::contSeedMoonleaf--;
 					seedsisopen = false;
 					leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -110,6 +115,8 @@ namespace Tmpl8
 				// Planting Emberroot seed
 				if (button3 && contSeedEmberroot > 0)
 				{
+					planted = true;
+					Plant::plants.emplace_back(plantX, plantY, 3, 6);
 					Inventory::contSeedEmberroot--;
 					seedsisopen = false;
 					leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -117,6 +124,8 @@ namespace Tmpl8
 				// Planting Frostmint seed
 				if (button4 && contSeedFrostmint > 0)
 				{
+					planted = true;
+					Plant::plants.emplace_back(plantX, plantY, 3, 10);
 					Inventory::contSeedFrostmint--;
 					seedsisopen = false;
 					leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -124,6 +133,8 @@ namespace Tmpl8
 				// Planting Nightshade Berry seed
 				if (button5 && contSeedBerry > 0)
 				{
+					planted = true;
+					Plant::plants.emplace_back(plantX, plantY, 4, 14);
 					Inventory::contSeedBerry--;
 					seedsisopen = false;
 					leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -295,7 +306,7 @@ namespace Tmpl8
 			// Buy seeds logic
 			BuySeeds(screen, leftPressed, coinCounter, mouseX, mouseY);
 		}
-		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, bool tileClicekd)
+		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool &leftPressed, int mouseX, int mouseY, float worldX, float worldY, float plantX, float plantY, bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = leftPressed && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
@@ -315,13 +326,11 @@ namespace Tmpl8
 			//Click seed inventory
 			if (seedsisopen)
 			{
+				PlantSeeds(screen, leftPressed, mouseX, mouseY, plantX, plantY);
 				if (clickedOutsideInv || ePressed || qPressed || moved)
 					seedsisopen = false;
 			}
-
 			// Plant seeds logic
-			PlantSeeds(screen, leftPressed, mouseX, mouseY);
-
 		}
 		void DrawOnScreen(Surface* screen, float deltaTime)
 		{

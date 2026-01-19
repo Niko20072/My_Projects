@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include "inventory.h"
+#include "surface.h"
+
 namespace Tmpl8
 {
 	class Order
