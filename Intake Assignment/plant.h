@@ -49,7 +49,7 @@ namespace Tmpl8
 		int frame; //sprite frame
 		float x, y;
 
-		Plant(float x, float y, int harvestDay, int frame);
+		Plant(float x, float y, int harvestDay, int frame, int tileNumber);
 		void Draw(Surface* screen);
 		void Grow();
 	};

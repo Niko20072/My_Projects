@@ -24,7 +24,7 @@ namespace Tmpl8
 			}
 		}
 	}*/
-
+	std::vector<FarmTile> FarmTile::farmTiles;
 	FarmTile::FarmTile(float x,float y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
 	void FarmTile::Draw(Surface* screen)
 	{
@@ -38,6 +38,7 @@ namespace Tmpl8
 	{
 		isClicked = true;
 		frame = 2;
+		Inventory::planted = false;
 	}
 	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
 	{
@@ -50,7 +51,6 @@ namespace Tmpl8
 		{
 			leftClicked = false; // Reset left click state to avoid multiple clicks
 			clicked = true;
-			Clicked();
 		}
 		
 		// Hover over clicked tile

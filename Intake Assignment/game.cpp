@@ -61,12 +61,12 @@ namespace Tmpl8
 		for (int x = 3; x <= 23; x++)
 		{
 			for(int y = 7; y <= 17; y++)
-				farmTiles.emplace_back(x, y);
+				FarmTile::farmTiles.emplace_back(x, y);
 		}
 		for (int x = 3; x <= 19; x++)
 		{
 			for (int y = 18; y <= 20; y++)
-				farmTiles.emplace_back(x, y);
+				FarmTile::farmTiles.emplace_back(x, y);
 		}
 		for(int i = 0; i <= 5; i++)
 			orders.emplace_back(i);
@@ -85,6 +85,7 @@ namespace Tmpl8
 	// Main application tick function
 	// -----------------------------------------------------------
 	float plantX, plantY;
+	int index,index2;
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
@@ -164,8 +165,10 @@ namespace Tmpl8
 				// Tiles
 				bool tileClicked = false;
 				
-				for (auto& x : farmTiles)
+				int index = 0;
+				for (auto& x : FarmTile::farmTiles)
 				{
+					index++;
 					if (Inventory::InventorysClosed())
 						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
 					if (tileClicked)
@@ -176,12 +179,13 @@ namespace Tmpl8
 						//Inventory::PlantSeeds(screen, leftClickPressed, mouseX, mouseY, x.farmTileX, x.farmTileY);
 						plantX = x.farmTileX;
 						plantY = x.farmTileY;
+						index2 = index - 1;
 						break;
 					}
 				}
 	
 				// Draw farm tiles
-				for (auto& x : farmTiles)
+				for (auto& x : FarmTile::farmTiles)
 				{
 					x.Draw(screen);
 				}
@@ -211,7 +215,7 @@ namespace Tmpl8
 				player.Draw(screen, playerX, playerY);
 				Inventory::NormalInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
 				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, plantX, plantY, tileClicked);
+				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, plantX, plantY, tileClicked, index2);
 				Inventory::DrawOnScreen(screen, deltaTime);
 
 				///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?

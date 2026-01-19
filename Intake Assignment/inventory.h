@@ -52,11 +52,11 @@ namespace Tmpl8
 		// Frame 5 : Car Orders
 
 		void BuySeeds(Surface* screen, bool &leftPressed, int& coinCounter, int mouseX, int mouseY); // Buying seeds logic
-		void PlantSeeds(Surface* screen, bool& leftPressed, int mouseX, int mouseY, float plantX, float plantY); // Planting seeds logic
+		void PlantSeeds(Surface* screen, bool& leftPressed, int mouseX, int mouseY, float plantX, float plantY, int tileNumber); // Planting seeds logic
 		void DrawInventory(Surface* screen); // Drawing inventory on screen
 		void NormalInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY); // Normal inventory management
 		void CarInventory(Surface* screen, int& coinCounter, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2); // Car inventory management
-		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float plantX, float plantY, bool tileClicekd); // Seed inventory management
+		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float plantX, float plantY, bool tileClicekd, int tileNumber); // Seed inventory management
 		void DrawOnScreen(Surface* screen, float deltaTime); // Draw inventory if open
 		bool InventorysClosed(); // Check if all inventories are closed
 	}

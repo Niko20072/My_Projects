@@ -23,7 +23,10 @@ namespace Tmpl8
 			harvestDay = 0;
 	}*/
 	std::vector<Plant> Plant::plants;   
-	Plant::Plant(float x, float y, int harvestDay, int frame) : x(x), y(y), harvestDay(harvestDay), frame(frame), sun(std::make_unique<Sprite>(new Surface("assets/plants1.png"), 19)) {}
+	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber) : x(x), y(y), harvestDay(harvestDay), frame(frame), sun(std::make_unique<Sprite>(new Surface("assets/plants1.png"), 19)) 
+	{
+		FarmTile::farmTiles[tileNumber].Clicked(); // Mark the corresponding farm tile as clicked
+	}
 
 	void Plant::Draw(Surface* screen)
 	{

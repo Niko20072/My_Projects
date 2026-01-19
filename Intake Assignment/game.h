@@ -41,7 +41,6 @@ private:
 	char day[32], coins[32], weekDay[32];
 	bool gameCompleted = false;
 	Map gameMap;
-	std::vector<FarmTile> farmTiles;
 	std::vector<Order> orders;
 };
 
