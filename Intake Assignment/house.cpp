@@ -66,7 +66,8 @@ namespace Tmpl8
 				{
 					for (auto& x : Plant::plants)
 					{
-						x.Grow();
+						if (x.grown == false)
+							x.NextDay();
 					}
 					frame = 2;
 					dayCounter++;

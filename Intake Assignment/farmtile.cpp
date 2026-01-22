@@ -38,16 +38,15 @@ namespace Tmpl8
 	{
 		isClicked = true;
 		frame = 2;
-		Inventory::planted = false;
 	}
-	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2, bool& clicked)
+	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2)
 	{
 		// Tile rectangle
 		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
 		bool tileInReach = reachX1 < x + Map::TileSize && reachX2 > x && reachY1 < y + Map::TileSize && reachY2 > y;
 
 		// Click
-		if (!isClicked && leftClicked && tileRectangle && tileInReach)
+		if (leftClicked && tileRectangle && tileInReach)
 		{
 			leftClicked = false; // Reset left click state to avoid multiple clicks
 			clicked = true;

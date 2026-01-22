@@ -9,7 +9,6 @@ namespace Tmpl8
 		bool isopen = false;
 		bool carisopen = false;
 		bool seedsisopen = false;
-		bool planted = false;
 
 		int contSunblossom = 10;
 		int contMoonleaf = 30;

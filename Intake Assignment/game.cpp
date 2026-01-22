@@ -1,6 +1,11 @@
 #include "game.h"
 
-
+///do to list:
+//sterge tile clicked?
+//muta chestiile in subprograme
+//sterge includurile useless
+//verifica ca toate variabilele sa fie folosite
+//fa mai logic
 namespace Tmpl8
 {
 	/// <summary>
@@ -170,13 +175,10 @@ namespace Tmpl8
 				{
 					index++;
 					if (Inventory::InventorysClosed())
-						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2, tileClicked);
-					if (tileClicked)
+						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2);
+					if (x.clicked && !x.isClicked)
 					{
-						//plants.emplace_back(x.farmTileX, x.farmTileY);
-						// Plant seeds logic
-						//Plant::plants.emplace_back(x.farmTileX, x.farmTileY, 2, 1);
-						//Inventory::PlantSeeds(screen, leftClickPressed, mouseX, mouseY, x.farmTileX, x.farmTileY);
+						tileClicked = true;
 						plantX = x.farmTileX;
 						plantY = x.farmTileY;
 						index2 = index - 1;
@@ -191,12 +193,17 @@ namespace Tmpl8
 				}
 
 				// Draw plants
-				
 				for (auto& x : Plant::plants)
 				{
-					x.Draw(screen);
+					x.Grown();
+					if(!x.harvested)
+						x.Draw(screen);
 				}
 
+				for (auto& x : FarmTile::farmTiles) // reset clicked state
+				{
+					x.clicked = false;
+				}
 				//check if all orders are completed
 				if (CheckAllCompleted())
 				{

@@ -17,7 +17,6 @@ namespace Tmpl8
 		extern bool isopen; // Inventory open state
 		extern bool carisopen; // Car inventory open state
 		extern bool seedsisopen; // Seed inventory open state
-		extern bool planted; // Seed planted state	
 
 		// Ingredient counters
 		extern int contSunblossom; // Sunblossom counter

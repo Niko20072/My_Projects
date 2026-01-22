@@ -47,10 +47,15 @@ namespace Tmpl8
 		int daysPassed = 0; //plant age
 		bool grown = false;
 		int frame; //sprite frame
+		int tileNumber; //the farm tile where the plant is planted
 		float x, y;
+		bool harvested = false;
 
 		Plant(float x, float y, int harvestDay, int frame, int tileNumber);
 		void Draw(Surface* screen);
-		void Grow();
+		void NextDay();
+		void Collect();
+		void Grown();
+		void Delete();
 	};
 };
