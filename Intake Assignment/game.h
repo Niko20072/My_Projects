@@ -37,7 +37,7 @@ private:
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 1;
-	int coinCounter = 2000;
+	int coinCounter = 150;
 	char day[32], coins[32], weekDay[32];
 	bool gameCompleted = false;
 	Map gameMap;

@@ -6,6 +6,7 @@
 //sterge includurile useless
 //verifica ca toate variabilele sa fie folosite
 //fa mai logic
+//!!!!!!!!!!!!!!pt plante improve: totul e prea conectat si sunt destul de sigura ca trebuie modificat in asa fel incat toate sa fie mai independente
 namespace Tmpl8
 {
 	/// <summary>

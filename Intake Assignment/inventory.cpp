@@ -10,23 +10,23 @@ namespace Tmpl8
 		bool carisopen = false;
 		bool seedsisopen = false;
 
-		int contSunblossom = 10;
-		int contMoonleaf = 30;
-		int contEmberroot = 20;
-		int contFrostmint = 20;
-		int contBerry = 20;
+		int contSunblossom = 0;
+		int contMoonleaf = 0;
+		int contEmberroot = 0;
+		int contFrostmint = 0;
+		int contBerry = 0;
 
-		int contVitalTonic = 10;
-		int contCalmMind = 10;
-		int contDreamDraught = 10;
-		int contFireHeart = 10;
-		int contFrostveil = 10;
+		int contVitalTonic = 0;
+		int contCalmMind = 0;
+		int contDreamDraught = 0;
+		int contFireHeart = 0;
+		int contFrostveil = 0;
 
-		int contSeedSunblossom = 12;
-		int contSeedMoonleaf = 10;
-		int contSeedEmberroot = 3;
-		int contSeedFrostmint = 10;
-		int contSeedBerry = 10;
+		int contSeedSunblossom = 2;
+		int contSeedMoonleaf = 2;
+		int contSeedEmberroot = 1;
+		int contSeedFrostmint = 1;
+		int contSeedBerry = 0;
 
 		std::vector<int*> potionCounters = { &contVitalTonic, &contCalmMind, &contDreamDraught, &contFireHeart, &contFrostveil };
 
@@ -225,9 +225,10 @@ namespace Tmpl8
 			bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
 
 			//Toggle normal inventory
-			if (ePressed)
+			if (ePressed && !isopen)
 			{
 				carisopen = false;
+				ePressed = false; // Reset E key state to avoid multiple toggles
 				seedsisopen = false;
 				isopen = true;
 				frame = 0;
@@ -253,7 +254,7 @@ namespace Tmpl8
 					frame = 2;
 					inventory.SetFrame(frame);
 				}
-				if (clickedOutsideInv || qPressed)
+				if (clickedOutsideInv || qPressed || ePressed)
 					isopen = false;
 			}
 
