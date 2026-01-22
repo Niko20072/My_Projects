@@ -12,7 +12,7 @@ namespace Tmpl8
 	public:
 		// Potion types and their prices
 		std::vector<const char*> potionsTypes = { "Vital Tonic", "Calm Mind", "Dream Draught", "FireHeart", "FrostVeil" };
-		std::vector<int> priceNumbers = { 60,45,70,95,85 };
+		std::vector<int> priceNumbers = { 60 * 2,45 * 2,70 * 2,95 * 2,85 * 2};
 
 		int orderNumber; // Which order it is
 		int potionNumber; // How many potions ordered
