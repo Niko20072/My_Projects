@@ -79,12 +79,14 @@ namespace Tmpl8
 			FarmTile::farmTiles[tileNumber].isClicked = false;
 			FarmTile::farmTiles[tileNumber].frame = 0;
 			FarmTile::farmTiles[tileNumber].watered = false;
+
 			Collect();
 		}
 	}
 	
 	void Plant::Water()
 	{
+		//!!!!!!!!!fix being able to water harvested plants
 		if (FarmTile::farmTiles[tileNumber].clicked && !watered && WateringCan::wateringCan)
 		{
 			watered = true;

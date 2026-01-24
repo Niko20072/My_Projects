@@ -1,6 +1,7 @@
 #include "orders.h"
 namespace Tmpl8
 {
+	int Order::daysUntilReset = 5; // Days until orders reset
 	Order::Order(int number)
 	{
 		orderNumber = number;
@@ -23,7 +24,8 @@ namespace Tmpl8
 		{
 			// Order with two potions
 			sprintf(order, "%s x%d, %s x%d", potionsTypes[potionType1], potionTypeNumber1, potionsTypes[potionType2], potionTypeNumber2);
-			price = (priceNumbers[potionType1] * potionTypeNumber1) + (priceNumbers[potionType2] * potionTypeNumber2);
+			int rewardBonus = 30 * (potionTypeNumber1 + potionTypeNumber2); // Bonus for two potions 
+			price = (priceNumbers[potionType1] * potionTypeNumber1) + (priceNumbers[potionType2] * potionTypeNumber2) + rewardBonus;
 		}
 		// Create send and complete texts
 		sprintf(send, "send(%d)", price);
@@ -75,6 +77,8 @@ namespace Tmpl8
 	void Order::Draw(Surface* screen)
 	{
 		// Draw order text and button based on completion status
+		sprintf(daysUntilResetText, "Days until order reset: %d", daysUntilReset);
+		screen->Print(daysUntilResetText, 330, 94, 0x0);
 		if (!completed)
 		{
 			screen->Print(order, 265, 236 + orderNumber * 35, 0x0);

@@ -12,7 +12,7 @@ namespace Tmpl8
 	public:
 		// Potion types and their prices
 		std::vector<const char*> potionsTypes = { "Vital Tonic", "Calm Mind", "Dream Draught", "FireHeart", "FrostVeil" };
-		std::vector<int> priceNumbers = { 60 * 2,45 * 2,70 * 2,95 * 2,85 * 2};
+		std::vector<int> priceNumbers = {60,45,70,95,85};
 
 		int orderNumber; // Which order it is
 		int potionNumber; // How many potions ordered
@@ -22,7 +22,8 @@ namespace Tmpl8
 		int potionType2; // Type of potion2 ordered
 		int price; // Price of the order
 		bool completed = false; // Is the order completed?
-		char order[64], send[32], complete[32]; // Text buffers
+		char order[64], send[32], complete[32], daysUntilResetText[64]; // Text buffers
+		static int daysUntilReset; // Days until orders reset 
 		Order(int number); // Constructor
 		void Logic(Surface* screen, bool& LeftPressed, int mouseX, int mouseY, int& coinCounter); // Logic for order processing
 		void Draw(Surface* screen); // Draw order on screen

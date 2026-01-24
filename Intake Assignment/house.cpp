@@ -71,6 +71,7 @@ namespace Tmpl8
 					}
 					frame = 2;
 					dayCounter++;
+					Order::daysUntilReset--;
 					leftPressed = false; // Reset left click state to avoid multiple clicks
 				}
 				else if ((frame == 2 && leftPressed) || (clickedNo && frame == 1)) // Player clicked to exit day passed view or declined to sleep

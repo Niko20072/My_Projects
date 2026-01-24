@@ -22,8 +22,6 @@ namespace Tmpl8
 class Game
 {
 public:
-	bool CheckCollision(int x, int y);
-	bool CheckAllCompleted();
 	void SetTarget(Surface* surface) { screen = surface; }
 	void Init();
 	void Shutdown();
@@ -37,12 +35,16 @@ private:
 	Surface* screen;
 	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
-	int dayCounter = 1;
-	int coinCounter = 150;
+	int dayCounter = 0;
+	int coinCounter = 200;
 	char day[32], coins[32], weekDay[32];
 	bool gameCompleted = false;
+	float plantX, plantY;
+	int index, index2;
 	Map gameMap;
 	std::vector<Order> orders;
+	bool CheckCollision(int x, int y);
+	bool CheckAllCompleted();
 };
 
 }; // namespace Tmpl8

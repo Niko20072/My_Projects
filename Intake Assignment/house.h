@@ -5,6 +5,7 @@
 #include "template.h"
 #include "crafting.h"
 #include "plant.h"
+#include "orders.h"
 
 namespace Tmpl8
 {

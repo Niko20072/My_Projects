@@ -6,7 +6,10 @@
 //sterge includurile useless
 //verifica ca toate variabilele sa fie folosite
 //fa mai logic
+//fa lista de comenzi sa se reseteze la 7 zile
 //!!!!!!!!!!!!!!pt plante improve: totul e prea conectat si sunt destul de sigura ca trebuie modificat in asa fel incat toate sa fie mai independente
+//fa sa nu poti deschide seed inventory daca stropitoarea e clickuita
+//make endint at 1000$
 namespace Tmpl8
 {
 	/// <summary>
@@ -51,6 +54,7 @@ namespace Tmpl8
 
 		return true; //no collision
 	}
+	/* //not used anymore
 	bool Game::CheckAllCompleted()
 	{
 		for (auto order : orders)
@@ -59,8 +63,9 @@ namespace Tmpl8
 				return false;
 		}
 		return true;
-	}
-
+	}*/
+	
+	
 	void Game::Init()
 	{
 		srand(time(0));
@@ -90,8 +95,7 @@ namespace Tmpl8
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
-	float plantX, plantY;
-	int index,index2;
+	
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
@@ -198,7 +202,7 @@ namespace Tmpl8
 				// Draw plants
 				WateringCan::Water(rPressed);
 				if(WateringCan::wateringCan)
-					screen->Print("Watering Can Equipped", 300, 10, 0x00ff00);
+					screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
 				for (auto& x : Plant::plants)
 				{
 					x.Water();
@@ -213,9 +217,10 @@ namespace Tmpl8
 				}
 
 				//check if all orders are completed
-				if (CheckAllCompleted())
+				if (Order::daysUntilReset == 0) ///or CheckAllCompleted()
 				{
 					//generate new orders
+					Order::daysUntilReset = 5;
 					orders.clear();
 					srand(time(0));
 					for (int i = 0; i <= 5; i++)
