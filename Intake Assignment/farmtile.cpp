@@ -51,7 +51,10 @@ namespace Tmpl8
 			leftClicked = false; // Reset left click state to avoid multiple clicks
 			clicked = true;
 		}
-		
+		if (clicked && WateringCan::wateringCan)
+		{
+			watered = true;
+		}
 		// Hover & state logic
 		if (watered)
 		{

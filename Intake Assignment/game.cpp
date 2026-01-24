@@ -205,7 +205,6 @@ namespace Tmpl8
 					screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
 				for (auto& x : Plant::plants)
 				{
-					x.Water();
 					x.Grown();
 					if(!x.harvested)
 						x.Draw(screen);

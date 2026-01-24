@@ -36,7 +36,11 @@ namespace Tmpl8
 
 			// Draw house if it is open
 			if (houseisopen)
+			{
 				house.Draw(screen, 0, 0);
+				WateringCan::wateringCan = false; // Disable watering can when house is open
+			}
+				
 		}
 		void DayUpdate(bool &leftPressed, bool& qPressed, int &dayCounter, int mouseX, int mouseY)
 		{
@@ -68,6 +72,10 @@ namespace Tmpl8
 					{
 						if (x.grown == false)
 							x.NextDay();
+					}
+					for (auto& x : FarmTile::farmTiles)
+					{
+						x.watered = false;
 					}
 					frame = 2;
 					dayCounter++;

@@ -51,7 +51,6 @@ namespace Tmpl8
 		int tileNumber; //the farm tile where the plant is planted
 		float x, y;
 		bool harvested = false;
-		bool watered = false;
 		bool alive = true;
 		static bool wateringCan;
 
@@ -61,6 +60,5 @@ namespace Tmpl8
 		void Collect();
 		void Grown();
 		void Delete();
-		void Water();
 	};
 };

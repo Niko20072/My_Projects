@@ -29,7 +29,6 @@ namespace Tmpl8
 	{
 		FarmTile::farmTiles[tileNumber].Clicked(); // Mark the corresponding farm tile as clicked
 	}
-
 	void Plant::Draw(Surface* screen)
 	{
 		sun->SetFrame(frame);
@@ -40,10 +39,8 @@ namespace Tmpl8
 		if (alive)
 		{
 			daysPassed++;
-			if (watered)
+			if (FarmTile::farmTiles[tileNumber].watered) // check if the plant is watered
 			{
-				watered = false; //reset watered status for next day
-				FarmTile::farmTiles[tileNumber].watered = false;
 				if (daysPassed <= harvestDay)
 					frame++;
 				if (daysPassed >= harvestDay && !harvested)
@@ -52,7 +49,7 @@ namespace Tmpl8
 			else
 			{
 				alive = false;
-				frame = 19; //withered plant frame
+				frame = 19; // withered plant frame
 			}
 		}
 	}
@@ -78,19 +75,8 @@ namespace Tmpl8
 			alive = true; // prevent multiple harvesting
 			FarmTile::farmTiles[tileNumber].isClicked = false;
 			FarmTile::farmTiles[tileNumber].frame = 0;
-			FarmTile::farmTiles[tileNumber].watered = false;
 
 			Collect();
-		}
-	}
-	
-	void Plant::Water()
-	{
-		//!!!!!!!!!fix being able to water harvested plants
-		if (FarmTile::farmTiles[tileNumber].clicked && !watered && WateringCan::wateringCan)
-		{
-			watered = true;
-			FarmTile::farmTiles[tileNumber].watered = true;//change farm tile to wet version
 		}
 	}
 	

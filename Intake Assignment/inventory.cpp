@@ -308,7 +308,7 @@ namespace Tmpl8
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 			//Toggle seed inventory
-			if (leftPressed && tileClicekd && seedsisopen == false)
+			if (leftPressed && tileClicekd && seedsisopen == false && !WateringCan::wateringCan)
 			{
 				isopen = false;
 				carisopen = false;
@@ -331,7 +331,11 @@ namespace Tmpl8
 		{
 			// Draw inventory if any is open
 			if (isopen || carisopen || seedsisopen)
+			{
 				DrawInventory(screen);
+				WateringCan::wateringCan = false; // Disable watering can when any inventory is open
+			}
+				
 		}
 		bool InventorysClosed()
 		{
