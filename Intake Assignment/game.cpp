@@ -120,6 +120,7 @@ namespace Tmpl8
 		Buttons::GetValues(mouseX, mouseY);
 		bool qPressed = Buttons::KeyQ();
 		bool ePressed = Buttons::KeyE();
+		bool rPressed = Buttons::KeyR();
 		bool leftClickPressed = Buttons::LeftClick();
 
 		// -----------------------------------------------------------
@@ -186,6 +187,7 @@ namespace Tmpl8
 						break;
 					}
 				}
+				
 	
 				// Draw farm tiles
 				for (auto& x : FarmTile::farmTiles)
@@ -194,8 +196,12 @@ namespace Tmpl8
 				}
 
 				// Draw plants
+				WateringCan::Water(rPressed);
+				if(WateringCan::wateringCan)
+					screen->Print("Watering Can Equipped", 300, 10, 0x00ff00);
 				for (auto& x : Plant::plants)
 				{
+					x.Water();
 					x.Grown();
 					if(!x.harvested)
 						x.Draw(screen);
@@ -205,6 +211,7 @@ namespace Tmpl8
 				{
 					x.clicked = false;
 				}
+
 				//check if all orders are completed
 				if (CheckAllCompleted())
 				{

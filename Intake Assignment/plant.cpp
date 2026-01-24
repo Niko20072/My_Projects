@@ -22,8 +22,10 @@ namespace Tmpl8
 		else
 			harvestDay = 0;
 	}*/
-	std::vector<Plant> Plant::plants;   
-	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), sun(std::make_unique<Sprite>(new Surface("assets/plants1.png"), 19)) 
+	std::vector<Plant> Plant::plants;  
+	bool wateringCan = false;
+
+	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), sun(std::make_unique<Sprite>(new Surface("assets/plant2.png"), 20)) 
 	{
 		FarmTile::farmTiles[tileNumber].Clicked(); // Mark the corresponding farm tile as clicked
 	}
@@ -35,11 +37,24 @@ namespace Tmpl8
 	}
 	void Plant::NextDay()
 	{
-		daysPassed++;
-		if (daysPassed <= harvestDay)
-			frame++;
-		if (daysPassed >= harvestDay && !harvested)
-			grown = true;
+		if (alive)
+		{
+			daysPassed++;
+			if (watered)
+			{
+				watered = false; //reset watered status for next day
+				FarmTile::farmTiles[tileNumber].watered = false;
+				if (daysPassed <= harvestDay)
+					frame++;
+				if (daysPassed >= harvestDay && !harvested)
+					grown = true;
+			}
+			else
+			{
+				alive = false;
+				frame = 19; //withered plant frame
+			}
+		}
 	}
 	void Plant::Collect()
 	{
@@ -56,16 +71,26 @@ namespace Tmpl8
 	}
 	void Plant::Grown()
 	{
-		if (grown && FarmTile::farmTiles[tileNumber].clicked)
+		if ((grown || !alive) && FarmTile::farmTiles[tileNumber].clicked)
 		{
 			harvested = true;
 			grown = false; // prevent multiple harvesting
+			alive = true; // prevent multiple harvesting
 			FarmTile::farmTiles[tileNumber].isClicked = false;
 			FarmTile::farmTiles[tileNumber].frame = 0;
+			FarmTile::farmTiles[tileNumber].watered = false;
 			Collect();
 		}
 	}
 	
+	void Plant::Water()
+	{
+		if (FarmTile::farmTiles[tileNumber].clicked && !watered && WateringCan::wateringCan)
+		{
+			watered = true;
+			FarmTile::farmTiles[tileNumber].watered = true;//change farm tile to wet version
+		}
+	}
 	
 	void Plant::Delete()
 	{

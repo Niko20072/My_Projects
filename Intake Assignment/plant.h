@@ -5,6 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "farmtile.h"
+#include "wateringCan.h"
 
 namespace Tmpl8
 {
@@ -50,6 +51,9 @@ namespace Tmpl8
 		int tileNumber; //the farm tile where the plant is planted
 		float x, y;
 		bool harvested = false;
+		bool watered = false;
+		bool alive = true;
+		static bool wateringCan;
 
 		Plant(float x, float y, int harvestDay, int frame, int tileNumber);
 		void Draw(Surface* screen);
@@ -57,5 +61,6 @@ namespace Tmpl8
 		void Collect();
 		void Grown();
 		void Delete();
+		void Water();
 	};
 };

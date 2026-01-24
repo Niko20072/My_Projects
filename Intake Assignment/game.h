@@ -14,6 +14,7 @@
 #include "buttons.h"
 #include "orders.h"
 #include "nightstand.h"
+#include "wateringCan.h"
 
 namespace Tmpl8 
 {

@@ -13,12 +13,13 @@ namespace Tmpl8
 	{
 	public:
 		static std::vector<FarmTile> farmTiles;
-		Sprite *farmTile = new Sprite(new Surface("assets/tiles.png"), 4);
+		Sprite *farmTile = new Sprite(new Surface("assets/tiles2.png"), 6);
 		int farmTileX;
 		int farmTileY;
 		int frame = 0; // Current frame of the farm tile sprite
 		bool isClicked = false; // Whether the tile has been clicked
 		bool clicked = false;
+		bool watered = false;
 
 		//FarmTile(Surface* screen);
 

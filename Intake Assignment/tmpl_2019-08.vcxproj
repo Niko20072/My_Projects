@@ -234,6 +234,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="surface.cpp" />
     <ClCompile Include="template.cpp" />
+    <ClCompile Include="wateringCan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttons.h" />
@@ -248,6 +249,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="surface.h" />
     <ClInclude Include="template.h" />
+    <ClInclude Include="wateringCan.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

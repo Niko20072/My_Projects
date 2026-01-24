@@ -52,22 +52,27 @@ namespace Tmpl8
 			clicked = true;
 		}
 		
-		// Hover over clicked tile
-		else if (isClicked && tileRectangle)
+		// Hover & state logic
+		if (watered)
 		{
-			frame = 3;
+			if (tileRectangle)
+				frame = 5;   // hover on wet tile
+			else
+				frame = 4;   // idle wet tile
 		}
 		else if (isClicked)
 		{
-			frame = 2;
+			if (tileRectangle)
+				frame = 3;   // hover on dry tile
+			else
+				frame = 2;   // idle dry tile
 		}
-		// Hover over normal tile
-		else if (tileRectangle) //hover
-		{
-			frame = 1;
-		}
-		else //Idle
-			frame = 0;
+		else if (tileRectangle)
+			frame = 1;       // hover on default tile
+		else
+			frame = 0;       // default tile
+
 		farmTile->SetFrame(frame);
+
 	}
 };

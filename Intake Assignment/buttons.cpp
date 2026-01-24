@@ -11,6 +11,14 @@ namespace Tmpl8
 			mouseX = MouseX;
 			mouseY = MouseY;
 		}
+		bool KeyR()
+		{
+			static bool wasDown = false;
+			bool isDown = GetAsyncKeyState('R');
+			bool pressed = isDown && !wasDown;
+			wasDown = isDown;
+			return pressed;
+		}
 		bool KeyQ()
 		{
 			static bool wasDown = false;

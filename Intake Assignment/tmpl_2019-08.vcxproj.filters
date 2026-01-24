@@ -17,6 +17,7 @@
     <ClCompile Include="buttons.cpp" />
     <ClCompile Include="orders.cpp" />
     <ClCompile Include="crafting.cpp" />
+    <ClCompile Include="wateringCan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -35,6 +36,7 @@
     <ClInclude Include="buttons.h" />
     <ClInclude Include="orders.h" />
     <ClInclude Include="crafting.h" />
+    <ClInclude Include="wateringCan.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">
