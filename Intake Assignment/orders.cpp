@@ -3,6 +3,7 @@ namespace Tmpl8
 {
 	std::vector<Order> Order::orders;
 	int Order::daysUntilReset = 5; // Days until orders reset
+	int range = 5; // Click range
 	Order::Order(int number)
 	{
 		orderNumber = number;
@@ -33,18 +34,15 @@ namespace Tmpl8
 		sprintf(complete, "completed");
 		//std::cout <<" Potion number: " << potionNumber << std::endl;
 	}
-	void Order::Logic(Surface* screen, bool &LeftPressed, int mouseX, int mouseY, int& coinCounter)
+	void Order::Logic(Surface* screen, int& coinCounter)
 	{
-		int range = 5; // Click range
 		// Check if send button is clicked
-		int button = LeftPressed && mouseX >= (475 - range) && mouseX <= (526 + range) && mouseY >= (235 + orderNumber * 35 - range) && mouseY <= (242 + orderNumber * 35 + range);
-		// Button outline for debugging
-		screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0);
+		int button = Buttons::leftPressed && WorldState::mouseX >= (475 - range) && WorldState::mouseX <= (526 + range) && WorldState::mouseY >= (235 + orderNumber * 35 - range) && WorldState::mouseY <= (242 + orderNumber * 35 + range);
 
 		// Process order if button clicked and not completed
 		if (button && !completed)
 		{
-			LeftPressed = false; // Reset left click state to avoid multiple clicks
+			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 
 			// Order with one potion
 			if (potionNumber == 1) 
@@ -80,6 +78,8 @@ namespace Tmpl8
 		// Draw order text and button based on completion status
 		sprintf(daysUntilResetText, "Days until order reset: %d", daysUntilReset);
 		screen->Print(daysUntilResetText, 330, 94, 0x0);
+		// Button outline
+		screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0);
 		if (!completed)
 		{
 			screen->Print(order, 265, 236 + orderNumber * 35, 0x0);

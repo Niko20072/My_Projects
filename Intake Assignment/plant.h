@@ -6,6 +6,7 @@
 #include <iostream>
 #include "farmtile.h"
 #include "wateringCan.h"
+#include "buttons.h"
 
 namespace Tmpl8
 {

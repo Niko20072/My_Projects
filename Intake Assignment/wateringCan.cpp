@@ -4,12 +4,12 @@ namespace Tmpl8
 	namespace WateringCan
 	{
 		bool wateringCan = false;
-		void Water(bool& rPressed)
+		void Water()
 		{
-			if (rPressed)
+			if (Buttons::rPressed)
 			{
 				wateringCan = !wateringCan;
-				rPressed = false; //reset rPressed to avoid multiple toggles
+				Buttons::rPressed = false; //reset rPressed to avoid multiple toggles
 			}
 		}
 	}

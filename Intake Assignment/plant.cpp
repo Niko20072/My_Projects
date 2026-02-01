@@ -75,7 +75,6 @@ namespace Tmpl8
 			alive = true; // prevent multiple harvesting
 			FarmTile::farmTiles[tileNumber].isClicked = false;
 			FarmTile::farmTiles[tileNumber].frame = 0;
-
 			Collect();
 		}
 	}
@@ -90,9 +89,5 @@ namespace Tmpl8
 					return p.grown == true; // conditia de sters
 				}), Plant::plants.end());
 		}*/
-	}
-	void DrawAll()
-	{
-		
 	}
 };

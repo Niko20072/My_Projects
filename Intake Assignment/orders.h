@@ -4,6 +4,7 @@
 #include <vector>
 #include "inventory.h"
 #include "surface.h"
+#include "buttons.h"
 
 namespace Tmpl8
 {
@@ -26,7 +27,7 @@ namespace Tmpl8
 		char order[64], send[32], complete[32], daysUntilResetText[64]; // Text buffers
 		static int daysUntilReset; // Days until orders reset 
 		Order(int number); // Constructor
-		void Logic(Surface* screen, bool& LeftPressed, int mouseX, int mouseY, int& coinCounter); // Logic for order processing
+		void Logic(Surface* screen, int& coinCounter); // Logic for order processing
 		void Draw(Surface* screen); // Draw order on screen
 	};
 };

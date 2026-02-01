@@ -8,11 +8,6 @@ namespace Tmpl8
 		float worldX, worldY, worldPlayerX, worldPlayerY, reachX1, reachY1, reachX2, reachY2;
 		void UpdateWorldState()
 		{
-			// -----------------------------------------------------------
-		    // Variables
-		    // -----------------------------------------------------------
-			
-			
 			// Transform screen coordinates -> world coordinates -> mouse screen position
 			worldX = Map::cameraX + mouseX;
 			worldY = Map::cameraY + mouseY;

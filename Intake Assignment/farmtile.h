@@ -5,6 +5,8 @@
 #include <vector>
 #include "inventory.h"
 #include "map.h"
+#include "worldState.h"
+#include "buttons.h"
 
 namespace Tmpl8
 {
@@ -53,6 +55,6 @@ namespace Tmpl8
 		void Draw(Surface* screen);// Draw farm tile at its position
 		void SetFrame(int frame); // Set the current frame of the farm tile sprite
 		void Clicked(); // Mark the tile as clicked and update its frame
-		void Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2); // Update tile state based on interaction
+		void Update(float x, float y); // Update tile state based on interaction
 	};
 };

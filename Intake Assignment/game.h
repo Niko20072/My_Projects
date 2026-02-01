@@ -34,6 +34,7 @@ public:
 	void KeyDown( int key ) { /* implement if you want to handle keys */ }
 private:
 	Surface* screen;
+	Map gameMap;
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 0;
 	int coinCounter = 200;
@@ -41,21 +42,17 @@ private:
 	bool gameCompleted = false;
 	float plantX, plantY;
 	int index, index2;
-	bool qPressed;
-	bool ePressed;
-	bool rPressed;
-	bool leftClickPressed;
 	bool tileClicked = false;
-	Map gameMap;
 	bool CheckCollision(int x, int y);
-	void DrawUI();
-	void DrawGame();
 	void HandleInput();
 	void HandleMovement(float deltaTime);
 	void UpdatePlants();
 	void UpdateOrders();
 	void UpdateFarmTiles();
+	void Logic();
 	void UpdateWorld();
+	void DrawUI();
+	void DrawGame();
 };
 
 }; // namespace Tmpl8

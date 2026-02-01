@@ -39,22 +39,20 @@ namespace Tmpl8
 		isClicked = true;
 		frame = 2;
 	}
-	void FarmTile::Update(bool leftClicked, float x, float y, float worldX, float worldY, float reachX1, float reachX2, float reachY1, float reachY2)
+	void FarmTile::Update(float x, float y)
 	{
 		// Tile rectangle
-		bool tileRectangle = worldX >= x && worldX < x + Map::TileSize && worldY >= y && worldY < y + Map::TileSize;
-		bool tileInReach = reachX1 < x + Map::TileSize && reachX2 > x && reachY1 < y + Map::TileSize && reachY2 > y;
+		bool tileRectangle = WorldState::worldX >= x && WorldState::worldX < x + Map::TileSize && WorldState::worldY >= y && WorldState::worldY < y + Map::TileSize;
+		bool tileInReach = WorldState::reachX1 < x + Map::TileSize && WorldState::reachX2 > x && WorldState::reachY1 < y + Map::TileSize && WorldState::reachY2 > y;
 
 		// Click
-		if (leftClicked && tileRectangle && tileInReach)
+		if (Buttons::leftPressed && tileRectangle && tileInReach)
 		{
-			leftClicked = false; // Reset left click state to avoid multiple clicks
+			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 			clicked = true;
 		}
 		if (clicked && WateringCan::wateringCan)
-		{
 			watered = true;
-		}
 		// Hover & state logic
 		if (watered)
 		{

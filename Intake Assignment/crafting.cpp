@@ -53,12 +53,12 @@ namespace Tmpl8
 				screen->Print(frostVeil, 329 - 4, 163, 0x0);
 			}
 		} 
-		void ManageFrames(int mouseX, int mouseY) 
+		void ManageFrames() 
 		{
 			// Manage frame selection buttons
-			bool button1 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 244 && mouseX <= 314 && mouseY >= 516 && mouseY <= 584;
-			bool button2 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 364 && mouseX <= 434 && mouseY >= 516 && mouseY <= 584;
-			bool button3 = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 485 && mouseX <= 554 && mouseY >= 516 && mouseY <= 584;
+			bool button1 = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 244 && WorldState::mouseX <= 314 && WorldState::mouseY >= 516 && WorldState::mouseY <= 584;
+			bool button2 = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 364 && WorldState::mouseX <= 434 && WorldState::mouseY >= 516 && WorldState::mouseY <= 584;
+			bool button3 = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 485 && WorldState::mouseX <= 554 && WorldState::mouseY >= 516 && WorldState::mouseY <= 584;
 			if (button1)
 				frame = 0;
 			if (button2)
@@ -89,14 +89,14 @@ namespace Tmpl8
 				potion++;
 			}
 		}
-		void Craft(bool &leftPressed, int mouseX, int mouseY)
+		void Craft()
 		{
 			// Detect crafting button clicks
-			bool clickedCraft1 = leftPressed && mouseX >= 295 && mouseX <= 359 && mouseY >= 111 && mouseY <= 154;
-			bool clickedCraft2 = leftPressed && mouseX >= 643 && mouseX <= 704 && mouseY >= 111 && mouseY <= 154;
+			bool clickedCraft1 = Buttons::leftPressed && WorldState::mouseX >= 295 && WorldState::mouseX <= 359 && WorldState::mouseY >= 111 && WorldState::mouseY <= 154;
+			bool clickedCraft2 = Buttons::leftPressed && WorldState::mouseX >= 643 && WorldState::mouseX <= 704 && WorldState::mouseY >= 111 && WorldState::mouseY <= 154;
 
 			if(clickedCraft1 || clickedCraft2)
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 
 			///crafting vital tonic
 			CraftLogic(clickedCraft1, 0, Inventory::contSunblossom, Inventory::contEmberroot, Inventory::contVitalTonic);
@@ -110,28 +110,31 @@ namespace Tmpl8
 			CraftLogic(clickedCraft1, 2, Inventory::contFrostmint, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contFrostveil);
 
 		}
-		void ShowCrafting(Surface* screen, bool &leftPressed, bool &qPressed, int mouseX, int mouseY)
+		void ManageCrafring()
 		{
-			bool clickedOnTable = leftPressed && mouseX >= 103 && mouseX <= 294 && mouseY >= 331 && mouseY <= 476;
+			bool clickedOnTable = Buttons::leftPressed && WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
 
 			// Open crafting interface when clicking on crafting table inside house
 			if (clickedOnTable && House::houseisopen && House::frame == 0)
 			{
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 				craftingisopen = true;
 				frame = 0;
 				crafting.SetFrame(frame);
 			}
 			// Close crafting interface when pressing Q
-			if (qPressed && craftingisopen)
+			if (Buttons::qPressed && craftingisopen)
 			{
-				qPressed = false; // Reset Q key state to avoid multiple toggles
+				Buttons::qPressed = false; // Reset Q key state to avoid multiple toggles
 				craftingisopen = false;
 			}
+		}
+		void Draw(Surface* screen)
+		{
 			// Draw crafting interface
 			if (craftingisopen)
 			{
-				ManageFrames(mouseX, mouseY);
+				ManageFrames();
 				CraftingDraw(screen);
 			}
 		}

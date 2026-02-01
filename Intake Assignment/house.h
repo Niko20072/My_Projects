@@ -6,6 +6,8 @@
 #include "crafting.h"
 #include "plant.h"
 #include "orders.h"
+#include "worldState.h"
+#include "buttons.h"
 
 namespace Tmpl8
 {
@@ -18,9 +20,10 @@ namespace Tmpl8
 		extern bool bedisopen; // Is the bed menu open?
 		extern int frame; // Current frame of the house
 		extern int gameframe; // Current frame of the game end screen
-		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, float worldX, float worldY); // Show house menu
-		void DayUpdate(bool& leftPressed, bool& qPressed, int& dayCounter, int mouseX, int mouseY); // Update house menu based on day progression
-		void ClickedNightstand(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY); // Handle nightstand click
-		void GameCompleted(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY, bool& gameCompleted); // Show game completed screen
+		void HouseLogic(); // Show house menu
+		void DayUpdate(int& dayCounter); // Update house menu based on day progression
+		void ClickedNightstand(Surface* screen, int coinCounter); // Handle nightstand click
+		void Draw(Surface* screen);
+		void GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted); // Show game completed screen
 	}
 };

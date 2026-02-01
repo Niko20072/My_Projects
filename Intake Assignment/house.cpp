@@ -16,11 +16,11 @@ namespace Tmpl8
 		int gameframe = 0;
 		bool clickedYes = 0;
 		bool clickedNo = 0;
-		void ShowHouse(Surface* screen, bool qPressed, float reachX1, float reachX2, float reachY1, float reachY2, float worldX, float worldY)
+		void HouseLogic()
 		{
 			// Check if player clicked on house door and is in reach
-			bool houseInReach = reachX2 >= 196 && reachX1 <= 233 && reachY2 >= 183 && reachY1 <= 232;
-			bool clicekdOnDoor = worldX >= 196 && worldX <= 233 && worldY >= 183 && worldY <= 234;
+			bool houseInReach = WorldState::reachX2 >= 196 && WorldState::reachX1 <= 233 && WorldState::reachY2 >= 183 && WorldState::reachY1 <= 232;
+			bool clicekdOnDoor = WorldState::worldX >= 196 && WorldState::worldX <= 233 && WorldState::worldY >= 183 && WorldState::worldY <= 234;
 
 			// Open house if left mouse button is clicked while in reach of door
 			if (GetAsyncKeyState(VK_LBUTTON) && houseInReach && clicekdOnDoor)
@@ -31,23 +31,16 @@ namespace Tmpl8
 			}	
 
 			// Close house if Q is pressed and crafting menu is not open
-			if (qPressed && !Crafting::craftingisopen && !bedisopen && !nightstandisopen)
+			if (Buttons::qPressed && !Crafting::craftingisopen && !bedisopen && !nightstandisopen)
 				houseisopen = false;
-
-			// Draw house if it is open
-			if (houseisopen)
-			{
-				house.Draw(screen, 0, 0);
-				WateringCan::wateringCan = false; // Disable watering can when house is open
-			}
 				
 		}
-		void DayUpdate(bool &leftPressed, bool& qPressed, int &dayCounter, int mouseX, int mouseY)
+		void DayUpdate(int &dayCounter)
 		{
 			// Check if player clicked on bed, yes or no buttons
-			bool clickedOnBed = leftPressed && mouseX >= 511 && mouseX <= 742 && mouseY >= 320 && mouseY <= 565;
-			clickedYes = leftPressed && mouseX >= 235 && mouseX <= 389 && mouseY >= 310 && mouseY <= 385;
-			clickedNo = leftPressed && mouseX >= 405 && mouseX <= 557 && mouseY >= 310 && mouseY <= 383;
+			bool clickedOnBed = Buttons::leftPressed && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
+			clickedYes = Buttons::leftPressed && WorldState::mouseX >= 235 && WorldState::mouseX <= 389 && WorldState::mouseY >= 310 && WorldState::mouseY <= 385;
+			clickedNo = Buttons::leftPressed && WorldState::mouseX >= 405 && WorldState::mouseX <= 557 && WorldState::mouseY >= 310 && WorldState::mouseY <= 383;
 
 			// Update house frame based on clicks:
 
@@ -60,7 +53,7 @@ namespace Tmpl8
 			{
 				bedisopen = true;
 				frame = 1;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 			}
 
 			// Handle bed menu interactions
@@ -80,63 +73,71 @@ namespace Tmpl8
 					frame = 2;
 					dayCounter++;
 					Order::daysUntilReset--;
-					leftPressed = false; // Reset left click state to avoid multiple clicks
+					Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 				}
-				else if ((frame == 2 && leftPressed) || (clickedNo && frame == 1)) // Player clicked to exit day passed view or declined to sleep
+				else if ((frame == 2 && Buttons::leftPressed) || (clickedNo && frame == 1)) // Player clicked to exit day passed view or declined to sleep
 				{
 					bedisopen = false;
 					frame = 0;
-					leftPressed = false; // Reset left click state to avoid multiple clicks
+					Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 				}
-				else if (qPressed && Crafting::craftingisopen == false) // Close bed menu if Q is pressed
+				else if (Buttons::qPressed && Crafting::craftingisopen == false) // Close bed menu if Q is pressed
 				{
 					bedisopen = false;
 					frame = 0;
-					qPressed = false; // Reset q click state to avoid multiple clicks
+					Buttons::qPressed = false; // Reset q click state to avoid multiple clicks
 				}
 			}
 			house.SetFrame(frame);	
 		}
-		void ClickedNightstand(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY)
+		void ClickedNightstand(Surface* screen, int coinCounter)
 		{
 			// Check if player clicked on nightstand
-			bool clickedOnNightstand = leftPressed && mouseX >= 386 && mouseX <= 497 && mouseY >= 351 && mouseY <= 454;
+			bool clickedOnNightstand = Buttons::leftPressed && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 454;
 			
 			if (clickedOnNightstand && !Crafting::craftingisopen && !bedisopen && frame == 0)
 			{
 				nightstandisopen = true;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 				frame = 0;
 				nightstand.SetFrame(frame);
 			}
 			// Close nightstand if Q is pressed and crafting menu is not open
-			if (qPressed && !Crafting::craftingisopen && !bedisopen)
+			if (Buttons::qPressed && !Crafting::craftingisopen && !bedisopen)
 				nightstandisopen = false;
-
+		}
+		void Draw(Surface* screen)
+		{
+			// Draw house if it is open
+			if (houseisopen)
+			{
+				house.Draw(screen, 0, 0);
+				WateringCan::wateringCan = false; // Disable watering can when house is open
+			}
 			// Draw nightstand if it is open
 			if (nightstandisopen)
 				nightstand.Draw(screen, 0, 0);
 		}
-		void GameCompleted(Surface* screen, bool &leftPressed, bool qPressed, int coinCounter, int mouseX, int mouseY, bool &gameCompleted)
+		void GameCompleted(Surface* screen, int coinCounter, bool &gameCompleted)
 		{
 			// Check if player clicked on send money button
-			bool sendMoney = leftPressed && mouseX >= 336 && mouseX <= 468 && mouseY >= 446 && mouseY <= 498;
+			bool sendMoney = Buttons::leftPressed && WorldState::mouseX >= 336 && WorldState::mouseX <= 468 && WorldState::mouseY >= 446 && WorldState::mouseY <= 498;
 
 			// Complete game if send money button is clicked, nightstand is open, and player has enough coins
 			if (sendMoney && nightstandisopen && coinCounter >= 2000 && !gameCompleted)
 			{
 				gameCompleted = true;
-				leftPressed = false; // Reset left click state to avoid multiple clicks
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 				gameframe = 0;
 			}
 
 			// Draw game end screen
 			if (gameCompleted)
 			{
-				if(leftPressed)
+				if(Buttons::leftPressed)
 				{
 					gameframe++;
-					leftPressed = false; // Reset left click state to avoid multiple clicks
+					Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 					gameendscreen.SetFrame(gameframe);
 				}
 				if(gameframe <= 6)

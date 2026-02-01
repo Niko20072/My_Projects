@@ -54,44 +54,9 @@ namespace Tmpl8
 
 		return true; //no collision
 	}
-	void Game::DrawUI()
-	{
-		// Draw day and coins
-		sprintf(day, "DAY: %d", dayCounter);
-		sprintf(coins, "COINS: %d", coinCounter);
-		screen->Print(day, 750, 10, 0xff0000);
-		screen->Print(coins, 10, 10, 0xffff00);
-		if (WateringCan::wateringCan)
-			screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
-	}
-	void Game::DrawGame()
-	{
-		// Draw farm tiles
-		for (auto& x : FarmTile::farmTiles)
-		{
-			x.Draw(screen);
-		}
-		for (auto& x : Plant::plants)
-		{
-			if (!x.harvested)
-				x.Draw(screen);
-		}
-		///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?
-		if (Inventory::carisopen && Inventory::frame == 5)
-		{
-			for (auto& x : Order::orders)
-			{
-				x.Draw(screen);
-			}
-		}
-		DrawUI();
-	}
 	void Game::HandleInput()
 	{
-		// -----------------------------------------------------------
-		// Get mouse coordinates
-		// -----------------------------------------------------------
-
+		// Mouse coordinates
 		POINT mousePos;
 
 		if (GetCursorPos(&mousePos))
@@ -103,22 +68,17 @@ namespace Tmpl8
 			// Mouse coordinates on screen
 			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
-		// -----------------------------------------------------------
-		// Buttons
-		// -----------------------------------------------------------
 
-		Buttons::SetValues(WorldState::mouseX, WorldState::mouseY);
-		qPressed = Buttons::KeyQ();
-		ePressed = Buttons::KeyE();
-		rPressed = Buttons::KeyR();
-		leftClickPressed = Buttons::LeftClick();
+		// Buttons
+		Buttons::CheckClick();
+		
 	}
 	void Game::HandleMovement(float deltaTime)
 	{
 		// -----------------------------------------------------------
 		// Movement and collision
 		// -----------------------------------------------------------
-		
+
 		// New camera position
 		float newCameraX = Map::cameraX;
 		float newCameraY = Map::cameraY;
@@ -173,7 +133,7 @@ namespace Tmpl8
 		{
 			for (auto& x : Order::orders)
 			{
-				x.Logic(screen, leftClickPressed, WorldState::mouseX, WorldState::mouseY, coinCounter);
+				x.Logic(screen, coinCounter);
 			}
 		}
 		//check if all orders are completed
@@ -189,18 +149,102 @@ namespace Tmpl8
 	}
 	void Game::UpdateFarmTiles()
 	{
+		// Tiles
+		tileClicked = false;
 
+		index = 0;
+		for (auto& x : FarmTile::farmTiles)
+		{
+			if (Inventory::InventorysClosed())
+				x.Update(x.farmTileX, x.farmTileY);
+			if (x.clicked && !x.isClicked)
+			{
+				tileClicked = true;
+				plantX = x.farmTileX;
+				plantY = x.farmTileY;
+				index2 = index; // farmtile index in vector
+				break;
+			}
+			index++;
+		}
+	}
+	void Game::Logic()
+	{
+		// House interaction
+		House::HouseLogic();
+
+		// Crafting
+		if (Crafting::craftingisopen == true)
+			Crafting::Craft();
+
+		// WateringCan
+		WateringCan::Water();
+
+		if (!House::houseisopen)
+		{
+			// Inventory
+			Inventory::MainInventory(screen);
+			Inventory::CarInventory(screen, coinCounter);
+			Inventory::SeedsInventory(screen, plantX, plantY, tileClicked, index2);
+		}
+		else
+		{
+			Crafting::ManageCrafring();
+			House::DayUpdate(dayCounter);
+			House::ClickedNightstand(screen, coinCounter);
+		}
+		// reset farmtile clicked state
+		for (auto& x : FarmTile::farmTiles) 
+			x.clicked = false;
 	}
 	void Game::UpdateWorld()
 	{
 		UpdateFarmTiles();
 		UpdatePlants();
 		UpdateOrders();
-		WateringCan::Water(rPressed);
-		for (auto& x : FarmTile::farmTiles) // reset clicked state
+		Logic();
+	}
+	void Game::DrawUI()
+	{
+		// Draw day and coins
+		sprintf(day, "DAY: %d", dayCounter);
+		sprintf(coins, "COINS: %d", coinCounter);
+		screen->Print(day, 750, 10, 0xff0000);
+		screen->Print(coins, 10, 10, 0xffff00);
+		if (WateringCan::wateringCan)
+			screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
+	}
+	void Game::DrawGame()
+	{
+		if (!House::houseisopen) // Outside
 		{
-			x.clicked = false;
+			gameMap.DrawMap(screen);
+
+			// Tiles
+			for (auto& x : FarmTile::farmTiles)
+				x.Draw(screen);
+
+			// Plants
+			for (auto& x : Plant::plants)
+				if (!x.harvested)
+					x.Draw(screen);
+			
+			// Player reach box
+			screen->Box(WorldState::reachX1 - Map::cameraX, WorldState::reachY1 - Map::cameraY, WorldState::reachX2 - Map::cameraX, WorldState::reachY2 - Map::cameraY, 0x00ff00);
+			
+			// Player Sprite
+			player.Draw(screen, WorldState::playerX, WorldState::playerY);
+
+			//Inventory
+			Inventory::DrawOnScreen(screen);
 		}
+		else // Inside house
+		{
+			House::Draw(screen);
+			Crafting::Draw(screen);
+		}
+
+		DrawUI();
 	}
 	/* //not used anymore
 	bool Game::CheckAllCompleted()
@@ -212,7 +256,6 @@ namespace Tmpl8
 		}
 		return true;
 	}*/
-	
 	
 	void Game::Init()
 	{
@@ -248,74 +291,16 @@ namespace Tmpl8
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
 		screen->Clear(0);
+
 		HandleInput();
 		WorldState::UpdateWorldState();
-		
-
-		// Check for game completion
-		House::GameCompleted(screen, leftClickPressed, qPressed, coinCounter, WorldState::mouseX, WorldState::mouseY, gameCompleted);
+		House::GameCompleted(screen, coinCounter, gameCompleted);// Check for game completion
 		
 		if (!gameCompleted)
 		{
-			// -----------------------------------------------------------
-			// Drawing stuff
-			// -----------------------------------------------------------
-
-			// Show House when left click in house area
-			House::ShowHouse(screen, qPressed, WorldState::reachX1, WorldState::reachX2, WorldState::reachY1, WorldState::reachY2, WorldState::worldX, WorldState::worldY);
-
-			// Crafting
-			Crafting::ShowCrafting(screen, leftClickPressed, qPressed, WorldState::mouseX, WorldState::mouseY);
-			if (Crafting::craftingisopen == true)
-				Crafting::Craft(leftClickPressed, WorldState::mouseX, WorldState::mouseY);
-
-			// Main game view
-			if (!House::houseisopen)
-			{
-				gameMap.DrawMap(screen);
-
-				// Tiles
-				tileClicked = false;
-				
-				index = 0;
-				for (auto& x : FarmTile::farmTiles)
-				{
-					index++;
-					if (Inventory::InventorysClosed())
-						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, WorldState::worldX, WorldState::worldY, WorldState::reachX1, WorldState::reachX2, WorldState::reachY1, WorldState::reachY2);
-					if (x.clicked && !x.isClicked)
-					{
-						tileClicked = true;
-						plantX = x.farmTileX;
-						plantY = x.farmTileY;
-						index2 = index - 1;
-						break;
-					}
-				}
-
-				UpdateWorld();
-				DrawGame();
-
-				//Player range
-				//screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
-				screen->Box(WorldState::reachX1 - Map::cameraX, WorldState::reachY1 - Map::cameraY, WorldState::reachX2 - Map::cameraX, WorldState::reachY2 - Map::cameraY, 0x00ff00);
-
-				//drawing stuff on screen
-				player.Draw(screen, WorldState::playerX, WorldState::playerY);
-				Inventory::MainInventory(screen, leftClickPressed, ePressed, qPressed, WorldState::mouseX, WorldState::mouseY);
-				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, WorldState::mouseX, WorldState::mouseY, WorldState::worldX, WorldState::worldY, WorldState::reachX1, WorldState::reachY1, WorldState::reachX2, WorldState::reachY2);
-				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, WorldState::mouseX, WorldState::mouseY, WorldState::worldX, WorldState::worldY, plantX, plantY, tileClicked, index2);
-				Inventory::DrawOnScreen(screen, deltaTime);
-
-				HandleMovement(deltaTime);
-
-			}
-			else // Inside house
-			{
-				House::DayUpdate(leftClickPressed, qPressed, dayCounter, WorldState::mouseX, WorldState::mouseY);
-				House::ClickedNightstand(screen, leftClickPressed, qPressed, coinCounter, WorldState::mouseX, WorldState::mouseY);
-			}
-			//DrawUI();
+			UpdateWorld();
+			DrawGame();
+			HandleMovement(deltaTime);
 		}
 	}
 };
