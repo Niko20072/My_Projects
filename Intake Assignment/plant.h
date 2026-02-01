@@ -42,7 +42,7 @@ namespace Tmpl8
 			return *this;
 		}*/
 		static std::vector<Plant> plants;   
-		std::unique_ptr<Sprite> sun;
+		std::unique_ptr<Sprite> plant;
 		std::string name;
 		int harvestDay; //the day when the plant is grown
 		int daysPassed = 0; //plant age

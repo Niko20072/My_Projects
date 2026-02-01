@@ -13,7 +13,8 @@ namespace Tmpl8
 	{
 	public:
 		static std::vector<FarmTile> farmTiles;
-		Sprite *farmTile = new Sprite(new Surface("assets/tiles2.png"), 6);
+		std::unique_ptr<Sprite> farmTile;
+		//Sprite *farmTile = new Sprite(new Surface("assets/tiles2.png"), 6);
 		int farmTileX;
 		int farmTileY;
 		int frame = 0; // Current frame of the farm tile sprite
@@ -25,6 +26,7 @@ namespace Tmpl8
 
 		FarmTile(float x, float y);
 
+		/*
 		//i actually dk what ahppened here but it works now -> study
 		~FarmTile() { delete farmTile; }
 		FarmTile(const FarmTile&) = delete;
@@ -46,7 +48,7 @@ namespace Tmpl8
 			}
 			return *this;
 		}
-		//i actually dk what ahppened here but it works now
+		//i actually dk what ahppened here but it works now*/
 
 		void Draw(Surface* screen);// Draw farm tile at its position
 		void SetFrame(int frame); // Set the current frame of the farm tile sprite

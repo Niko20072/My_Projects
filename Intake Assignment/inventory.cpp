@@ -4,9 +4,8 @@ namespace Tmpl8
 {
 	namespace Inventory
 	{
-		int x = 10, y = 10;
 		int frame = 0;
-		bool isopen = false;
+		bool inventoryisopen = false;
 		bool carisopen = false;
 		bool seedsisopen = false;
 
@@ -171,7 +170,7 @@ namespace Tmpl8
 			sprintf(counterSeedBerry, "x%d", contSeedBerry);
 
 			// Display when ingredients inventory is open
-			if (isopen && frame == 0)
+			if (inventoryisopen && frame == 0)
 			{
 				screen->Print(sunBlossom, 350, 236, 0x0);
 				screen->Print(moonLeaf, 350, 280, 0x0);
@@ -180,7 +179,7 @@ namespace Tmpl8
 				screen->Print(berry, 350, 411, 0x0);
 			}
 			// Display when potions inventory is open
-			if (isopen && frame == 1)
+			if (inventoryisopen && frame == 1)
 			{
 				screen->Print(vitalTonic, 350, 241, 0x0);
 				screen->Print(calmMind, 350, 285, 0x0);
@@ -189,7 +188,7 @@ namespace Tmpl8
 				screen->Print(frostVeil, 350, 418, 0x0);
 			}
 			// Display when seeds inventory is open
-			if (isopen && frame == 2)
+			if (inventoryisopen && frame == 2)
 			{
 				screen->Print(seedSunBlossom, 350, 236, 0x0);
 				screen->Print(seedMoonLeaf, 350, 280, 0x0);
@@ -216,7 +215,7 @@ namespace Tmpl8
 				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
 		}
-		void NormalInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY)
+		void MainInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = leftPressed && !(mouseX >= 207 && mouseX <= 579 && mouseY >= 78 && mouseY <= 519);
@@ -225,18 +224,18 @@ namespace Tmpl8
 			bool clickedOnSeedButton = GetAsyncKeyState(VK_LBUTTON) && mouseX >= 430 && mouseX <= 475 && mouseY >= 471 && mouseY <= 510;
 
 			//Toggle normal inventory
-			if (ePressed && !isopen)
+			if (ePressed && !inventoryisopen)
 			{
 				carisopen = false;
-				ePressed = false; // Reset E key state to avoid multiple toggles
+				ePressed = false;
 				seedsisopen = false;
-				isopen = true;
+				inventoryisopen = true;
 				frame = 0;
 				inventory.SetFrame(frame);
 			}
 
 			//Click inventory
-			if (isopen)
+			if (inventoryisopen)
 			{
 				// Manage frame selection buttons
 				if (clickedOnPlantButton)
@@ -255,7 +254,7 @@ namespace Tmpl8
 					inventory.SetFrame(frame);
 				}
 				if (clickedOutsideInv || qPressed || ePressed)
-					isopen = false;
+					inventoryisopen = false;
 			}
 
 		}
@@ -273,7 +272,7 @@ namespace Tmpl8
 			if (leftPressed && clickedOnCar && playerCloseToCar && !carisopen)
 			{
 				leftPressed = false; // Reset left click state to avoid multiple clicks
-				isopen = false;
+				inventoryisopen = false;
 				seedsisopen = false;
 				carisopen = !carisopen;
 				frame = 4;
@@ -310,7 +309,7 @@ namespace Tmpl8
 			//Toggle seed inventory
 			if (leftPressed && tileClicekd && seedsisopen == false && !WateringCan::wateringCan)
 			{
-				isopen = false;
+				inventoryisopen = false;
 				carisopen = false;
 				leftPressed = false; // Reset left click state to avoid multiple clicks
 				seedsisopen = true;
@@ -330,7 +329,7 @@ namespace Tmpl8
 		void DrawOnScreen(Surface* screen, float deltaTime)
 		{
 			// Draw inventory if any is open
-			if (isopen || carisopen || seedsisopen)
+			if (inventoryisopen || carisopen || seedsisopen)
 			{
 				DrawInventory(screen);
 				WateringCan::wateringCan = false; // Disable watering can when any inventory is open
@@ -340,7 +339,7 @@ namespace Tmpl8
 		bool InventorysClosed()
 		{
 			// Check if all inventories are closed
-			if (!isopen && !carisopen && !seedsisopen)
+			if (!inventoryisopen && !carisopen && !seedsisopen)
 				return 1;
 			return 0;
 		}

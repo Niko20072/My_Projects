@@ -37,14 +37,17 @@ private:
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 0;
 	int coinCounter = 200;
-	char day[32], coins[32], weekDay[32];
+	char day[32], coins[32];
 	bool gameCompleted = false;
 	float plantX, plantY;
 	int index, index2;
+	int mouseX = 0, mouseY = 0;
 	Map gameMap;
 	std::vector<Order> orders;
 	bool CheckCollision(int x, int y);
-	bool CheckAllCompleted();
+	void DrawUI();
+	void DrawGame();
+	void UpdateVariables();
 };
 
 }; // namespace Tmpl8

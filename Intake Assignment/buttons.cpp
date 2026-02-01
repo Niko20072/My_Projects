@@ -6,7 +6,7 @@ namespace Tmpl8
 	{
 		//pressed-once edge detection
 		float mouseX, mouseY;
-		void GetValues(float MouseX, float MouseY)//set
+		void SetValues(float MouseX, float MouseY)//set
 		{
 			mouseX = MouseX;
 			mouseY = MouseY;

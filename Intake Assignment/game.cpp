@@ -54,6 +54,38 @@ namespace Tmpl8
 
 		return true; //no collision
 	}
+	void Game::DrawUI()
+	{
+		// Draw day and coins
+		sprintf(day, "DAY: %d", dayCounter);
+		sprintf(coins, "COINS: %d", coinCounter);
+		screen->Print(day, 750, 10, 0xff0000);
+		screen->Print(coins, 10, 10, 0xffff00);
+		if (WateringCan::wateringCan)
+			screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
+	}
+	void Game::DrawGame()
+	{
+		// Draw farm tiles
+		for (auto& x : FarmTile::farmTiles)
+		{
+			x.Draw(screen);
+		}
+		for (auto& x : Plant::plants)
+		{
+			if (!x.harvested)
+				x.Draw(screen);
+		}
+		DrawUI();
+	}
+	void Game::UpdateVariables()
+	{
+
+	}
+	void Update()
+	{
+
+	}
 	/* //not used anymore
 	bool Game::CheckAllCompleted()
 	{
@@ -89,7 +121,7 @@ namespace Tmpl8
 
 	void Game::Shutdown()
 	{
-		
+		FarmTile::farmTiles.clear();
 	}
 
 	// -----------------------------------------------------------
@@ -107,7 +139,7 @@ namespace Tmpl8
 		// -----------------------------------------------------------
 		
 		POINT mousePos;
-		int mouseX = 0, mouseY = 0;
+		
 		if (GetCursorPos(&mousePos))
 		{
 			HWND hwnd = GetActiveWindow();
@@ -115,13 +147,13 @@ namespace Tmpl8
 			mouseX = mousePos.x;
 			mouseY = mousePos.y;
 			// Mouse coordinates on screen
-			std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
 		}
 		// -----------------------------------------------------------
 		// Buttons
 		// -----------------------------------------------------------
 
-		Buttons::GetValues(mouseX, mouseY);
+		Buttons::SetValues(mouseX, mouseY);
 		bool qPressed = Buttons::KeyQ();
 		bool ePressed = Buttons::KeyE();
 		bool rPressed = Buttons::KeyR();
@@ -191,24 +223,15 @@ namespace Tmpl8
 						break;
 					}
 				}
-				
-	
-				// Draw farm tiles
-				for (auto& x : FarmTile::farmTiles)
-				{
-					x.Draw(screen);
-				}
 
 				// Draw plants
 				WateringCan::Water(rPressed);
-				if(WateringCan::wateringCan)
-					screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
+				
 				for (auto& x : Plant::plants)
 				{
 					x.Grown();
-					if(!x.harvested)
-						x.Draw(screen);
 				}
+				DrawGame();
 
 				for (auto& x : FarmTile::farmTiles) // reset clicked state
 				{
@@ -232,7 +255,7 @@ namespace Tmpl8
 
 				//drawing stuff on screen
 				player.Draw(screen, playerX, playerY);
-				Inventory::NormalInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
+				Inventory::MainInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
 				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
 				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, plantX, plantY, tileClicked, index2);
 				Inventory::DrawOnScreen(screen, deltaTime);
@@ -294,12 +317,7 @@ namespace Tmpl8
 				House::DayUpdate(leftClickPressed, qPressed, dayCounter, mouseX, mouseY);
 				House::ClickedNightstand(screen, leftClickPressed, qPressed, coinCounter, mouseX, mouseY);
 			}
-
-			// Draw day and coins
-			sprintf(day, "DAY: %d", dayCounter);
-			sprintf(coins, "COINS: %d", coinCounter);
-			screen->Print(day, 750, 10, 0xff0000);
-			screen->Print(coins, 10, 10, 0xffff00);
+			//DrawUI();
 		}
 	}
 };

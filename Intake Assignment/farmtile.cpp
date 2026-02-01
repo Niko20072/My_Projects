@@ -25,7 +25,7 @@ namespace Tmpl8
 		}
 	}*/
 	std::vector<FarmTile> FarmTile::farmTiles;
-	FarmTile::FarmTile(float x,float y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize){}
+	FarmTile::FarmTile(float x,float y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles2.png"), 6)) {}
 	void FarmTile::Draw(Surface* screen)
 	{
 		farmTile->Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);

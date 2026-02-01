@@ -25,14 +25,14 @@ namespace Tmpl8
 	std::vector<Plant> Plant::plants;  
 	bool wateringCan = false;
 
-	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), sun(std::make_unique<Sprite>(new Surface("assets/plant2.png"), 20)) 
+	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), plant(std::make_unique<Sprite>(new Surface("assets/plant2.png"), 20)) 
 	{
 		FarmTile::farmTiles[tileNumber].Clicked(); // Mark the corresponding farm tile as clicked
 	}
 	void Plant::Draw(Surface* screen)
 	{
-		sun->SetFrame(frame);
-		sun->Draw(screen, x - Map::cameraX, y - Map::cameraY);
+		plant->SetFrame(frame);
+		plant->Draw(screen, x - Map::cameraX, y - Map::cameraY);
 	}
 	void Plant::NextDay()
 	{

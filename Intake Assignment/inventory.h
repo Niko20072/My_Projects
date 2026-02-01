@@ -12,9 +12,8 @@ namespace Tmpl8
 {
 	namespace Inventory
 	{
-		extern int x, y; // Inventory position
 		extern int frame; // Inventory frame
-		extern bool isopen; // Inventory open state
+		extern bool inventoryisopen; // Inventory open state
 		extern bool carisopen; // Car inventory open state
 		extern bool seedsisopen; // Seed inventory open state
 
@@ -53,7 +52,7 @@ namespace Tmpl8
 		void BuySeeds(Surface* screen, bool &leftPressed, int& coinCounter, int mouseX, int mouseY); // Buying seeds logic
 		void PlantSeeds(Surface* screen, bool& leftPressed, int mouseX, int mouseY, float plantX, float plantY, int tileNumber); // Planting seeds logic
 		void DrawInventory(Surface* screen); // Drawing inventory on screen
-		void NormalInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY); // Normal inventory management
+		void MainInventory(Surface* screen, bool leftPressed, bool ePressed, bool qPressed, int mouseX, int mouseY); // Normal inventory management
 		void CarInventory(Surface* screen, int& coinCounter, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float reachX1, float reachY1, float reachX2, float reachY2); // Car inventory management
 		void SeedsInventory(Surface* screen, bool ePressed, bool qPressed, bool& leftPressed, int mouseX, int mouseY, float worldX, float worldY, float plantX, float plantY, bool tileClicekd, int tileNumber); // Seed inventory management
 		void DrawOnScreen(Surface* screen, float deltaTime); // Draw inventory if open

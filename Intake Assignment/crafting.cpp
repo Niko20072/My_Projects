@@ -132,7 +132,6 @@ namespace Tmpl8
 			if (craftingisopen)
 			{
 				ManageFrames(mouseX, mouseY);
-				crafting.Draw(screen, 0, 0);
 				CraftingDraw(screen);
 			}
 		}
