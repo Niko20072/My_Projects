@@ -47,6 +47,7 @@ private:
 	void HandleInput();
 	void HandleMovement(float deltaTime);
 	void UpdatePlants();
+	void ResetOrders();
 	void UpdateOrders();
 	void UpdateFarmTiles();
 	void Logic();

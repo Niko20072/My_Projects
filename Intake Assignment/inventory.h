@@ -57,7 +57,7 @@ namespace Tmpl8
 		void MainInventory(Surface* screen); // Normal inventory management
 		void CarInventory(Surface* screen, int& coinCounter); // Car inventory management
 		void SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd, int tileNumber); // Seed inventory management
-		void DrawOnScreen(Surface* screen); // Draw inventory if open
+		void Draw(Surface* screen); // Draw inventory if open
 		bool InventorysClosed(); // Check if all inventories are closed
 	}
 };

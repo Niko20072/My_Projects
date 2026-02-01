@@ -4,7 +4,7 @@ namespace Tmpl8
 	namespace WateringCan
 	{
 		bool wateringCan = false;
-		void Water()
+		void WateringCanState()
 		{
 			if (Buttons::rPressed)
 			{

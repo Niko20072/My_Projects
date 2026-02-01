@@ -59,7 +59,7 @@ namespace Tmpl8
 		void Draw(Surface* screen);
 		void NextDay();
 		void Collect();
-		void Grown();
+		void Update();
 		void Delete();
 	};
 };

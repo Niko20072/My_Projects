@@ -311,7 +311,7 @@ namespace Tmpl8
 					seedsisopen = false;
 			}
 		}
-		void DrawOnScreen(Surface* screen)
+		void Draw(Surface* screen)
 		{
 			// Draw inventory if any is open
 			if (inventoryisopen || carisopen || seedsisopen)
