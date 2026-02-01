@@ -10,6 +10,7 @@ namespace Tmpl8
 	class Order
 	{
 	public:
+		static std::vector<Order> orders;
 		// Potion types and their prices
 		std::vector<const char*> potionsTypes = { "Vital Tonic", "Calm Mind", "Dream Draught", "FireHeart", "FrostVeil" };
 		std::vector<int> priceNumbers = {60,45,70,95,85};

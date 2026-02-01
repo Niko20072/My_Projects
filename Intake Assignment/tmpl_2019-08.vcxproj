@@ -235,6 +235,7 @@
     <ClCompile Include="surface.cpp" />
     <ClCompile Include="template.cpp" />
     <ClCompile Include="wateringCan.cpp" />
+    <ClCompile Include="worldState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttons.h" />
@@ -250,6 +251,7 @@
     <ClInclude Include="surface.h" />
     <ClInclude Include="template.h" />
     <ClInclude Include="wateringCan.h" />
+    <ClInclude Include="worldState.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

@@ -76,15 +76,131 @@ namespace Tmpl8
 			if (!x.harvested)
 				x.Draw(screen);
 		}
+		///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?
+		if (Inventory::carisopen && Inventory::frame == 5)
+		{
+			for (auto& x : Order::orders)
+			{
+				x.Draw(screen);
+			}
+		}
 		DrawUI();
 	}
-	void Game::UpdateVariables()
+	void Game::HandleInput()
+	{
+		// -----------------------------------------------------------
+		// Get mouse coordinates
+		// -----------------------------------------------------------
+
+		POINT mousePos;
+
+		if (GetCursorPos(&mousePos))
+		{
+			HWND hwnd = GetActiveWindow();
+			ScreenToClient(hwnd, &mousePos);
+			WorldState::mouseX = mousePos.x;
+			WorldState::mouseY = mousePos.y;
+			// Mouse coordinates on screen
+			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+		}
+		// -----------------------------------------------------------
+		// Buttons
+		// -----------------------------------------------------------
+
+		Buttons::SetValues(WorldState::mouseX, WorldState::mouseY);
+		qPressed = Buttons::KeyQ();
+		ePressed = Buttons::KeyE();
+		rPressed = Buttons::KeyR();
+		leftClickPressed = Buttons::LeftClick();
+	}
+	void Game::HandleMovement(float deltaTime)
+	{
+		// -----------------------------------------------------------
+		// Movement and collision
+		// -----------------------------------------------------------
+		
+		// New camera position
+		float newCameraX = Map::cameraX;
+		float newCameraY = Map::cameraY;
+
+		// Move camera based on WASD keys
+		vec2 movedir = 0.0f;
+
+		if (GetAsyncKeyState('A'))
+		{
+			player.SetFrame(0);
+			movedir.x = -1;
+		}
+		if (GetAsyncKeyState('D'))
+		{
+			player.SetFrame(1);
+			movedir.x = 1;
+		}
+		if (GetAsyncKeyState('W'))
+		{
+			player.SetFrame(3);
+			movedir.y = -1;
+		}
+		if (GetAsyncKeyState('S'))
+		{
+			player.SetFrame(2);
+			movedir.y = 1;
+		}
+		if (movedir.sqrLentgh() > 0)
+		{
+			movedir.normalize();
+			newCameraX += movedir.x * cameraSpeed * deltaTime;
+			newCameraY += movedir.y * cameraSpeed * deltaTime;
+		}
+
+		// Check for collision before updating camera position
+		if (CheckCollision(newCameraX + WorldState::playerX, newCameraY + WorldState::playerY) == true)
+		{
+			Map::cameraX = newCameraX;
+			Map::cameraY = newCameraY;
+		}
+	}
+	void Game::UpdatePlants()
+	{
+		for (auto& x : Plant::plants)
+		{
+			x.Grown();
+		}
+	}
+	void Game::UpdateOrders()
+	{
+		if (Inventory::carisopen && Inventory::frame == 5)
+		{
+			for (auto& x : Order::orders)
+			{
+				x.Logic(screen, leftClickPressed, WorldState::mouseX, WorldState::mouseY, coinCounter);
+			}
+		}
+		//check if all orders are completed
+		if (Order::daysUntilReset == 0) ///or CheckAllCompleted()
+		{
+			//generate new orders
+			Order::daysUntilReset = 5;
+			Order::orders.clear();
+			srand(time(0));
+			for (int i = 0; i <= 5; i++)
+				Order::orders.emplace_back(i);
+		}
+	}
+	void Game::UpdateFarmTiles()
 	{
 
 	}
-	void Update()
+	void Game::UpdateWorld()
 	{
-
+		UpdateFarmTiles();
+		UpdatePlants();
+		UpdateOrders();
+		WateringCan::Water(rPressed);
+		for (auto& x : FarmTile::farmTiles) // reset clicked state
+		{
+			x.clicked = false;
+		}
 	}
 	/* //not used anymore
 	bool Game::CheckAllCompleted()
@@ -112,7 +228,7 @@ namespace Tmpl8
 				FarmTile::farmTiles.emplace_back(x, y);
 		}
 		for(int i = 0; i <= 5; i++)
-			orders.emplace_back(i);
+			Order::orders.emplace_back(i);
 	}
 	
 	// -----------------------------------------------------------
@@ -131,60 +247,13 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
-		//std::cout << deltaTime << std::endl;
 		screen->Clear(0);
+		HandleInput();
+		WorldState::UpdateWorldState();
 		
-		// -----------------------------------------------------------
-		// Get mouse coordinates
-		// -----------------------------------------------------------
-		
-		POINT mousePos;
-		
-		if (GetCursorPos(&mousePos))
-		{
-			HWND hwnd = GetActiveWindow();
-			ScreenToClient(hwnd, &mousePos);
-			mouseX = mousePos.x;
-			mouseY = mousePos.y;
-			// Mouse coordinates on screen
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
-		}
-		// -----------------------------------------------------------
-		// Buttons
-		// -----------------------------------------------------------
-
-		Buttons::SetValues(mouseX, mouseY);
-		bool qPressed = Buttons::KeyQ();
-		bool ePressed = Buttons::KeyE();
-		bool rPressed = Buttons::KeyR();
-		bool leftClickPressed = Buttons::LeftClick();
-
-		// -----------------------------------------------------------
-		// Variables
-		// -----------------------------------------------------------
-		
-		// Transform screen coordinates -> world coordinates -> mouse screen position
-		float worldX = Map::cameraX + mouseX;
-		float worldY = Map::cameraY + mouseY;
-		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
-
-		// Player world position
-		float worldPlayerX = Map::cameraX + playerX;
-		float worldPlayerY = Map::cameraY + playerY;
-		//std::cout << "Player world position: X=" << worldPlayerX << ", Y=" << worldPlayerY << std::endl;
-
-		// New camera position
-		float newCameraX = Map::cameraX;
-		float newCameraY = Map::cameraY;
-
-		// Player reach area
-		float reachX1 = worldPlayerX - 50.0f;
-		float reachY1 = worldPlayerY - 25.0f;
-		float reachX2 = worldPlayerX + 46.0f + 50.0f;
-		float reachY2 = worldPlayerY + 94.0f + 25.0f;
 
 		// Check for game completion
-		House::GameCompleted(screen, leftClickPressed, qPressed, coinCounter, mouseX, mouseY, gameCompleted);
+		House::GameCompleted(screen, leftClickPressed, qPressed, coinCounter, WorldState::mouseX, WorldState::mouseY, gameCompleted);
 		
 		if (!gameCompleted)
 		{
@@ -193,12 +262,12 @@ namespace Tmpl8
 			// -----------------------------------------------------------
 
 			// Show House when left click in house area
-			House::ShowHouse(screen, qPressed, reachX1, reachX2, reachY1, reachY2, worldX, worldY);
+			House::ShowHouse(screen, qPressed, WorldState::reachX1, WorldState::reachX2, WorldState::reachY1, WorldState::reachY2, WorldState::worldX, WorldState::worldY);
 
 			// Crafting
-			Crafting::ShowCrafting(screen, leftClickPressed, qPressed, mouseX, mouseY);
+			Crafting::ShowCrafting(screen, leftClickPressed, qPressed, WorldState::mouseX, WorldState::mouseY);
 			if (Crafting::craftingisopen == true)
-				Crafting::Craft(leftClickPressed, mouseX, mouseY);
+				Crafting::Craft(leftClickPressed, WorldState::mouseX, WorldState::mouseY);
 
 			// Main game view
 			if (!House::houseisopen)
@@ -206,14 +275,14 @@ namespace Tmpl8
 				gameMap.DrawMap(screen);
 
 				// Tiles
-				bool tileClicked = false;
+				tileClicked = false;
 				
-				int index = 0;
+				index = 0;
 				for (auto& x : FarmTile::farmTiles)
 				{
 					index++;
 					if (Inventory::InventorysClosed())
-						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, worldX, worldY, reachX1, reachX2, reachY1, reachY2);
+						x.Update(leftClickPressed, x.farmTileX, x.farmTileY, WorldState::worldX, WorldState::worldY, WorldState::reachX1, WorldState::reachX2, WorldState::reachY1, WorldState::reachY2);
 					if (x.clicked && !x.isClicked)
 					{
 						tileClicked = true;
@@ -224,98 +293,27 @@ namespace Tmpl8
 					}
 				}
 
-				// Draw plants
-				WateringCan::Water(rPressed);
-				
-				for (auto& x : Plant::plants)
-				{
-					x.Grown();
-				}
+				UpdateWorld();
 				DrawGame();
-
-				for (auto& x : FarmTile::farmTiles) // reset clicked state
-				{
-					x.clicked = false;
-				}
-
-				//check if all orders are completed
-				if (Order::daysUntilReset == 0) ///or CheckAllCompleted()
-				{
-					//generate new orders
-					Order::daysUntilReset = 5;
-					orders.clear();
-					srand(time(0));
-					for (int i = 0; i <= 5; i++)
-						orders.emplace_back(i);
-				}
 
 				//Player range
 				//screen->Box(worldPlayerX - Map::cameraX, worldPlayerY - Map::cameraY, worldPlayerX + 46 - Map::cameraX, worldPlayerY + 94 - Map::cameraY, 0xff0000);
-				screen->Box(reachX1 - Map::cameraX, reachY1 - Map::cameraY, reachX2 - Map::cameraX, reachY2 - Map::cameraY, 0x00ff00);
+				screen->Box(WorldState::reachX1 - Map::cameraX, WorldState::reachY1 - Map::cameraY, WorldState::reachX2 - Map::cameraX, WorldState::reachY2 - Map::cameraY, 0x00ff00);
 
 				//drawing stuff on screen
-				player.Draw(screen, playerX, playerY);
-				Inventory::MainInventory(screen, leftClickPressed, ePressed, qPressed, mouseX, mouseY);
-				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, reachX1, reachY1, reachX2, reachY2);
-				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, mouseX, mouseY, worldX, worldY, plantX, plantY, tileClicked, index2);
+				player.Draw(screen, WorldState::playerX, WorldState::playerY);
+				Inventory::MainInventory(screen, leftClickPressed, ePressed, qPressed, WorldState::mouseX, WorldState::mouseY);
+				Inventory::CarInventory(screen, coinCounter, ePressed, qPressed, leftClickPressed, WorldState::mouseX, WorldState::mouseY, WorldState::worldX, WorldState::worldY, WorldState::reachX1, WorldState::reachY1, WorldState::reachX2, WorldState::reachY2);
+				Inventory::SeedsInventory(screen, ePressed, qPressed, leftClickPressed, WorldState::mouseX, WorldState::mouseY, WorldState::worldX, WorldState::worldY, plantX, plantY, tileClicked, index2);
 				Inventory::DrawOnScreen(screen, deltaTime);
 
-				///move this to inventory draw function !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! maybe?
-				if (Inventory::carisopen && Inventory::frame == 5)
-				{
-					for (auto& x : orders)
-					{
-						x.Logic(screen, leftClickPressed, mouseX, mouseY, coinCounter);
-						x.Draw(screen);
-					}
-				}
-
-				// -----------------------------------------------------------
-				// Movement and collision
-				// -----------------------------------------------------------
-
-				// Move camera based on WASD keys
-				vec2 movedir = 0.0f;
-
-				if (GetAsyncKeyState('A'))
-				{
-					player.SetFrame(0);
-					movedir.x = -1;
-				}
-				if (GetAsyncKeyState('D'))
-				{
-					player.SetFrame(1);
-					movedir.x = 1;
-				}
-				if (GetAsyncKeyState('W'))
-				{
-					player.SetFrame(3);
-					movedir.y = -1;
-				}
-				if (GetAsyncKeyState('S'))
-				{
-					player.SetFrame(2);
-					movedir.y = 1;
-				}
-				if (movedir.sqrLentgh() > 0)
-				{
-					movedir.normalize();
-					newCameraX += movedir.x * cameraSpeed * deltaTime;
-					newCameraY += movedir.y * cameraSpeed * deltaTime;
-				}
-
-				// Check for collision before updating camera position
-				if (CheckCollision(newCameraX + playerX, newCameraY + playerY) == true)
-				{
-					Map::cameraX = newCameraX;
-					Map::cameraY = newCameraY;
-				}
+				HandleMovement(deltaTime);
 
 			}
 			else // Inside house
 			{
-				House::DayUpdate(leftClickPressed, qPressed, dayCounter, mouseX, mouseY);
-				House::ClickedNightstand(screen, leftClickPressed, qPressed, coinCounter, mouseX, mouseY);
+				House::DayUpdate(leftClickPressed, qPressed, dayCounter, WorldState::mouseX, WorldState::mouseY);
+				House::ClickedNightstand(screen, leftClickPressed, qPressed, coinCounter, WorldState::mouseX, WorldState::mouseY);
 			}
 			//DrawUI();
 		}

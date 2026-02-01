@@ -1,6 +1,7 @@
 #include "orders.h"
 namespace Tmpl8
 {
+	std::vector<Order> Order::orders;
 	int Order::daysUntilReset = 5; // Days until orders reset
 	Order::Order(int number)
 	{

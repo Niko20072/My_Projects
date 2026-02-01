@@ -15,6 +15,7 @@
 #include "orders.h"
 #include "nightstand.h"
 #include "wateringCan.h"
+#include "worldState.h"
 
 namespace Tmpl8 
 {
@@ -33,7 +34,6 @@ public:
 	void KeyDown( int key ) { /* implement if you want to handle keys */ }
 private:
 	Surface* screen;
-	const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 	const float cameraSpeed = 360.0f;
 	int dayCounter = 0;
 	int coinCounter = 200;
@@ -41,13 +41,21 @@ private:
 	bool gameCompleted = false;
 	float plantX, plantY;
 	int index, index2;
-	int mouseX = 0, mouseY = 0;
+	bool qPressed;
+	bool ePressed;
+	bool rPressed;
+	bool leftClickPressed;
+	bool tileClicked = false;
 	Map gameMap;
-	std::vector<Order> orders;
 	bool CheckCollision(int x, int y);
 	void DrawUI();
 	void DrawGame();
-	void UpdateVariables();
+	void HandleInput();
+	void HandleMovement(float deltaTime);
+	void UpdatePlants();
+	void UpdateOrders();
+	void UpdateFarmTiles();
+	void UpdateWorld();
 };
 
 }; // namespace Tmpl8
