@@ -90,7 +90,7 @@ namespace Tmpl8
 			}
 			house.SetFrame(frame);	
 		}
-		void ClickedNightstand(Surface* screen, int coinCounter)
+		void NightstandLogic(Surface* screen, int coinCounter)
 		{
 			// Check if player clicked on nightstand
 			bool clickedOnNightstand = Buttons::leftPressed && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 454;

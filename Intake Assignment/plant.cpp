@@ -66,7 +66,7 @@ namespace Tmpl8
 		if (frame == 18) // Berry
 			Inventory::contBerry++;
 	}
-	void Plant::Grown()
+	void Plant::Update()
 	{
 		if ((grown || !alive) && FarmTile::farmTiles[tileNumber].clicked)
 		{

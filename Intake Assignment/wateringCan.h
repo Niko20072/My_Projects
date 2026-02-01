@@ -5,6 +5,6 @@ namespace Tmpl8
 	namespace WateringCan
 	{
 		extern bool wateringCan;
-		void Water();
+		void WateringCanState();
 	}
 }
