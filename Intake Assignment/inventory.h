@@ -12,38 +12,39 @@
 
 namespace Tmpl8
 {
-	namespace Inventory
+	class Inventory
 	{
-		extern int frame; // Inventory frame
-		extern bool inventoryisopen; // Inventory open state
-		extern bool carisopen; // Car inventory open state
-		extern bool seedsisopen; // Seed inventory open state
+	public:
+		int frame = 0; // Inventory frame
+		bool inventoryisopen; // Inventory open state
+		bool carisopen; // Car inventory open state
+		bool seedsisopen; // Seed inventory open state
 
 		// Ingredient counters
-		extern int contSunblossom; // Sunblossom counter
-		extern int contMoonleaf; // Moonleaf counter
-		extern int contEmberroot; // Emberroot counter
-		extern int contFrostmint; // Frostmint counter
-		extern int contBerry; // Nightshade Berry counter
+		int contSunblossom; // Sunblossom counter
+		int contMoonleaf; // Moonleaf counter
+		int contEmberroot; // Emberroot counter
+		int contFrostmint; // Frostmint counter
+		int contBerry; // Nightshade Berry counter
 
 		// Potion counters
-		extern int contVitalTonic; // Vital Tonic counter
-		extern int contCalmMind; // Calm Mind Elixir counter
-		extern int contDreamDraught; // Dream Draught counter
-		extern int contFireHeart; // FireHeart Brew counter
-		extern int contFrostveil; // Frostveil Potion counter
+		int contVitalTonic; // Vital Tonic counter
+		int contCalmMind; // Calm Mind Elixir counter
+		int contDreamDraught; // Dream Draught counter
+		int contFireHeart; // FireHeart Brew counter
+		int contFrostveil; // Frostveil Potion counter
 
 		// Seed counters
-		extern int contSeedSunblossom; // Sunblossom Seed counter
-		extern int contSeedMoonleaf; // Moonleaf Seed counter
-		extern int contSeedEmberroot; // Emberroot Seed counter
-		extern int contSeedFrostmint; // Frostmint Seed counter
-		extern int contSeedBerry; // Nightshade Berry Seed counter
+		int contSeedSunblossom; // Sunblossom Seed counter
+		int contSeedMoonleaf; // Moonleaf Seed counter
+		int contSeedEmberroot; // Emberroot Seed counter
+		int contSeedFrostmint; // Frostmint Seed counter
+		int contSeedBerry; // Nightshade Berry Seed counter
 
 		// Vector of pointers to potion counters
-		extern std::vector<int*> potionCounters;
+		std::vector<int*> potionCounters;
 
-		extern Sprite inventory;
+		Sprite inventory;
 		// Frame 0 : Ingredients
 		// Frame 1 : Potions
 		// Frame 2 : Seeds
@@ -59,5 +60,5 @@ namespace Tmpl8
 		void SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd, int tileNumber); // Seed inventory management
 		void Draw(Surface* screen); // Draw inventory if open
 		bool InventorysClosed(); // Check if all inventories are closed
-	}
-};
+	};
+}

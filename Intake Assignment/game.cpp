@@ -1,6 +1,6 @@
 #include "game.h"
 
-///do to list:
+///to do list:
 //sterge tile clicked?
 //muta chestiile in subprograme
 //sterge includurile useless
@@ -9,14 +9,19 @@
 //fa lista de comenzi sa se reseteze la 7 zile
 //!!!!!!!!!!!!!!pt plante improve: totul e prea conectat si sunt destul de sigura ca trebuie modificat in asa fel incat toate sa fie mai independente
 //fa sa nu poti deschide seed inventory daca stropitoarea e clickuita
-//make endint at 1000$
+//make ending at 1000$???
+//mahe stuff private
+
+
+//change map
+//improve buttons
+//make namespace class
 namespace Tmpl8
 {
 	/// <summary>
 	/// ecapsulation and data hiding!!!!
 	/// getter, setter!!!!!!!
 	/// </summary>
-	static Sprite player(new Surface("assets/Vera.png"), 4);
 
 	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -35,9 +40,18 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}*/
 
-	// -----------------------------------------------------------
-	// Initialize the application
-	// -----------------------------------------------------------
+	/* //not used anymore
+bool Game::CheckAllCompleted()
+{
+	for (auto order : orders)
+	{
+		if (order.completed == false)
+			return false;
+	}
+	return true;
+}*/
+
+	static Sprite player(new Surface("assets/Vera.png"), 4);
 	bool Game::CheckCollision(int x, int y)
 	{
 		//sprit corners
@@ -71,7 +85,7 @@ namespace Tmpl8
 
 		// Buttons
 		Buttons::CheckClick();
-		
+
 	}
 	void Game::HandleMovement(float deltaTime)
 	{
@@ -124,18 +138,11 @@ namespace Tmpl8
 	{
 		for (auto& x : Plant::plants)
 		{
-			x.Grown();
+			x.Update();
 		}
 	}
-	void Game::UpdateOrders()
+	void Game::ResetOrders()
 	{
-		if (Inventory::carisopen && Inventory::frame == 5)
-		{
-			for (auto& x : Order::orders)
-			{
-				x.Logic(screen, coinCounter);
-			}
-		}
 		//check if all orders are completed
 		if (Order::daysUntilReset == 0) ///or CheckAllCompleted()
 		{
@@ -147,22 +154,30 @@ namespace Tmpl8
 				Order::orders.emplace_back(i);
 		}
 	}
+	void Game::UpdateOrders()
+	{
+		if (inventory.carisopen && inventory.frame == 5)
+			for (auto& x : Order::orders)
+				x.Logic(coinCounter);
+
+		ResetOrders();
+	}
 	void Game::UpdateFarmTiles()
 	{
 		// Tiles
 		tileClicked = false;
 
-		index = 0;
+		index = 0; // farmtile index in vector
 		for (auto& x : FarmTile::farmTiles)
 		{
-			if (Inventory::InventorysClosed())
+			if (inventory.InventorysClosed())
 				x.Update(x.farmTileX, x.farmTileY);
 			if (x.clicked && !x.isClicked)
 			{
 				tileClicked = true;
 				plantX = x.farmTileX;
 				plantY = x.farmTileY;
-				index2 = index; // farmtile index in vector
+				index2 = index; // index where plant is being created
 				break;
 			}
 			index++;
@@ -173,28 +188,28 @@ namespace Tmpl8
 		// House interaction
 		House::HouseLogic();
 
-		// Crafting
-		if (Crafting::craftingisopen == true)
-			Crafting::Craft();
-
-		// WateringCan
-		WateringCan::Water();
-
-		if (!House::houseisopen)
+		if (!House::houseisopen) // Outside
 		{
+			// WateringCan
+			WateringCan::WateringCanState();
+
 			// Inventory
-			Inventory::MainInventory(screen);
-			Inventory::CarInventory(screen, coinCounter);
-			Inventory::SeedsInventory(screen, plantX, plantY, tileClicked, index2);
+			inventory.MainInventory(screen);
+			inventory.CarInventory(screen, coinCounter);
+			inventory.SeedsInventory(screen, plantX, plantY, tileClicked, index2);
 		}
-		else
+		else // Inside house
 		{
-			Crafting::ManageCrafring();
+			// Crafting
+			if (crafting.craftingisopen == true)
+				crafting.Craft();
+			crafting.ManageCrafring();
 			House::DayUpdate(dayCounter);
-			House::ClickedNightstand(screen, coinCounter);
+			House::NightstandLogic(screen, coinCounter);
 		}
+
 		// reset farmtile clicked state
-		for (auto& x : FarmTile::farmTiles) 
+		for (auto& x : FarmTile::farmTiles)
 			x.clicked = false;
 	}
 	void Game::UpdateWorld()
@@ -228,38 +243,33 @@ namespace Tmpl8
 			for (auto& x : Plant::plants)
 				if (!x.harvested)
 					x.Draw(screen);
-			
+
 			// Player reach box
 			screen->Box(WorldState::reachX1 - Map::cameraX, WorldState::reachY1 - Map::cameraY, WorldState::reachX2 - Map::cameraX, WorldState::reachY2 - Map::cameraY, 0x00ff00);
-			
+
 			// Player Sprite
 			player.Draw(screen, WorldState::playerX, WorldState::playerY);
 
 			//Inventory
-			Inventory::DrawOnScreen(screen);
+			inventory.Draw(screen);
 		}
 		else // Inside house
 		{
 			House::Draw(screen);
-			Crafting::Draw(screen);
+			inventory.Draw(screen);
 		}
 
 		DrawUI();
 	}
-	/* //not used anymore
-	bool Game::CheckAllCompleted()
-	{
-		for (auto order : orders)
-		{
-			if (order.completed == false)
-				return false;
-		}
-		return true;
-	}*/
-	
+
+	// -----------------------------------------------------------
+	// Initialize the application
+	// -----------------------------------------------------------
+
 	void Game::Init()
 	{
 		srand(time(0));
+		crafting.SetInventory(&inventory);
 		for (int x = 3; x <= 23; x++)
 		{
 			for(int y = 7; y <= 17; y++)
@@ -281,6 +291,8 @@ namespace Tmpl8
 	void Game::Shutdown()
 	{
 		FarmTile::farmTiles.clear();
+		Plant::plants.clear();
+		Order::orders.clear();
 	}
 
 	// -----------------------------------------------------------
@@ -294,7 +306,9 @@ namespace Tmpl8
 
 		HandleInput();
 		WorldState::UpdateWorldState();
-		House::GameCompleted(screen, coinCounter, gameCompleted);// Check for game completion
+
+		// Check for game completion
+		House::GameCompleted(screen, coinCounter, gameCompleted);
 		
 		if (!gameCompleted)
 		{
@@ -302,5 +316,7 @@ namespace Tmpl8
 			DrawGame();
 			HandleMovement(deltaTime);
 		}
+
+		//update keystate in game
 	}
 };

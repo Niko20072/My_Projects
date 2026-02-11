@@ -25,5 +25,5 @@ namespace Tmpl8
 		void NightstandLogic(Surface* screen, int coinCounter); // Handle nightstand click
 		void Draw(Surface* screen);
 		void GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted); // Show game completed screen
-	}
+	};
 };

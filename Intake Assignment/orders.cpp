@@ -34,7 +34,7 @@ namespace Tmpl8
 		sprintf(complete, "completed");
 		//std::cout <<" Potion number: " << potionNumber << std::endl;
 	}
-	void Order::Logic(Surface* screen, int& coinCounter)
+	void Order::Logic(int& coinCounter)
 	{
 		// Check if send button is clicked
 		int button = Buttons::leftPressed && WorldState::mouseX >= (475 - range) && WorldState::mouseX <= (526 + range) && WorldState::mouseY >= (235 + orderNumber * 35 - range) && WorldState::mouseY <= (242 + orderNumber * 35 + range);

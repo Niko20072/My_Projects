@@ -78,7 +78,6 @@ namespace Tmpl8
 			Collect();
 		}
 	}
-	
 	void Plant::Delete()
 	{
 		//eroare daca plantele cresc in zile diferite

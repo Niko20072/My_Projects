@@ -5,6 +5,9 @@ namespace Tmpl8
 	float Map::cameraX = 0.0f;
 	float Map::cameraY = 0.0f;
 
+	//pune toata harta ca png, collision box
+	//copy to screen + offset
+	//transform 
 	bool Map::IsBlocked(int x,int y)
 	{
 		//Transform screen coordinates to tile coordinates
@@ -15,6 +18,7 @@ namespace Tmpl8
 	}
 	void Map::DrawTile(Surface* screen, int tx, int ty, int x, int y)
 	{
+		
 		int TileStartX = 0; // Starting point in tile
 		int TileStartY = 0;
 		int TileSizeX = TileSize; // Size of tile to draw
@@ -53,6 +57,8 @@ namespace Tmpl8
 	}
 	void Map::DrawMap(Surface* screen)
 	{
+		tiles.CopyTo(screen, -cameraX, -cameraY); //!!
+		return;
 		// Draw all tiles in the map
 		for (int y = 0; y < MapHeight; y++)
 		{

@@ -2,12 +2,11 @@
 
 namespace Tmpl8
 {
-	namespace Crafting
-	{
-		Sprite crafting(new Surface("assets/crafting.png"), 3);
-		bool craftingisopen = false;
-		int frame = 0;
-		void CraftingDraw(Surface* screen)
+		void Crafting::SetInventory(Inventory* inv)
+		{
+			inventory = inv;
+		}
+		void Crafting::CraftingDraw(Surface* screen)
 		{
 			crafting.Draw(screen, 0, 0);
 
@@ -16,17 +15,17 @@ namespace Tmpl8
 			char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
 
 			// Format strings with current counts
-			sprintf(sunBlossom, "x%d", Inventory::contSunblossom);
-			sprintf(moonLeaf, "x%d", Inventory::contMoonleaf);
-			sprintf(emberRoot, "x%d", Inventory::contEmberroot);
-			sprintf(frostMint, "x%d", Inventory::contFrostmint);
-			sprintf(berry, "x%d", Inventory::contBerry);
+			sprintf(sunBlossom, "x%d", inventory->contSunblossom);
+			sprintf(moonLeaf, "x%d", inventory->contMoonleaf);
+			sprintf(emberRoot, "x%d", inventory->contEmberroot);
+			sprintf(frostMint, "x%d", inventory->contFrostmint);
+			sprintf(berry, "x%d", inventory->contBerry);
 
-			sprintf(vitalTonic, "x%d", Inventory::contVitalTonic);
-			sprintf(calmMind, "x%d", Inventory::contCalmMind);
-			sprintf(dreamDraught, "x%d", Inventory::contDreamDraught);
-			sprintf(fireHeart, "x%d", Inventory::contFireHeart);
-			sprintf(frostVeil, "x%d", Inventory::contFrostveil);
+			sprintf(vitalTonic, "x%d", inventory->contVitalTonic);
+			sprintf(calmMind, "x%d", inventory->contCalmMind);
+			sprintf(dreamDraught, "x%d", inventory->contDreamDraught);
+			sprintf(fireHeart, "x%d", inventory->contFireHeart);
+			sprintf(frostVeil, "x%d", inventory->contFrostveil);
 
 			// Display ingredients
 			if (craftingisopen)
@@ -53,7 +52,7 @@ namespace Tmpl8
 				screen->Print(frostVeil, 329 - 4, 163, 0x0);
 			}
 		} 
-		void ManageFrames() 
+		void Crafting::ManageFrames()
 		{
 			// Manage frame selection buttons
 			bool button1 = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 244 && WorldState::mouseX <= 314 && WorldState::mouseY >= 516 && WorldState::mouseY <= 584;
@@ -68,7 +67,7 @@ namespace Tmpl8
 			crafting.SetFrame(frame);
 
 		}
-		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion) 
+		void Crafting::CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion)
 		{
 			// Crafting logic for potions with two ingredients
 			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1)
@@ -78,7 +77,7 @@ namespace Tmpl8
 				potion++;
 			}
 		}
-		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion)
+		void Crafting::CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion)
 		{
 			// Crafting logic for potions with three ingredients
 			if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1 && ingredient3 >= 1)
@@ -89,7 +88,7 @@ namespace Tmpl8
 				potion++;
 			}
 		}
-		void Craft()
+		void Crafting::Craft()
 		{
 			// Detect crafting button clicks
 			bool clickedCraft1 = Buttons::leftPressed && WorldState::mouseX >= 295 && WorldState::mouseX <= 359 && WorldState::mouseY >= 111 && WorldState::mouseY <= 154;
@@ -99,18 +98,18 @@ namespace Tmpl8
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 
 			///crafting vital tonic
-			CraftLogic(clickedCraft1, 0, Inventory::contSunblossom, Inventory::contEmberroot, Inventory::contVitalTonic);
+			CraftLogic(clickedCraft1, 0, inventory->contSunblossom, inventory->contEmberroot, inventory->contVitalTonic);
 			///crafting calm mind elixir
-			CraftLogic(clickedCraft2, 0, Inventory::contMoonleaf, Inventory::contFrostmint, Inventory::contCalmMind);
+			CraftLogic(clickedCraft2, 0, inventory->contMoonleaf, inventory->contFrostmint, inventory->contCalmMind);
 			///crafting dream draught
-			CraftLogic(clickedCraft1, 1, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contDreamDraught);
+			CraftLogic(clickedCraft1, 1, inventory->contMoonleaf, inventory->contBerry, inventory->contDreamDraught);
 			///crafting fireheart brew
-			CraftLogic(clickedCraft2, 1, Inventory::contEmberroot, Inventory::contSunblossom, Inventory::contBerry, Inventory::contFireHeart);
+			CraftLogic(clickedCraft2, 1, inventory->contEmberroot, inventory->contSunblossom, inventory->contBerry, inventory->contFireHeart);
 			//crafting frostveil potion
-			CraftLogic(clickedCraft1, 2, Inventory::contFrostmint, Inventory::contMoonleaf, Inventory::contBerry, Inventory::contFrostveil);
+			CraftLogic(clickedCraft1, 2, inventory->contFrostmint, inventory->contMoonleaf, inventory->contBerry, inventory->contFrostveil);
 
 		}
-		void ManageCrafring()
+		void Crafting::ManageCrafring()
 		{
 			bool clickedOnTable = Buttons::leftPressed && WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
 
@@ -129,7 +128,7 @@ namespace Tmpl8
 				craftingisopen = false;
 			}
 		}
-		void Draw(Surface* screen)
+		void Crafting::Draw(Surface* screen)
 		{
 			// Draw crafting interface
 			if (craftingisopen)
@@ -138,5 +137,4 @@ namespace Tmpl8
 				CraftingDraw(screen);
 			}
 		}
-	}
-};
+}

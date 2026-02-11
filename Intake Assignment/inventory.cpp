@@ -1,37 +1,9 @@
 #include "inventory.h"
 
-namespace Tmpl8
+namespace Tmpl8//sterge
 {
-	namespace Inventory
-	{
-		int frame = 0;
-		bool inventoryisopen = false;
-		bool carisopen = false;
-		bool seedsisopen = false;
-
-		int contSunblossom = 10;
-		int contMoonleaf = 10;
-		int contEmberroot = 10;
-		int contFrostmint = 10;
-		int contBerry = 10;
-
-		int contVitalTonic = 10;
-		int contCalmMind = 10;
-		int contDreamDraught = 10;
-		int contFireHeart = 10;
-		int contFrostveil = 10;
-
-		int contSeedSunblossom = 2;
-		int contSeedMoonleaf = 2;
-		int contSeedEmberroot = 1;
-		int contSeedFrostmint = 1;
-		int contSeedBerry = 0;
-
-		std::vector<int*> potionCounters = { &contVitalTonic, &contCalmMind, &contDreamDraught, &contFireHeart, &contFrostveil };
-
-		Sprite inventory = Sprite(new Surface("assets/inventory.png"), 6);
-
-		void BuySeeds(Surface* screen, int& coinCounter)
+		//namespace to class de ce
+		void Inventory::BuySeeds(Surface* screen, int& coinCounter)
 		{
 			// Buying seeds buttons
 			bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
@@ -80,7 +52,7 @@ namespace Tmpl8
 				}
 			}
 		}
-		void PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber)
+		void Inventory::PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber)
 		{
 			// Planting seeds buttons
 			bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
@@ -134,7 +106,7 @@ namespace Tmpl8
 				}
 			}
 		}
-		void DrawInventory(Surface* screen)
+		void Inventory::DrawInventory(Surface* screen)
 		{
 			// Draw inventory
 			inventory.Draw(screen, 140, 20);
@@ -220,7 +192,7 @@ namespace Tmpl8
 				for (auto& x : Order::orders)
 					x.Draw(screen);
 		}
-		void MainInventory(Surface* screen)
+		void Inventory::MainInventory(Surface* screen)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -253,7 +225,7 @@ namespace Tmpl8
 			}
 
 		}
-		void CarInventory(Surface* screen, int& coinCounter)
+		void Inventory::CarInventory(Surface* screen, int& coinCounter)
 		{
 			// Detect clicks and player proximity
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -288,7 +260,7 @@ namespace Tmpl8
 			// Buy seeds logic
 			BuySeeds(screen, coinCounter);
 		}
-		void SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd, int tileNumber)
+		void Inventory::SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd, int tileNumber)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -311,7 +283,7 @@ namespace Tmpl8
 					seedsisopen = false;
 			}
 		}
-		void Draw(Surface* screen)
+		void Inventory::Draw(Surface* screen)
 		{
 			// Draw inventory if any is open
 			if (inventoryisopen || carisopen || seedsisopen)
@@ -321,12 +293,11 @@ namespace Tmpl8
 			}
 				
 		}
-		bool InventorysClosed()
+		bool Inventory::InventorysClosed()
 		{
 			// Check if all inventories are closed
 			if (!inventoryisopen && !carisopen && !seedsisopen)
 				return 1;
 			return 0;
 		}
-	}
-};
+}

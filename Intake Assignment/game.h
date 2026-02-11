@@ -31,7 +31,7 @@ public:
 	void MouseDown(int button) {  /*implement if you want to detect mouse button presses  */}
 	void MouseMove(int x, int y) { /*implement if you want to detect mouse movement */} 
 	void KeyUp( int key ) { /* implement if you want to handle keys */ }
-	void KeyDown( int key ) { /* implement if you want to handle keys */ }
+	void KeyDown( int key ) { /* implement if you want to handle keys */ } //use this (bool pt mouse). muta din buttons aici (vezi ce face functia asta). uitate in template cpp (int bitset)
 private:
 	Surface* screen;
 	Map gameMap;
@@ -43,6 +43,8 @@ private:
 	float plantX, plantY;
 	int index, index2;
 	bool tileClicked = false;
+	Inventory inventory;
+	Crafting crafting;
 	bool CheckCollision(int x, int y);
 	void HandleInput();
 	void HandleMovement(float deltaTime);
