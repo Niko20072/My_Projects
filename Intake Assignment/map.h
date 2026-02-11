@@ -124,7 +124,7 @@ namespace Tmpl8
 			"0GX1GX2GX3G 4G 5G 6G 7G 8G 9G :G ;G <G =G >G ?G @G AG BG CG DG EGXFGXGGXHGXIGX",
 			"0HX1HX2HX3HX4HX5HX6HX7HX8HX9HX:HX;HX<HX=HX>HX?HX@HXAHXBHXCHXDHXEHXFHXGHXHHXIHX",
 			"0IX1IX2IX3IX4IX5IX6IX7IX8IX9IX:IX;IX<IX=IX>IX?IX@IXAIXBIXCIXDIXEIXFIXGIXHIXIIX",
-		};
+		}; //104 lectie
 
 		bool IsBlocked(int x, int y); // Check if tile at (x,y) is blocked
 		void DrawTile(Surface* screen, int tx, int ty, int x, int y); // Draw a single tile at (x,y) on the screen
