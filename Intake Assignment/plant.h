@@ -13,38 +13,19 @@ namespace Tmpl8
 	class Plant
 	{
 	public:
-		/*
-		Sprite *sun = new Sprite(new Surface("assets/ball.png"), 1);
-		std::string name;
-		int harvestDay; //the day when the plant is grown
-		int daysPassed; //plant age
-		bool grown;
-		float x, y;
-
-		//Plant(std::string plantName);
-		Plant(float x, float y);
-
-		~Plant() { delete sun; }
-		Plant(const Plant&) = delete;
-		Plant& operator=(const Plant&) = delete;
-		Plant(Plant&& t) {
-			sun = t.sun;
-			t.sun = nullptr;
-			harvestDay = t.harvestDay;
-		}
-		Plant& operator=(Plant&& t)
-		{
-			if (this != &t) {
-				delete sun;
-				sun = t.sun;
-				t.sun = nullptr;
-				harvestDay = t.harvestDay;
-			}
-			return *this;
-		}*/
-		static std::vector<Plant> plants;   
+		static std::vector<Plant> plants;
+		Plant(float x, float y, int harvestDay, int frame, int tileNumber, Inventory &inv);
+		int getGrown() { return grown; }
+		int getHarvested() { return harvested; }
+		void Draw(Surface* screen);
+		void NextDay();
+		void Collect();
+		void Update();
+		void Delete();
+	private:
 		std::unique_ptr<Sprite> plant;
 		std::string name;
+		Inventory& inventory;
 		int harvestDay; //the day when the plant is grown
 		int daysPassed = 0; //plant age
 		bool grown = false;
@@ -54,12 +35,5 @@ namespace Tmpl8
 		bool harvested = false;
 		bool alive = true;
 		static bool wateringCan;
-
-		Plant(float x, float y, int harvestDay, int frame, int tileNumber);
-		void Draw(Surface* screen);
-		void NextDay();
-		void Collect();
-		void Update();
-		void Delete();
 	};
-};
+}

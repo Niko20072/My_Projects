@@ -1,1 +1,6 @@
-//#include "player.h"
+#include "player.h"
+
+namespace Tmpl8
+{
+
+}

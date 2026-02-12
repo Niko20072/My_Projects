@@ -1,10 +1,7 @@
 #include "wateringCan.h"
 namespace Tmpl8
 {
-	namespace WateringCan
-	{
-		bool wateringCan = false;
-		void WateringCanState()
+	void WateringCan::WateringCanState()
 		{
 			if (Buttons::rPressed)
 			{
@@ -12,5 +9,4 @@ namespace Tmpl8
 				Buttons::rPressed = false; //reset rPressed to avoid multiple toggles
 			}
 		}
-	}
 }

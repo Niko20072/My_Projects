@@ -10,7 +10,7 @@
 //!!!!!!!!!!!!!!pt plante improve: totul e prea conectat si sunt destul de sigura ca trebuie modificat in asa fel incat toate sa fie mai independente
 //fa sa nu poti deschide seed inventory daca stropitoarea e clickuita
 //make ending at 1000$???
-//mahe stuff private
+//make stuff private
 
 
 //change map
@@ -51,8 +51,12 @@ bool Game::CheckAllCompleted()
 	return true;
 }*/
 
-	static Sprite player(new Surface("assets/Vera.png"), 4);
-	bool Game::CheckCollision(int x, int y)
+	Game::Game() : player(), house(player.playerInventory())
+	{
+	}
+
+	static Sprite player1(new Surface("assets/Vera.png"), 4);
+	bool Game::CheckCollision(float x, float y)
 	{
 		//sprit corners
 		int left = x;
@@ -102,22 +106,22 @@ bool Game::CheckAllCompleted()
 
 		if (GetAsyncKeyState('A'))
 		{
-			player.SetFrame(0);
+			player1.SetFrame(0);
 			movedir.x = -1;
 		}
 		if (GetAsyncKeyState('D'))
 		{
-			player.SetFrame(1);
+			player1.SetFrame(1);
 			movedir.x = 1;
 		}
 		if (GetAsyncKeyState('W'))
 		{
-			player.SetFrame(3);
+			player1.SetFrame(3);
 			movedir.y = -1;
 		}
 		if (GetAsyncKeyState('S'))
 		{
-			player.SetFrame(2);
+			player1.SetFrame(2);
 			movedir.y = 1;
 		}
 		if (movedir.sqrLentgh() > 0)
@@ -132,6 +136,62 @@ bool Game::CheckAllCompleted()
 		{
 			Map::cameraX = newCameraX;
 			Map::cameraY = newCameraY;
+		}
+	}
+	void Game::PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber)
+	{
+		
+		// Planting seeds buttons
+		bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
+		bool button2 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 267 && WorldState::mouseY <= 293;
+		bool button3 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 310 && WorldState::mouseY <= 337;
+		bool button4 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 355 && WorldState::mouseY <= 379;
+		bool button5 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 394 && WorldState::mouseY <= 420;
+
+		// Planting seeds if seed inventory is open
+		if (player.playerInventory().getSeedState())
+		{
+			// Planting Sunblossom seed
+			if (button1 && player.playerInventory().contSeedSunblossom > 0)
+			{
+				Plant::plants.emplace_back(plantX, plantY, 2, 0, tileNumber, player.playerInventory());
+				player.playerInventory().contSeedSunblossom--;
+				player.playerInventory().setSeedState(false);
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
+			}
+			// Planting Moonleaf seed
+			if (button2 && player.playerInventory().contSeedMoonleaf > 0)
+			{
+				Plant::plants.emplace_back(plantX, plantY, 2, 3, tileNumber, player.playerInventory());
+				player.playerInventory().contSeedMoonleaf--;
+				player.playerInventory().setSeedState(false);
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
+			}
+			// Planting Emberroot seed
+			if (button3 && player.playerInventory().contSeedEmberroot > 0)
+			{
+				Plant::plants.emplace_back(plantX, plantY, 3, 6, tileNumber, player.playerInventory());
+				player.playerInventory().contSeedEmberroot--;
+				player.playerInventory().setSeedState(false);
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
+			}
+			// Planting Frostmint seed
+			if (button4 && player.playerInventory().contSeedFrostmint > 0)
+			{
+				Plant::plants.emplace_back(plantX, plantY, 3, 10, tileNumber, player.playerInventory());
+				player.playerInventory().contSeedFrostmint--;
+				player.playerInventory().setSeedState(false);
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
+			}
+			// Planting Nightshade Berry seed
+			if (button5 && player.playerInventory().contSeedBerry > 0)
+			{
+				Plant::plants.emplace_back(plantX, plantY, 4, 14, tileNumber, player.playerInventory());
+				player.playerInventory().contSeedBerry--;
+				player.playerInventory().setSeedState(false);
+				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
+			}
+			
 		}
 	}
 	void Game::UpdatePlants()
@@ -151,15 +211,14 @@ bool Game::CheckAllCompleted()
 			Order::orders.clear();
 			srand(time(0));
 			for (int i = 0; i <= 5; i++)
-				Order::orders.emplace_back(i);
+				Order::orders.emplace_back(i,player.playerInventory());
 		}
 	}
 	void Game::UpdateOrders()
 	{
-		if (inventory.carisopen && inventory.frame == 5)
+		if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
 			for (auto& x : Order::orders)
 				x.Logic(coinCounter);
-
 		ResetOrders();
 	}
 	void Game::UpdateFarmTiles()
@@ -170,13 +229,13 @@ bool Game::CheckAllCompleted()
 		index = 0; // farmtile index in vector
 		for (auto& x : FarmTile::farmTiles)
 		{
-			if (inventory.InventorysClosed())
-				x.Update(x.farmTileX, x.farmTileY);
-			if (x.clicked && !x.isClicked)
+			if (player.playerInventory().InventorysClosed())
+				x.Update(x.getX(), x.getY());
+			if (x.getClicked() && !x.getIsClicked())
 			{
 				tileClicked = true;
-				plantX = x.farmTileX;
-				plantY = x.farmTileY;
+				plantX = x.getX();
+				plantY = x.getY();
 				index2 = index; // index where plant is being created
 				break;
 			}
@@ -186,31 +245,34 @@ bool Game::CheckAllCompleted()
 	void Game::Logic()
 	{
 		// House interaction
-		House::HouseLogic();
+		house.HouseLogic();
 
-		if (!House::houseisopen) // Outside
+		if (!house.getHouseState()) // Outside
 		{
 			// WateringCan
-			WateringCan::WateringCanState();
+			player.playerWateringCan().WateringCanState();
 
 			// Inventory
-			inventory.MainInventory(screen);
-			inventory.CarInventory(screen, coinCounter);
-			inventory.SeedsInventory(screen, plantX, plantY, tileClicked, index2);
+			player.playerInventory().MainInventory(screen);
+			player.playerInventory().CarInventory(screen, coinCounter);
+			player.playerInventory().SeedsInventory(screen, plantX, plantY, tileClicked);
+			if(player.playerInventory().getSeedState())
+				PlantSeeds(screen, plantX, plantY, index2);
 		}
 		else // Inside house
 		{
+			player.playerWateringCan().setState(false); // Disable watering can when house is open
 			// Crafting
-			if (crafting.craftingisopen == true)
-				crafting.Craft();
-			crafting.ManageCrafring();
-			House::DayUpdate(dayCounter);
-			House::NightstandLogic(screen, coinCounter);
+			if (house.getCrafting().getState())
+				house.getCrafting().Craft();
+			house.ManageCrafring();
+			house.DayUpdate(dayCounter);
+			house.NightstandLogic(screen, coinCounter);
 		}
 
 		// reset farmtile clicked state
 		for (auto& x : FarmTile::farmTiles)
-			x.clicked = false;
+			x.setClicked(false);
 	}
 	void Game::UpdateWorld()
 	{
@@ -226,12 +288,12 @@ bool Game::CheckAllCompleted()
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->Print(day, 750, 10, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
-		if (WateringCan::wateringCan)
+		if (player.playerWateringCan().getState())
 			screen->Print("Watering Can Equipped", 340, 585, 0x00ff00);
 	}
 	void Game::DrawGame()
 	{
-		if (!House::houseisopen) // Outside
+		if (!house.getHouseState()) // Outside
 		{
 			gameMap.DrawMap(screen);
 
@@ -241,22 +303,32 @@ bool Game::CheckAllCompleted()
 
 			// Plants
 			for (auto& x : Plant::plants)
-				if (!x.harvested)
+				if (!x.getHarvested())
 					x.Draw(screen);
 
 			// Player reach box
 			screen->Box(WorldState::reachX1 - Map::cameraX, WorldState::reachY1 - Map::cameraY, WorldState::reachX2 - Map::cameraX, WorldState::reachY2 - Map::cameraY, 0x00ff00);
 
 			// Player Sprite
-			player.Draw(screen, WorldState::playerX, WorldState::playerY);
+			player1.Draw(screen, WorldState::playerX, WorldState::playerY);
 
 			//Inventory
-			inventory.Draw(screen);
+			player.playerInventory().Draw(screen);
+			if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
+			{
+				//Orders
+				for (auto& x : Order::orders)
+					x.Draw(screen);
+			}
 		}
 		else // Inside house
 		{
-			House::Draw(screen);
-			inventory.Draw(screen);
+			house.Draw(screen);
+			if (house.getCrafting().getState() == true)
+			{
+				house.getCrafting().Draw(screen);
+				house.getCrafting().CraftingDraw(screen);
+			}
 		}
 
 		DrawUI();
@@ -269,21 +341,21 @@ bool Game::CheckAllCompleted()
 	void Game::Init()
 	{
 		srand(time(0));
-		crafting.SetInventory(&inventory);
+		//Plant::inventory = &inventory;
 		for (int x = 3; x <= 23; x++)
 		{
-			for(int y = 7; y <= 17; y++)
-				FarmTile::farmTiles.emplace_back(x, y);
+			for (int y = 7; y <= 17; y++)
+				FarmTile::farmTiles.emplace_back(x, y, player.playerWateringCan());
 		}
 		for (int x = 3; x <= 19; x++)
 		{
 			for (int y = 18; y <= 20; y++)
-				FarmTile::farmTiles.emplace_back(x, y);
+				FarmTile::farmTiles.emplace_back(x, y, player.playerWateringCan());
 		}
-		for(int i = 0; i <= 5; i++)
-			Order::orders.emplace_back(i);
+		for (int i = 0; i <= 5; i++)
+			Order::orders.emplace_back(i, player.playerInventory());
 	}
-	
+
 	// -----------------------------------------------------------
 	// Close down application
 	// -----------------------------------------------------------
@@ -298,7 +370,7 @@ bool Game::CheckAllCompleted()
 	// -----------------------------------------------------------
 	// Main application tick function
 	// -----------------------------------------------------------
-	
+
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
@@ -308,8 +380,8 @@ bool Game::CheckAllCompleted()
 		WorldState::UpdateWorldState();
 
 		// Check for game completion
-		House::GameCompleted(screen, coinCounter, gameCompleted);
-		
+		house.GameCompleted(screen, coinCounter, gameCompleted);
+
 		if (!gameCompleted)
 		{
 			UpdateWorld();

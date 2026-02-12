@@ -3,6 +3,109 @@
 namespace Tmpl8//sterge
 {
 		//namespace to class de ce
+		int Inventory::getFrame()
+		{
+			return frame;
+		}
+		int Inventory::getCarState()
+		{
+			return carisopen;
+		}
+		int Inventory::getInvState()
+		{
+			return inventoryisopen;
+		}
+		int Inventory::getSeedState()
+		{
+			return seedsisopen;
+		}
+		void Inventory::setSeedState(bool state)
+		{
+			seedsisopen = state;
+		}
+
+		int Inventory::getContSunblossom()
+		{
+			return contSunblossom;
+		}
+		int Inventory::getContMoonleaf()
+		{
+			return contMoonleaf;
+		}
+		int Inventory::getContEmberroot()
+		{
+			return contEmberroot;
+		}
+		int Inventory::getContFrostmint()
+		{
+			return contFrostmint;
+		}
+		int Inventory::getContBerry()
+		{
+			return contBerry;
+		}
+		int Inventory::getContVitalTonic()
+		{
+			return contVitalTonic;
+		}
+		int Inventory::getContCalmMind()
+		{
+			return contCalmMind;
+		}
+		int Inventory::getContDreamDraught()
+		{
+			return contDreamDraught;
+		}
+		int Inventory::getContFireHeart()
+		{
+			return contFireHeart;
+		}
+		int Inventory::getContFrostveil()
+		{
+			return contFrostveil;
+		}
+		int Inventory::getContSeedSunblossom()
+		{
+			return contSeedSunblossom;
+		}
+		int Inventory::getContSeedMoonleaf()
+		{
+			return contSeedMoonleaf;
+		}
+		int Inventory::getContSeedEmberroot()
+		{
+			return contSeedEmberroot;
+		}
+		int Inventory::getContSeedFrostmint()
+		{
+			return contSeedFrostmint;
+		}
+		int Inventory::getContSeedBerry()
+		{
+			return contSeedBerry;
+		}
+
+		void Inventory::addContSunblossom()
+		{
+			contSunblossom++;
+		}
+		void Inventory::addContMoonleaf()
+		{
+			contMoonleaf++;
+		}
+		void Inventory::addContEmberroot()
+		{
+			contEmberroot++;
+		}
+		void Inventory::addContFrostmint()
+		{
+			contFrostmint++;
+		}
+		void Inventory::addContBerry()
+		{
+			contBerry++;
+		}
+
 		void Inventory::BuySeeds(Surface* screen, int& coinCounter)
 		{
 			// Buying seeds buttons
@@ -49,60 +152,6 @@ namespace Tmpl8//sterge
 					Inventory::contSeedBerry++;
 					coinCounter -= 30;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-			}
-		}
-		void Inventory::PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber)
-		{
-			// Planting seeds buttons
-			bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
-			bool button2 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 267 && WorldState::mouseY <= 293;
-			bool button3 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 310 && WorldState::mouseY <= 337;
-			bool button4 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 355 && WorldState::mouseY <= 379;
-			bool button5 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 394 && WorldState::mouseY <= 420;
-
-			// Planting seeds if seed inventory is open
-			if (seedsisopen)
-			{
-				// Planting Sunblossom seed
-				if (button1 && contSeedSunblossom > 0)
-				{
-					Plant::plants.emplace_back(plantX, plantY, 2, 0, tileNumber);
-					Inventory::contSeedSunblossom--;
-					seedsisopen = false;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
-				}
-				// Planting Moonleaf seed
-				if (button2 && contSeedMoonleaf > 0)
-				{
-					Plant::plants.emplace_back(plantX, plantY, 2, 3, tileNumber);
-					Inventory::contSeedMoonleaf--;
-					seedsisopen = false;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
-				}
-				// Planting Emberroot seed
-				if (button3 && contSeedEmberroot > 0)
-				{
-					Plant::plants.emplace_back(plantX, plantY, 3, 6, tileNumber);
-					Inventory::contSeedEmberroot--;
-					seedsisopen = false;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
-				}
-				// Planting Frostmint seed
-				if (button4 && contSeedFrostmint > 0)
-				{
-					Plant::plants.emplace_back(plantX, plantY, 3, 10, tileNumber);
-					Inventory::contSeedFrostmint--;
-					seedsisopen = false;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
-				}
-				// Planting Nightshade Berry seed
-				if (button5 && contSeedBerry > 0)
-				{
-					Plant::plants.emplace_back(plantX, plantY, 4, 14, tileNumber);
-					Inventory::contSeedBerry--;
-					seedsisopen = false;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 				}
 			}
 		}
@@ -187,10 +236,6 @@ namespace Tmpl8//sterge
 				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
 				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
 			}
-			//Orders
-			if (carisopen && frame == 5)
-				for (auto& x : Order::orders)
-					x.Draw(screen);
 		}
 		void Inventory::MainInventory(Surface* screen)
 		{
@@ -260,14 +305,14 @@ namespace Tmpl8//sterge
 			// Buy seeds logic
 			BuySeeds(screen, coinCounter);
 		}
-		void Inventory::SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd, int tileNumber)
+		void Inventory::SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
 			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
 
 			//Toggle seed inventory
-			if (tileClicekd && seedsisopen == false && !WateringCan::wateringCan)
+			if (tileClicekd && seedsisopen == false && !wateringCan.getState())
 			{
 				inventoryisopen = false;
 				carisopen = false;
@@ -278,7 +323,6 @@ namespace Tmpl8//sterge
 			//Click seed inventory
 			if (seedsisopen)
 			{
-				PlantSeeds(screen, plantX, plantY, tileNumber);
 				if (clickedOutsideInv || Buttons::ePressed || Buttons::qPressed || moved)
 					seedsisopen = false;
 			}
@@ -289,7 +333,7 @@ namespace Tmpl8//sterge
 			if (inventoryisopen || carisopen || seedsisopen)
 			{
 				DrawInventory(screen);
-				WateringCan::wateringCan = false; // Disable watering can when any inventory is open
+				wateringCan.setState(false); // Disable watering can when any inventory is open
 			}
 				
 		}
@@ -300,4 +344,6 @@ namespace Tmpl8//sterge
 				return 1;
 			return 0;
 		}
+
+		
 }

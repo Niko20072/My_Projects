@@ -9,6 +9,7 @@
 #include "farmtile.h"
 //#include <cassert>
 #include "inventory.h"
+#include "crafting.h"
 #include "plant.h"
 #include "house.h"
 #include "buttons.h"
@@ -16,46 +17,49 @@
 #include "nightstand.h"
 #include "wateringCan.h"
 #include "worldState.h"
+#include "player.h"
 
-namespace Tmpl8 
+namespace Tmpl8
 {
-//class Surface;
-class Game
-{
-public:
-	void SetTarget(Surface* surface) { screen = surface; }
-	void Init();
-	void Shutdown();
-	void Tick(float deltaTime);
-	void MouseUp(int button) {  /*implement if you want to detect mouse button presses  */}
-	void MouseDown(int button) {  /*implement if you want to detect mouse button presses  */}
-	void MouseMove(int x, int y) { /*implement if you want to detect mouse movement */} 
-	void KeyUp( int key ) { /* implement if you want to handle keys */ }
-	void KeyDown( int key ) { /* implement if you want to handle keys */ } //use this (bool pt mouse). muta din buttons aici (vezi ce face functia asta). uitate in template cpp (int bitset)
-private:
-	Surface* screen;
-	Map gameMap;
-	const float cameraSpeed = 360.0f;
-	int dayCounter = 0;
-	int coinCounter = 200;
-	char day[32], coins[32];
-	bool gameCompleted = false;
-	float plantX, plantY;
-	int index, index2;
-	bool tileClicked = false;
-	Inventory inventory;
-	Crafting crafting;
-	bool CheckCollision(int x, int y);
-	void HandleInput();
-	void HandleMovement(float deltaTime);
-	void UpdatePlants();
-	void ResetOrders();
-	void UpdateOrders();
-	void UpdateFarmTiles();
-	void Logic();
-	void UpdateWorld();
-	void DrawUI();
-	void DrawGame();
-};
+	//class Surface;
+	class Game
+	{
+	public:
+		Game();
+		void SetTarget(Surface* surface) { screen = surface; }
+		void Init();
+		void Shutdown();
+		void Tick(float deltaTime);
+		void MouseUp(int button) {  /*implement if you want to detect mouse button presses  */ }
+		void MouseDown(int button) {  /*implement if you want to detect mouse button presses  */ }
+		void MouseMove(int x, int y) { /*implement if you want to detect mouse movement */ }
+		void KeyUp(int key) { /* implement if you want to handle keys */ }
+		void KeyDown(int key) { /* implement if you want to handle keys */ } //use this (bool pt mouse). muta din buttons aici (vezi ce face functia asta). uitate in template cpp (int bitset)
+	private:
+		Surface* screen;
+		Map gameMap;
+		Player player;
+		House house;
+		const float cameraSpeed = 360.0f;
+		int dayCounter = 0;
+		int coinCounter = 200;
+		char day[32], coins[32];
+		bool gameCompleted = false;
+		float plantX, plantY;
+		int index, index2;
+		bool tileClicked = false;
+		bool CheckCollision(float x, float y);
+		void ResetOrders();
+		void HandleInput();
+		void HandleMovement(float deltaTime);
+		void PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber);
+		void UpdatePlants();
+		void UpdateOrders();
+		void UpdateFarmTiles();
+		void Logic();
+		void UpdateWorld();
+		void DrawUI();
+		void DrawGame();
+	};
 
 }; // namespace Tmpl8

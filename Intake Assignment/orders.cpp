@@ -4,7 +4,7 @@ namespace Tmpl8
 	std::vector<Order> Order::orders;
 	int Order::daysUntilReset = 5; // Days until orders reset
 	int range = 5; // Click range
-	Order::Order(int number)
+	Order::Order(int number, Inventory& inv) : inventory(inv)
 	{
 		orderNumber = number;
 		potionNumber = 1 + IRand(3); // 1 to 2 potions (bigger chance for 2)
@@ -45,13 +45,13 @@ namespace Tmpl8
 			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 
 			// Order with one potion
-			if (potionNumber == 1) 
+			if (potionNumber == 1)
 			{
 				// Check if enough potions in inventory
-				if (*Inventory::potionCounters[potionType1] - potionTypeNumber1 >= 0)
+				if (*inventory.potionCounters[potionType1] - potionTypeNumber1 >= 0)
 				{
 					// Remove potions from inventory and add coins
-					*Inventory::potionCounters[potionType1] -= potionTypeNumber1;
+					*inventory.potionCounters[potionType1] -= potionTypeNumber1;
 					coinCounter += price;
 					// Mark order as completed
 					completed = true;
@@ -61,11 +61,11 @@ namespace Tmpl8
 			if (potionNumber > 1)
 			{
 				// Check if enough potions in inventory
-				if (*Inventory::potionCounters[potionType1] - potionTypeNumber1 >= 0 && *Inventory::potionCounters[potionType2] - potionTypeNumber2 >= 0)
+				if (*inventory.potionCounters[potionType1] - potionTypeNumber1 >= 0 && *inventory.potionCounters[potionType2] - potionTypeNumber2 >= 0)
 				{
 					// Remove potions from inventory and add coins
-					*Inventory::potionCounters[potionType1] -= potionTypeNumber1;
-					*Inventory::potionCounters[potionType2] -= potionTypeNumber2;
+					*inventory.potionCounters[potionType1] -= potionTypeNumber1;
+					*inventory.potionCounters[potionType2] -= potionTypeNumber2;
 					coinCounter += price;
 					// Mark order as completed
 					completed = true;

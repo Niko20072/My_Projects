@@ -2,30 +2,8 @@
 
 namespace Tmpl8
 {
-	/*
-	FarmTile::FarmTile(Surface* screen)
-	{
-		for (int y = 7; y <= 31; y++)
-		{
-			for (int x = 2; x <= 29; x++)
-			{
-				WetFarmTile.Draw(screen, x * Map::TileSize - Map::cameraX, y * Map::TileSize - Map::cameraY);
-			}
-		}
-		for (int x = 4; x <= 29; x++)
-		{
-				WetFarmTile.Draw(screen, x * Map::TileSize - Map::cameraX, 32 * Map::TileSize - Map::cameraY);
-		}
-		for (int y = 7; y <= 27; y++)
-		{
-			for (int x = 30; x <= 33; x++)
-			{
-				WetFarmTile.Draw(screen, x * Map::TileSize - Map::cameraX, y * Map::TileSize - Map::cameraY);
-			}
-		}
-	}*/
 	std::vector<FarmTile> FarmTile::farmTiles;
-	FarmTile::FarmTile(float x,float y) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles2.png"), 6)) {}
+	FarmTile::FarmTile(float x,float y, WateringCan& wa) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles2.png"), 6)) {}
 	void FarmTile::Draw(Surface* screen)
 	{
 		farmTile->Draw(screen, farmTileX - Map::cameraX, farmTileY - Map::cameraY);
@@ -51,7 +29,7 @@ namespace Tmpl8
 			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 			clicked = true;
 		}
-		if (clicked && WateringCan::wateringCan)
+		if (clicked && wateringCan.getState())
 			watered = true;
 		// Hover & state logic
 		if (watered)

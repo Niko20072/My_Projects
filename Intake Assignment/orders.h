@@ -12,10 +12,15 @@ namespace Tmpl8
 	{
 	public:
 		static std::vector<Order> orders;
+		static int daysUntilReset; // Days until orders reset 
+		Order(int number, Inventory	&inv); // Constructor
+		void Logic(int& coinCounter); // Logic for order processing
+		void Draw(Surface* screen); // Draw order on screen
+	private:
 		// Potion types and their prices
 		std::vector<const char*> potionsTypes = { "Vital Tonic", "Calm Mind", "Dream Draught", "FireHeart", "FrostVeil" };
-		std::vector<int> priceNumbers = {60,45,70,95,85};
-
+		std::vector<int> priceNumbers = { 60,45,70,95,85 };
+		Inventory& inventory; // Reference to player's inventory
 		int orderNumber; // Which order it is
 		int potionNumber; // How many potions ordered
 		int potionTypeNumber1; // How many of first potion ordered
@@ -25,9 +30,5 @@ namespace Tmpl8
 		int price; // Price of the order
 		bool completed = false; // Is the order completed?
 		char order[64], send[32], complete[32], daysUntilResetText[64]; // Text buffers
-		static int daysUntilReset; // Days until orders reset 
-		Order(int number); // Constructor
-		void Logic(int& coinCounter); // Logic for order processing
-		void Draw(Surface* screen); // Draw order on screen
 	};
-};
+}

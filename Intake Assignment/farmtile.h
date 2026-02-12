@@ -7,6 +7,7 @@
 #include "map.h"
 #include "worldState.h"
 #include "buttons.h"
+#include "wateringCan.h"
 
 namespace Tmpl8
 {
@@ -16,45 +17,30 @@ namespace Tmpl8
 	public:
 		static std::vector<FarmTile> farmTiles;
 		std::unique_ptr<Sprite> farmTile;
-		//Sprite *farmTile = new Sprite(new Surface("assets/tiles2.png"), 6);
-		int farmTileX;
-		int farmTileY;
-		int frame = 0; // Current frame of the farm tile sprite
-		bool isClicked = false; // Whether the tile has been clicked
-		bool clicked = false;
-		bool watered = false;
+		FarmTile(float x, float y, WateringCan& wa);
 
-		//FarmTile(Surface* screen);
-
-		FarmTile(float x, float y);
-
-		/*
-		//i actually dk what ahppened here but it works now -> study
-		~FarmTile() { delete farmTile; }
-		FarmTile(const FarmTile&) = delete;
-		FarmTile& operator=(const FarmTile&) = delete;
-		FarmTile(FarmTile&& t) {	
-			farmTile = t.farmTile;
-			t.farmTile = nullptr;
-			farmTileX = t.farmTileX;
-			farmTileY = t.farmTileY;
-		}
-		FarmTile& operator=(FarmTile&& t) 
-		{
-			if (this != &t) {
-				delete farmTile;
-				farmTile = t.farmTile;
-				t.farmTile = nullptr;
-				farmTileX = t.farmTileX;
-				farmTileY = t.farmTileY;
-			}
-			return *this;
-		}
-		//i actually dk what ahppened here but it works now*/
+		//int getFrame() { return frame; }
+		float getX() { return farmTileX; }
+		float getY() { return farmTileY; }
+		int getIsClicked() { return isClicked; }
+		int getClicked() { return clicked; }
+		int getWatered() { return watered; }
+		void setIsClicked(bool state) { isClicked = state; }
+		void setClicked(bool state) { clicked = state; }
+		void setWatered(bool state) { watered = state; }
+		void setFrame(int f) { frame = f; }
 
 		void Draw(Surface* screen);// Draw farm tile at its position
 		void SetFrame(int frame); // Set the current frame of the farm tile sprite
 		void Clicked(); // Mark the tile as clicked and update its frame
 		void Update(float x, float y); // Update tile state based on interaction
+	private:
+		WateringCan& wateringCan; // reference to existing watering can state
+		float farmTileX;
+		float farmTileY;
+		int frame = 0; // Current frame of the farm tile sprite
+		bool isClicked = false; // Whether the tile has been clicked
+		bool clicked = false;
+		bool watered = false;
 	};
 };
