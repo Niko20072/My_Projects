@@ -48,57 +48,46 @@ namespace Tmpl8
 			crafting.setState(false);
 		}
 	}
-	void House::DayUpdate(int& dayCounter)
+	bool House::ClickedNextDay()
 	{
 		// Check if player clicked on bed, yes or no buttons
-		bool clickedOnBed = Buttons::leftPressed && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
 		clickedYes = Buttons::leftPressed && WorldState::mouseX >= 235 && WorldState::mouseX <= 389 && WorldState::mouseY >= 310 && WorldState::mouseY <= 385;
 		clickedNo = Buttons::leftPressed && WorldState::mouseX >= 405 && WorldState::mouseX <= 557 && WorldState::mouseY >= 310 && WorldState::mouseY <= 383;
-
-		// Update house frame based on clicks:
-
-		// Frame 0: Normal house view
-		// Frame 1: Sleep confirmation view
-		// Frame 2: Day passed view
-
+		if (bedisopen && clickedYes && frame == 1) // Player confirmed to sleep
+		{
+			return true;
+		}
+		return false;
+	}
+	void House::BedLogic(int& dayCounter)
+	{
+		// Check if player clicked on bed
+		bool clickedOnBed = Buttons::leftPressed && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
+		
 		// Open bed menu if clicked on bed
 		if (clickedOnBed && !crafting.getState() && !nightstandisopen && frame == 0)
 		{
 			bedisopen = true;
 			frame = 1;
+			house.SetFrame(frame);
 			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 		}
+		// Frame 0: Normal house view
+		// Frame 1: Sleep confirmation view
+		// Frame 2: Day passed view
 
 		// Handle bed menu interactions
-		if (bedisopen == true)
+		if (bedisopen)
 		{
-			if (clickedYes && frame == 1) // Player confirmed to sleep
+			if (ClickedNextDay()) // Player confirmed to sleep
 			{
-				for (auto& x : Plant::plants)
-				{
-					if (x.getGrown() == false)
-						x.NextDay();
-				}
-				for (auto& x : FarmTile::farmTiles)
-				{
-					x.setWatered(false);
-				}
 				frame = 2;
 				dayCounter++;
-				Order::daysUntilReset--;
-				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 			}
-			else if ((frame == 2 && Buttons::leftPressed) || (clickedNo && frame == 1)) // Player clicked to exit day passed view or declined to sleep
+			else if ((frame == 2 && Buttons::leftPressed) || (clickedNo && frame == 1) || (Buttons::qPressed && crafting.getState() == false)) // Player clicked to exit day passed view or declined to sleep || Close bed menu if Q is pressed
 			{
 				bedisopen = false;
 				frame = 0;
-				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
-			}
-			else if (Buttons::qPressed && crafting.getState() == false) // Close bed menu if Q is pressed
-			{
-				bedisopen = false;
-				frame = 0;
-				Buttons::qPressed = false; // Reset q click state to avoid multiple clicks
 			}
 		}
 		house.SetFrame(frame);

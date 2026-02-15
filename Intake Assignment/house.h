@@ -4,8 +4,6 @@
 #include "inventory.h"
 #include "template.h"
 #include "crafting.h"
-#include "plant.h"
-#include "orders.h"
 #include "worldState.h"
 #include "buttons.h"
 
@@ -19,9 +17,11 @@ namespace Tmpl8
 		Crafting& getCrafting() { return crafting; }
 		int getHouseState();
 		int getFrame();
+		bool getClickedYes() { return clickedYes; }
 		void HouseLogic(); // Handle house interactions (opening/closing, crafting menu)
-		void ManageCrafring();
-		void DayUpdate(int& dayCounter); // Update house menu based on day progression
+		void ManageCrafring(); // Handle crafting menu interactions
+		void BedLogic(int &dayCounter); // Handle bed click and day progression logic
+		bool ClickedNextDay();
 		void NightstandLogic(Surface* screen, int coinCounter); // Handle nightstand click
 		void Draw(Surface* screen);
 		void GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted); // Show game completed screen

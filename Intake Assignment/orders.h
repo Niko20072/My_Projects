@@ -11,7 +11,6 @@ namespace Tmpl8
 	class Order
 	{
 	public:
-		static std::vector<Order> orders;
 		static int daysUntilReset; // Days until orders reset 
 		Order(int number, Inventory	&inv); // Constructor
 		void Logic(int& coinCounter); // Logic for order processing

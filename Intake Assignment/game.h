@@ -40,7 +40,9 @@ namespace Tmpl8
 		Map gameMap;
 		Player player;
 		House house;
-		const float cameraSpeed = 360.0f;
+		std::vector<Order> orders;
+		std::vector<FarmTile> farmTiles;
+		std::vector<Plant> plants;
 		int dayCounter = 0;
 		int coinCounter = 200;
 		char day[32], coins[32];
@@ -56,6 +58,7 @@ namespace Tmpl8
 		void UpdatePlants();
 		void UpdateOrders();
 		void UpdateFarmTiles();
+		void UpdateNextDay();
 		void Logic();
 		void UpdateWorld();
 		void DrawUI();

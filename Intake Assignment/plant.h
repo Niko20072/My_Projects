@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "farmtile.h"
-#include "wateringCan.h"
+#include "inventory.h"
 #include "buttons.h"
 
 namespace Tmpl8
@@ -13,7 +13,6 @@ namespace Tmpl8
 	class Plant
 	{
 	public:
-		static std::vector<Plant> plants;
 		Plant(float x, float y, int harvestDay, int frame, int tileNumber, Inventory &inv);
 		int getGrown() { return grown; }
 		int getHarvested() { return harvested; }

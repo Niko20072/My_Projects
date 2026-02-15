@@ -1,7 +1,6 @@
 #include "orders.h"
 namespace Tmpl8
 {
-	std::vector<Order> Order::orders;
 	int Order::daysUntilReset = 5; // Days until orders reset
 	int range = 5; // Click range
 	Order::Order(int number, Inventory& inv) : inventory(inv)

@@ -3,7 +3,7 @@
 #include "template.h"
 #include <cassert>
 #include <vector>
-#include "inventory.h"
+#include <iostream>
 #include "map.h"
 #include "worldState.h"
 #include "buttons.h"
@@ -15,10 +15,7 @@ namespace Tmpl8
 	class FarmTile
 	{
 	public:
-		static std::vector<FarmTile> farmTiles;
-		std::unique_ptr<Sprite> farmTile;
 		FarmTile(float x, float y, WateringCan& wa);
-
 		//int getFrame() { return frame; }
 		float getX() { return farmTileX; }
 		float getY() { return farmTileY; }
@@ -36,6 +33,7 @@ namespace Tmpl8
 		void Update(float x, float y); // Update tile state based on interaction
 	private:
 		WateringCan& wateringCan; // reference to existing watering can state
+		std::unique_ptr<Sprite> farmTile;
 		float farmTileX;
 		float farmTileY;
 		int frame = 0; // Current frame of the farm tile sprite

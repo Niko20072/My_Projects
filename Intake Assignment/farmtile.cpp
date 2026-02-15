@@ -2,7 +2,7 @@
 
 namespace Tmpl8
 {
-	std::vector<FarmTile> FarmTile::farmTiles;
+	
 	FarmTile::FarmTile(float x,float y, WateringCan& wa) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles2.png"), 6)) {}
 	void FarmTile::Draw(Surface* screen)
 	{

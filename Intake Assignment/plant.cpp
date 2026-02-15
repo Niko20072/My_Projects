@@ -2,16 +2,16 @@
 
 namespace Tmpl8
 {
-	std::vector<Plant> Plant::plants;
+	
 
-	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber, Inventory& inv) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), inventory(inv), plant(std::make_unique<Sprite>(new Surface("assets/plant2.png"), 20))
+	Plant::Plant(float x, float y, int harvestDay, int frame, int tileNumber, Inventory& inv) : x(x), y(y), harvestDay(harvestDay), frame(frame), tileNumber(tileNumber), inventory(inv), plant(std::make_unique<Sprite>(new Surface("assets/plant.png"), 20))
 	{
 		FarmTile::farmTiles[tileNumber].Clicked(); // Mark the corresponding farm tile as clicked
 	}
 	void Plant::Draw(Surface* screen)
 	{
 		plant->SetFrame(frame);
-		plant->Draw(screen, x - Map::cameraX, y - Map::cameraY);
+		plant->Draw(screen, x - Map::cameraX, y - Map::cameraY - 10);
 	}
 	void Plant::NextDay()
 	{

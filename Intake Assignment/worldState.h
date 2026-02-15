@@ -5,6 +5,7 @@ namespace Tmpl8
 	namespace WorldState
 	{
 		extern const int playerX, playerY; //player position
+		extern const float cameraSpeed;
 		extern float mouseX, mouseY;
 
 		// Transform screen coordinates -> world coordinates -> mouse screen position

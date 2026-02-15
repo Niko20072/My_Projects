@@ -4,6 +4,8 @@
 #include <windows.h>
 #include "template.h"
 #include "inventory.h"
+#include "wateringCan.h"
+#include "worldState.h"
 
 namespace Tmpl8
 {
@@ -13,8 +15,12 @@ namespace Tmpl8
 		Player() : wateringCan(), inventory(wateringCan) {};
 		Inventory& playerInventory() { return inventory; }
 		WateringCan& playerWateringCan() { return wateringCan; }
+		bool CheckCollision(float x, float y);
+		void HandleMovement(float deltaTime);
+		void Draw(Surface* screen);
 	private:
 		WateringCan wateringCan;
 		Inventory inventory; // depends on wateringCan
+		Sprite player1 = Sprite(new Surface("assets/Vera.png"), 4);
 	};
 }

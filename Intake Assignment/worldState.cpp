@@ -6,6 +6,7 @@ namespace Tmpl8
 		const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
 		float mouseX = 0, mouseY = 0;
 		float worldX, worldY, worldPlayerX, worldPlayerY, reachX1, reachY1, reachX2, reachY2;
+		const float cameraSpeed = 360.0f;
 		void UpdateWorldState()
 		{
 			// Transform screen coordinates -> world coordinates -> mouse screen position

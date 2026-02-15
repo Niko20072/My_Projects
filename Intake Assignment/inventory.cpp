@@ -121,35 +121,35 @@ namespace Tmpl8//sterge
 				// Buying Sunblossom seeds
 				if (button1 && coinCounter >= 10)
 				{
-					Inventory::contSeedSunblossom++;
+					contSeedSunblossom++;
 					coinCounter -= 10;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Moonleaf seeds
 				if (button2 && coinCounter >= 12)
 				{
-					Inventory::contSeedMoonleaf++;
+					contSeedMoonleaf++;
 					coinCounter -= 12;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Emberroot seeds
 				if (button3 && coinCounter >= 18)
 				{
-					Inventory::contSeedEmberroot++;
+					contSeedEmberroot++;
 					coinCounter -= 18;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Frostmint seeds
 				if (button4 && coinCounter >= 20)
 				{
-					Inventory::contSeedFrostmint++;
+					contSeedFrostmint++;
 					coinCounter -= 20;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Nightshade Berry seeds
 				if (button5 && coinCounter >= 30)
 				{
-					Inventory::contSeedBerry++;
+					contSeedBerry++;
 					coinCounter -= 30;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}

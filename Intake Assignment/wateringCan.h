@@ -5,10 +5,12 @@ namespace Tmpl8
 	class WateringCan
 	{
 	public:
-		int getState() { return wateringCan; }
-		void setState(bool state) { wateringCan = state; }
+		int getState() { return wateringCanState; }
+		void setState(bool state) { wateringCanState = state; }
 		void WateringCanState();
+		void Draw(Surface* screen);
 	private:
-		bool wateringCan = false;
+		bool wateringCanState = false;
+		Sprite wateringCan = Sprite(new Surface("assets/Wateringcan.png"), 2);
 	};
 }
