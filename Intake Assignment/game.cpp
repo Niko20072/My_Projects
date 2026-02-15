@@ -134,7 +134,7 @@ bool Game::CheckAllCompleted()
 	{
 		for (auto& x : farmTiles)
 		{
-			x.UpdatePlant();
+			x.CollectPlant();
 		}
 	}
 	void Game::ResetOrders()
@@ -165,8 +165,8 @@ bool Game::CheckAllCompleted()
 		for (auto& x : farmTiles)
 		{
 			if (player.playerInventory().InventorysClosed())
-				x.Update(x.getX(), x.getY());
-			if (x.getClicked() && !x.getIsClicked())
+				x.Update();
+			if (x.getClicked() && !x.getPlanted())
 			{
 				tileClicked = true;
 				index2 = index;
@@ -179,7 +179,7 @@ bool Game::CheckAllCompleted()
 	{
 		for (auto& x : farmTiles)
 		{
-			x.NextDayPlant();
+			x.UpdatePlant();
 			x.setWatered(false);
 		}
 		daysUntilOrderReset--;
@@ -307,6 +307,7 @@ bool Game::CheckAllCompleted()
 	void Game::Shutdown()
 	{
 		farmTiles.clear();
+		//delete plants?
 		orders.clear();
 	}
 
@@ -330,6 +331,7 @@ bool Game::CheckAllCompleted()
 		{
 			UpdateWorld();
 			DrawGame();
+			if (!house.getHouseState()) // Handle player movement only when outside
 			player.HandleMovement(deltaTime);
 		}
 	}

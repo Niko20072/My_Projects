@@ -18,8 +18,9 @@ namespace Tmpl8
 		bool clicekdOnDoor = WorldState::worldX >= 196 && WorldState::worldX <= 233 && WorldState::worldY >= 183 && WorldState::worldY <= 234;
 
 		// Open house if left mouse button is clicked while in reach of door
-		if (GetAsyncKeyState(VK_LBUTTON) && houseInReach && clicekdOnDoor)
+		if (Buttons::leftPressed && houseInReach && clicekdOnDoor)
 		{
+			Buttons::leftPressed = false;
 			houseisopen = true;
 			frame = 0;
 			house.SetFrame(frame);

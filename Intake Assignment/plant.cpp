@@ -11,7 +11,7 @@ namespace Tmpl8
 		plant.SetFrame(frame);
 		plant.Draw(screen, x - Map::cameraX, y - Map::cameraY - 10);
 	}
-	void Plant::NextDay()
+	void Plant::Update()
 	{
 		if (alive)
 		{
@@ -20,7 +20,7 @@ namespace Tmpl8
 			{
 				if (daysPassed <= harvestDay)
 					frame++;
-				if (daysPassed >= harvestDay && !harvested)
+				if (daysPassed >= harvestDay)
 					grown = true;
 			}
 			else
@@ -42,12 +42,5 @@ namespace Tmpl8
 			inventory.addContFrostmint();
 		if (frame == 18) // Berry
 			inventory.addContBerry();
-	}
-	void Plant::Update()
-	{
-		harvested = true;
-		grown = false; // prevent multiple harvesting
-		alive = true; // prevent multiple harvesting
-		Collect();
 	}
 };

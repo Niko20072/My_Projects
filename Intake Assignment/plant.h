@@ -14,13 +14,11 @@ namespace Tmpl8
 	public:
 		Plant(float x, float y, int harvestDay, int frame, Inventory &inv);
 		int getGrown() { return grown; }
-		int getHarvested() { return harvested; }
 		int getAlive() { return alive; }
 		void setWatered(bool state) { watered = state; }
 		void Draw(Surface* screen);
-		void NextDay();
-		void Collect();
 		void Update();
+		void Collect();
 
 	private:
 		Inventory& inventory;
@@ -31,7 +29,6 @@ namespace Tmpl8
 		bool grown = false;
 		int frame; //sprite frame
 		float x, y;
-		bool harvested = false;
 		bool alive = true;
 		bool watered = false;
 		//static bool wateringCan;

@@ -14,7 +14,7 @@ namespace Tmpl8
 		
 	public:
 		House(Inventory& inv) : inventory(inv), crafting(inv) {};
-		Crafting& getCrafting() { return crafting; }
+		Crafting& getCrafting() { return crafting; } // Reference to crafting system
 		int getHouseState();
 		int getFrame();
 		bool getClickedYes() { return clickedYes; }

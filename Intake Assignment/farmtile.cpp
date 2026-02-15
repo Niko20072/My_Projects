@@ -12,16 +12,11 @@ namespace Tmpl8
 	{
 		farmTile->SetFrame(frame);
 	}
-	void FarmTile::Clicked()
-	{
-		isClicked = true;
-		frame = 2;
-	}
-	void FarmTile::Update(float x, float y)
+	void FarmTile::Update()
 	{
 		// Tile rectangle
-		bool tileRectangle = WorldState::worldX >= x && WorldState::worldX < x + Map::TileSize && WorldState::worldY >= y && WorldState::worldY < y + Map::TileSize;
-		bool tileInReach = WorldState::reachX1 < x + Map::TileSize && WorldState::reachX2 > x && WorldState::reachY1 < y + Map::TileSize && WorldState::reachY2 > y;
+		bool tileRectangle = WorldState::worldX >= farmTileX && WorldState::worldX < farmTileX + Map::TileSize && WorldState::worldY >= farmTileY && WorldState::worldY < farmTileY + Map::TileSize;
+		bool tileInReach = WorldState::reachX1 < farmTileX + Map::TileSize && WorldState::reachX2 > farmTileX && WorldState::reachY1 < farmTileY + Map::TileSize && WorldState::reachY2 > farmTileY;
 
 		// Click
 		if (Buttons::leftPressed && tileRectangle && tileInReach)
@@ -39,7 +34,7 @@ namespace Tmpl8
 			else
 				frame = 4;   // idle wet tile
 		}
-		else if (isClicked)
+		else if (planted)
 		{
 			if (tileRectangle)
 				frame = 3;   // hover on dry tile
@@ -58,7 +53,7 @@ namespace Tmpl8
 	{
 		if (!planted)
 		{
-			Clicked(); // Mark the tile as clicked when planting
+			frame = 2; // Mark the tile as clicked when planting
 			plant = nullptr;
 			if (plantType == 0) // Sunblossom
 				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 0, inventory);
@@ -78,32 +73,29 @@ namespace Tmpl8
 		plant = nullptr;
 		planted = false;
 	}
-	void FarmTile::UpdatePlant()
+	void FarmTile::CollectPlant()
 	{
-		if (planted)
+		if (planted) // avoid null pointer access
 		{
-			if ((plant->getGrown() || !plant->getAlive()) && clicked)
+			if ((plant->getGrown() || !plant->getAlive()) && clicked) // Check if the plant is ready for harvest or dead, and the tile has been clicked
 			{
-				plant->Update();
-				isClicked = false; // Reset click state after harvesting
-				frame = 0; // Reset tile frame after harvesting
-			}
-			if (plant->getHarvested())
+				plant->Collect();
 				DeletePlant();
+			}
 		}
 	}
-	void FarmTile::NextDayPlant()
+	void FarmTile::UpdatePlant()
 	{
-		if (planted)
+		if (planted) // avoid null pointer access
 		{
 			plant->setWatered(watered);
-			plant->NextDay();
+			plant->Update();
 		}
 		
 	}
 	void FarmTile::DrawPlant(Surface* screen)
 	{
-		if (planted)
+		if (planted) // avoid null pointer access
 			plant->Draw(screen);
 	}
 };
