@@ -305,7 +305,7 @@ namespace Tmpl8//sterge
 			// Buy seeds logic
 			BuySeeds(screen, coinCounter);
 		}
-		void Inventory::SeedsInventory(Surface* screen, float plantX, float plantY, bool tileClicekd)
+		void Inventory::SeedsInventory(Surface* screen, bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);

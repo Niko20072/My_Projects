@@ -11,7 +11,6 @@ namespace Tmpl8
 	class Order
 	{
 	public:
-		static int daysUntilReset; // Days until orders reset 
 		Order(int number, Inventory	&inv); // Constructor
 		void Logic(int& coinCounter); // Logic for order processing
 		void Draw(Surface* screen); // Draw order on screen
@@ -28,6 +27,6 @@ namespace Tmpl8
 		int potionType2; // Type of potion2 ordered
 		int price; // Price of the order
 		bool completed = false; // Is the order completed?
-		char order[64], send[32], complete[32], daysUntilResetText[64]; // Text buffers
+		char order[64], send[32], complete[32]; // Text buffers
 	};
 }

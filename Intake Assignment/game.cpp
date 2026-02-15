@@ -74,7 +74,7 @@ bool Game::CheckAllCompleted()
 		Buttons::CheckClick();
 
 	}
-	void Game::PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber)
+	void Game::PlantSeeds(Surface* screen, int tileNumber)
 	{
 		
 		// Planting seeds buttons
@@ -90,7 +90,7 @@ bool Game::CheckAllCompleted()
 			// Planting Sunblossom seed
 			if (button1 && player.playerInventory().contSeedSunblossom > 0)
 			{
-				plants.emplace_back(plantX, plantY, 2, 0, tileNumber, player.playerInventory());
+				farmTiles[tileNumber].CreatePlant(0); // Create plant on farm tile
 				player.playerInventory().contSeedSunblossom--;
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -98,7 +98,7 @@ bool Game::CheckAllCompleted()
 			// Planting Moonleaf seed
 			if (button2 && player.playerInventory().contSeedMoonleaf > 0)
 			{
-				plants.emplace_back(plantX, plantY, 2, 3, tileNumber, player.playerInventory());
+				farmTiles[tileNumber].CreatePlant(1); // Create plant on farm tile
 				player.playerInventory().contSeedMoonleaf--;
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -106,7 +106,7 @@ bool Game::CheckAllCompleted()
 			// Planting Emberroot seed
 			if (button3 && player.playerInventory().contSeedEmberroot > 0)
 			{
-				plants.emplace_back(plantX, plantY, 3, 6, tileNumber, player.playerInventory());
+				farmTiles[tileNumber].CreatePlant(2); // Create plant on farm tile
 				player.playerInventory().contSeedEmberroot--;
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -114,7 +114,7 @@ bool Game::CheckAllCompleted()
 			// Planting Frostmint seed
 			if (button4 && player.playerInventory().contSeedFrostmint > 0)
 			{
-				plants.emplace_back(plantX, plantY, 3, 10, tileNumber, player.playerInventory());
+				farmTiles[tileNumber].CreatePlant(3); // Create plant on farm tile
 				player.playerInventory().contSeedFrostmint--;
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -122,7 +122,7 @@ bool Game::CheckAllCompleted()
 			// Planting Nightshade Berry seed
 			if (button5 && player.playerInventory().contSeedBerry > 0)
 			{
-				plants.emplace_back(plantX, plantY, 4, 14, tileNumber, player.playerInventory());
+				farmTiles[tileNumber].CreatePlant(4); // Create plant on farm tile
 				player.playerInventory().contSeedBerry--;
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
@@ -132,18 +132,18 @@ bool Game::CheckAllCompleted()
 	}
 	void Game::UpdatePlants()
 	{
-		for (auto& x : plants)
+		for (auto& x : farmTiles)
 		{
-			x.Update();
+			x.UpdatePlant();
 		}
 	}
 	void Game::ResetOrders()
 	{
 		//check if all orders are completed
-		if (Order::daysUntilReset == 0) ///or CheckAllCompleted()
+		if (daysUntilOrderReset == 0) ///or CheckAllCompleted()
 		{
 			//generate new orders
-			Order::daysUntilReset = 5;
+			daysUntilOrderReset = 5;
 			orders.clear();
 			srand(time(0));
 			for (int i = 0; i <= 5; i++)
@@ -155,14 +155,13 @@ bool Game::CheckAllCompleted()
 		if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
 			for (auto& x : orders)
 				x.Logic(coinCounter);
-		ResetOrders();
 	}
 	void Game::UpdateFarmTiles()
 	{
 		// Tiles
 		tileClicked = false;
 
-		index = 0; // farmtile index in vector
+		index = 0;
 		for (auto& x : farmTiles)
 		{
 			if (player.playerInventory().InventorysClosed())
@@ -170,9 +169,7 @@ bool Game::CheckAllCompleted()
 			if (x.getClicked() && !x.getIsClicked())
 			{
 				tileClicked = true;
-				plantX = x.getX();
-				plantY = x.getY();
-				index2 = index; // index where plant is being created
+				index2 = index;
 				break;
 			}
 			index++;
@@ -180,12 +177,13 @@ bool Game::CheckAllCompleted()
 	}
 	void Game::UpdateNextDay()
 	{
-		for (auto& x : plants)
-			if (x.getGrown() == false)
-				x.NextDay();
 		for (auto& x : farmTiles)
+		{
+			x.NextDayPlant();
 			x.setWatered(false);
-		Order::daysUntilReset--;
+		}
+		daysUntilOrderReset--;
+		ResetOrders();
 	}
 	void Game::Logic()
 	{
@@ -200,9 +198,9 @@ bool Game::CheckAllCompleted()
 			// Inventory
 			player.playerInventory().MainInventory(screen);
 			player.playerInventory().CarInventory(screen, coinCounter);
-			player.playerInventory().SeedsInventory(screen, plantX, plantY, tileClicked);
+			player.playerInventory().SeedsInventory(screen, tileClicked);
 			if(player.playerInventory().getSeedState())
-				PlantSeeds(screen, plantX, plantY, index2);
+				PlantSeeds(screen, index2);
 		}
 		else // Inside house
 		{
@@ -244,15 +242,13 @@ bool Game::CheckAllCompleted()
 		{
 			gameMap.DrawMap(screen);
 
-			// Tiles
+			// Tiles & Plants
 			for (auto& x : farmTiles)
+			{
 				x.Draw(screen);
-
-			// Plants
-			for (auto& x : plants)
-				if (!x.getHarvested())
-					x.Draw(screen);
-
+				x.DrawPlant(screen);
+			}
+				
 			// Player
 			player.Draw(screen);
 
@@ -261,6 +257,10 @@ bool Game::CheckAllCompleted()
 			if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
 			{
 				//Orders
+				// Draw order text and button based on completion status
+				char daysUntilResetText[64];
+				sprintf(daysUntilResetText, "Days until order reset: %d", daysUntilOrderReset);
+				screen->Print(daysUntilResetText, 330, 94, 0x0);
 				for (auto& x : orders)
 					x.Draw(screen);
 			}
@@ -289,12 +289,12 @@ bool Game::CheckAllCompleted()
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
-				farmTiles.emplace_back(x, y, player.playerWateringCan());
+				farmTiles.emplace_back(x, y, player.playerWateringCan(), player.playerInventory());
 		}
 		for (int x = 3; x <= 19; x++)
 		{
 			for (int y = 18; y <= 20; y++)
-				farmTiles.emplace_back(x, y, player.playerWateringCan());
+				farmTiles.emplace_back(x, y, player.playerWateringCan(), player.playerInventory());
 		}
 		for (int i = 0; i <= 5; i++)
 			orders.emplace_back(i, player.playerInventory());
@@ -307,7 +307,6 @@ bool Game::CheckAllCompleted()
 	void Game::Shutdown()
 	{
 		farmTiles.clear();
-		plants.clear();
 		orders.clear();
 	}
 

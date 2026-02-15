@@ -1,7 +1,6 @@
 #include "orders.h"
 namespace Tmpl8
 {
-	int Order::daysUntilReset = 5; // Days until orders reset
 	int range = 5; // Click range
 	Order::Order(int number, Inventory& inv) : inventory(inv)
 	{
@@ -74,9 +73,6 @@ namespace Tmpl8
 	}
 	void Order::Draw(Surface* screen)
 	{
-		// Draw order text and button based on completion status
-		sprintf(daysUntilResetText, "Days until order reset: %d", daysUntilReset);
-		screen->Print(daysUntilResetText, 330, 94, 0x0);
 		// Button outline
 		screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0);
 		if (!completed)
