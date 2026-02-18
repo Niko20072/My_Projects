@@ -17,16 +17,19 @@ namespace Tmpl8
 		void setFrame(int state);
 
 		void ManageFrames(); // Manage frame selection
-		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion); // For potions with two ingredients
-		void CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion); // For potions with three ingredients
-		void Craft(); // Handle crafting logic
+		void CraftVitalTonic(); // Craft Vital Tonic
+		void CraftCalmMind(); // Craft Calm Mind Elixir
+		void CraftDreamDraught(); // Craft Dream Draught
+		void CraftFireHeart(); // Craft FireHeart Brew
+		void CraftFrostVeil(); // Craft Frostveil Potion
+		void CraftLogic(); // Handle crafting logic
 		void ManageCrafring(); // Show crafting interface
-		void CraftingDraw(Surface* screen); // Draw crafting screen and ingredient counts
 		void Draw(Surface* screen);
 	private:
 		Sprite crafting = Sprite(new Surface("assets/crafting.png"), 3);
 		bool craftingisopen = false; // Crafting screen open state
 		int frame = 0; // Current crafting frame
 		Inventory& inventory;
+		void CraftingDraw(Surface* screen); // Draw crafting screen and ingredient counts
 	};
 }

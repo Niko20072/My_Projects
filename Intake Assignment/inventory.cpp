@@ -7,10 +7,7 @@ namespace Tmpl8//sterge
 		{
 			return frame;
 		}
-		int Inventory::getCarState()
-		{
-			return carisopen;
-		}
+		
 		int Inventory::getInvState()
 		{
 			return inventoryisopen;
@@ -29,144 +26,12 @@ namespace Tmpl8//sterge
 			items[item] += quantity; // Add quantity to the specified item in the inventory
 			return items[item];
 		}
-
 		int Inventory::GetItemCount(Item item)
 		{
 			return items[item];
 		}
-		void Inventory::BuySeeds(int& coinCounter)
-		{
-			// Buying seeds buttons
-			bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
-			bool button2 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 267 && WorldState::mouseY <= 293;
-			bool button3 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 310 && WorldState::mouseY <= 337;
-			bool button4 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 355 && WorldState::mouseY <= 379;
-			bool button5 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 394 && WorldState::mouseY <= 420;
 
-			// Buying seeds if car inventory is open
-			if (carisopen && frame == 4)
-			{
-				// Buying Sunblossom seeds
-				if (button1 && coinCounter >= 10)
-				{
-					//contSeedSunblossom++;
-					AddItem(Item::SeedSunblossom); // Add seed to inventory
-					coinCounter -= 10;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-				// Buying Moonleaf seeds
-				if (button2 && coinCounter >= 12)
-				{
-					AddItem(Item::SeedMoonleaf); // Add seed to inventory
-					coinCounter -= 12;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-				// Buying Emberroot seeds
-				if (button3 && coinCounter >= 18)
-				{
-					AddItem(Item::SeedEmberroot); // Add seed to inventory
-					coinCounter -= 18;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-				// Buying Frostmint seeds
-				if (button4 && coinCounter >= 20)
-				{
-					AddItem(Item::SeedFrostmint); // Add seed to inventory
-					coinCounter -= 20;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-				// Buying Nightshade Berry seeds
-				if (button5 && coinCounter >= 30)
-				{
-					AddItem(Item::SeedBerry); // Add seed to inventory
-					coinCounter -= 30;
-					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
-				}
-			}
-		}
-		void Inventory::DrawInventory(Surface* screen)
-		{
-			// Draw inventory
-			inventory.Draw(screen, 140, 20);
-			inventory.SetFrame(frame);
-			// Display values
-			char sunBlossom[32], moonLeaf[32], emberRoot[32], frostMint[32], berry[32];
-			char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
-			char seedSunBlossom[32], seedMoonLeaf[32], seedEmberRoot[32], seedFrostMint[32], seedBerry[32];
-			char counterSeedSunBlossom[32], counterSeedMoonLeaf[32], counterSeedEmberRoot[32], counterSeedFrostMint[32], counterSeedBerry[32];
-
-			// Format strings with current counts
-			sprintf(sunBlossom, "Sunblossom          x%d", GetItemCount(Item::Sunblossom));
-			sprintf(moonLeaf, "Moonleaf            x%d", GetItemCount(Item::Moonleaf));
-			sprintf(emberRoot, "Emberroot           x%d", GetItemCount(Item::Emberroot));
-			sprintf(frostMint, "Frostmint           x%d", GetItemCount(Item::Frostmint));
-			sprintf(berry, "Nightshade Berry    x%d", GetItemCount(Item::Berry));
-
-			sprintf(vitalTonic, "Vital Tonic         x%d", GetItemCount(Item::VitalTonic));
-			sprintf(calmMind, "Calm Mind Elixir    x%d", GetItemCount(Item::CalmMind));
-			sprintf(dreamDraught, "Dream Draught       x%d", GetItemCount(Item::DreamDraught));
-			sprintf(fireHeart, "FireHeart Brew      x%d", GetItemCount(Item::FireHeart));
-			sprintf(frostVeil, "Frostveil Potion    x%d", GetItemCount(Item::FrostVeil));
-
-			sprintf(seedSunBlossom, "Sunblossom          x%d", GetItemCount(Item::SeedSunblossom));
-			sprintf(seedMoonLeaf, "Moonleaf            x%d", GetItemCount(Item::SeedMoonleaf));
-			sprintf(seedEmberRoot, "Emberroot           x%d", GetItemCount(Item::SeedEmberroot));
-			sprintf(seedFrostMint, "Frostmint           x%d", GetItemCount(Item::SeedFrostmint));
-			sprintf(seedBerry, "Nightshade Berry    x%d", GetItemCount(Item::SeedBerry));
-
-			sprintf(counterSeedSunBlossom, "x%d", GetItemCount(Item::SeedSunblossom));
-			sprintf(counterSeedMoonLeaf, "x%d", GetItemCount(Item::SeedMoonleaf));
-			sprintf(counterSeedEmberRoot, "x%d", GetItemCount(Item::SeedEmberroot));
-			sprintf(counterSeedFrostMint, "x%d", GetItemCount(Item::SeedFrostmint));
-			sprintf(counterSeedBerry, "x%d", GetItemCount(Item::SeedBerry));
-
-			// Display when ingredients inventory is open
-			if (inventoryisopen && frame == 0)
-			{
-				screen->Print(sunBlossom, 350, 236, 0x0);
-				screen->Print(moonLeaf, 350, 280, 0x0);
-				screen->Print(emberRoot, 350, 321, 0x0);
-				screen->Print(frostMint, 350, 367, 0x0);
-				screen->Print(berry, 350, 411, 0x0);
-			}
-			// Display when potions inventory is open
-			if (inventoryisopen && frame == 1)
-			{
-				screen->Print(vitalTonic, 350, 241, 0x0);
-				screen->Print(calmMind, 350, 285, 0x0);
-				screen->Print(dreamDraught, 350, 328, 0x0);
-				screen->Print(fireHeart, 350, 373, 0x0);
-				screen->Print(frostVeil, 350, 418, 0x0);
-			}
-			// Display when seeds inventory is open
-			if (inventoryisopen && frame == 2)
-			{
-				screen->Print(seedSunBlossom, 350, 236, 0x0);
-				screen->Print(seedMoonLeaf, 350, 280, 0x0);
-				screen->Print(seedEmberRoot, 350, 321, 0x0);
-				screen->Print(seedFrostMint, 350, 367, 0x0);
-				screen->Print(seedBerry, 350, 411, 0x0);
-			}
-			// Display when planting seeds inventory is open
-			if (seedsisopen && frame == 3)
-			{
-				screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
-				screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
-				screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
-				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
-				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
-			}
-			// Display when car shop inventory is open
-			if (carisopen && frame == 4)
-			{
-				screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
-				screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
-				screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
-				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
-				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
-			}
-		}
-		void Inventory::MainInventory(Surface* screen)
+		void Inventory::MainInventoryLogic(Surface* screen)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -177,7 +42,6 @@ namespace Tmpl8//sterge
 			//Toggle normal inventory
 			if (Buttons::ePressed && !inventoryisopen)
 			{
-				carisopen = false;
 				Buttons::ePressed = false;
 				seedsisopen = false;
 				inventoryisopen = true;
@@ -197,44 +61,10 @@ namespace Tmpl8//sterge
 				if (clickedOutsideInv || Buttons::qPressed || Buttons::ePressed)
 					inventoryisopen = false;
 			}
+			inventory.SetFrame(frame);
 
 		}
-		void Inventory::CarInventory(Surface* screen, int& coinCounter)
-		{
-			// Detect clicks and player proximity
-			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
-			bool clickedOnShopButton = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 345 && WorldState::mouseX <= 389 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-			bool clickedOnOrdersButton = GetAsyncKeyState(VK_LBUTTON) && WorldState::mouseX >= 399 && WorldState::mouseX <= 444 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-			bool playerCloseToCar = WorldState::reachX2 >= 528 && WorldState::reachX1 <= 686 && WorldState::reachY2 >= 175 && WorldState::reachY1 <= 220;
-			bool clickedOnCar = WorldState::worldX >= 528 && WorldState::worldX <= 686 && WorldState::worldY >= 175 && WorldState::worldY <= 220;
-			bool moved = GetAsyncKeyState('W') || GetAsyncKeyState('A') || GetAsyncKeyState('S') || GetAsyncKeyState('D');
-
-			//Toggle car inventory
-			if (Buttons::leftPressed && clickedOnCar && playerCloseToCar && !carisopen)
-			{
-				Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
-				inventoryisopen = false;
-				seedsisopen = false;
-				carisopen = !carisopen;
-				frame = 4;
-			}
-
-			//Click car inventory
-			if (carisopen)
-			{
-				// Manage frame selection buttons
-				if (clickedOnShopButton)
-					frame = 4;
-				if (clickedOnOrdersButton)
-					frame = 5;
-				if (moved || clickedOutsideInv || Buttons::ePressed || Buttons::qPressed)
-					carisopen = false;
-			}
-
-			// Buy seeds logic
-			BuySeeds(coinCounter);
-		}
-		void Inventory::SeedsInventory(Surface* screen, bool tileClicekd)
+		void Inventory::PlantingSeedsInventory(Surface* screen, bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -244,7 +74,6 @@ namespace Tmpl8//sterge
 			if (tileClicekd && seedsisopen == false && !wateringCan.getState())
 			{
 				inventoryisopen = false;
-				carisopen = false;
 				seedsisopen = true;
 				frame = 3;
 			}
@@ -255,24 +84,62 @@ namespace Tmpl8//sterge
 				if (clickedOutsideInv || Buttons::ePressed || Buttons::qPressed || moved)
 					seedsisopen = false;
 			}
+			inventory.SetFrame(frame);
 		}
 		void Inventory::Draw(Surface* screen)
 		{
-			// Draw inventory if any is open
-			if (inventoryisopen || carisopen || seedsisopen)
-			{
-				DrawInventory(screen);
-				wateringCan.setState(false); // Disable watering can when any inventory is open
-			}
-				
+			if (inventoryisopen || seedsisopen)
+				inventory.Draw(screen, 140, 20);
 		}
-		bool Inventory::InventorysClosed()
+		
+		/*
+		bool Inventory::VerifyRandomPotionOrder(int type, int quantity)
 		{
-			// Check if all inventories are closed
-			if (!inventoryisopen && !carisopen && !seedsisopen)
-				return 1;
-			return 0;
+			if (type == 0 && GetItemCount(Item::VitalTonic) >= quantity)
+			{
+				return true;
+			}
+			else if(type == 1 && GetItemCount(Item::CalmMind) >= quantity)
+			{
+				return true;
+			}
+			else if(type == 2 && GetItemCount(Item::DreamDraught) >= quantity)
+			{
+				return true;
+			}
+			else if(type == 3 && GetItemCount(Item::FireHeart) >= quantity)
+			{
+				return true;
+			}
+			else if(type == 4 && GetItemCount(Item::FrostVeil) >= quantity)
+			{
+				return true;
+			}
+			return false; // Return false for invalid potion type
 		}
+		void Inventory::RandomPotionOrder(int type, int quantity)
+		{
+			if(type == 0)
+			{
+				AddItem(Item::VitalTonic, -quantity);
+			}
+			else if(type == 1)
+			{
+				AddItem(Item::CalmMind, -quantity);
+			}
+			else if(type == 2)
+			{
+				AddItem(Item::DreamDraught, -quantity);
+			}
+			else if(type == 3)
+			{
+				AddItem(Item::FireHeart, -quantity);
+			}
+			else if(type == 4)
+			{
+				AddItem(Item::FrostVeil, -quantity);
+			}
+		}*/
 
 		
 

@@ -33,28 +33,55 @@ namespace Tmpl8
 		crafting.SetFrame(frame);
 
 	}
-	void Crafting::CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& potion)
+	void Crafting::CraftVitalTonic()
 	{
-		// Crafting logic for potions with two ingredients
-		if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1)
+		if(inventory.GetItemCount(Inventory::Item::Sunblossom) >= 1 && inventory.GetItemCount(Inventory::Item::Emberroot) >= 1)
 		{
-			ingredient1--;
-			ingredient2--;
-			potion++;
+			inventory.AddItem(Inventory::Item::VitalTonic);
+			inventory.AddItem(Inventory::Item::Sunblossom, -1);
+			inventory.AddItem(Inventory::Item::Emberroot, -1);
+		}
+		//else add sound maybe
+	}
+	void Crafting::CraftCalmMind()
+	{
+		if(inventory.GetItemCount(Inventory::Item::Moonleaf) >= 1 && inventory.GetItemCount(Inventory::Item::Frostmint) >= 1)
+		{
+			inventory.AddItem(Inventory::Item::CalmMind);
+			inventory.AddItem(Inventory::Item::Moonleaf, -1);
+			inventory.AddItem(Inventory::Item::Frostmint, -1);
 		}
 	}
-	void Crafting::CraftLogic(bool button, int Frame, int& ingredient1, int& ingredient2, int& ingredient3, int& potion)
+	void Crafting::CraftDreamDraught()
 	{
-		// Crafting logic for potions with three ingredients
-		if (button && frame == Frame && ingredient1 >= 1 && ingredient2 >= 1 && ingredient3 >= 1)
+		if(inventory.GetItemCount(Inventory::Item::Moonleaf) >= 1 && inventory.GetItemCount(Inventory::Item::Berry) >= 1)
 		{
-			ingredient1--;
-			ingredient2--;
-			ingredient3--;
-			potion++;
+			inventory.AddItem(Inventory::Item::DreamDraught);
+			inventory.AddItem(Inventory::Item::Moonleaf, -1);
+			inventory.AddItem(Inventory::Item::Berry, -1);
 		}
 	}
-	void Crafting::Craft()
+	void Crafting::CraftFireHeart()
+	{
+		if(inventory.GetItemCount(Inventory::Item::Emberroot) >= 1 && inventory.GetItemCount(Inventory::Item::Sunblossom) >= 1 && inventory.GetItemCount(Inventory::Item::Berry) >= 1)
+		{
+			inventory.AddItem(Inventory::Item::FireHeart);
+			inventory.AddItem(Inventory::Item::Emberroot, -1);
+			inventory.AddItem(Inventory::Item::Sunblossom, -1);
+			inventory.AddItem(Inventory::Item::Berry, -1);
+		}
+	}
+	void Crafting::CraftFrostVeil()
+	{
+		if(inventory.GetItemCount(Inventory::Item::Frostmint) >= 1 && inventory.GetItemCount(Inventory::Item::Moonleaf) >= 1 && inventory.GetItemCount(Inventory::Item::Berry) >= 1)
+		{
+			inventory.AddItem(Inventory::Item::FrostVeil);
+			inventory.AddItem(Inventory::Item::Frostmint, -1);
+			inventory.AddItem(Inventory::Item::Moonleaf, -1);
+			inventory.AddItem(Inventory::Item::Berry, -1);
+		}
+	}
+	void Crafting::CraftLogic()
 	{
 		// Detect crafting button clicks
 		bool clickedCraft1 = Buttons::leftPressed && WorldState::mouseX >= 295 && WorldState::mouseX <= 359 && WorldState::mouseY >= 111 && WorldState::mouseY <= 154;
@@ -63,17 +90,25 @@ namespace Tmpl8
 		if (clickedCraft1 || clickedCraft2)
 			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
 
-		///crafting vital tonic
-		CraftLogic(clickedCraft1, 0, inventory.contSunblossom, inventory.contEmberroot, inventory.contVitalTonic);
-		///crafting calm mind elixir
-		CraftLogic(clickedCraft2, 0, inventory.contMoonleaf, inventory.contFrostmint, inventory.contCalmMind);
-		///crafting dream draught
-		CraftLogic(clickedCraft1, 1, inventory.contMoonleaf, inventory.contBerry, inventory.contDreamDraught);
-		///crafting fireheart brew
-		CraftLogic(clickedCraft2, 1, inventory.contEmberroot, inventory.contSunblossom, inventory.contBerry, inventory.contFireHeart);
-		//crafting frostveil potion
-		CraftLogic(clickedCraft1, 2, inventory.contFrostmint, inventory.contMoonleaf, inventory.contBerry, inventory.contFrostveil);
-
+		if (frame == 0)
+		{
+			if(clickedCraft1)
+				CraftVitalTonic();
+			if(clickedCraft2)
+				CraftCalmMind();
+		}
+		if(frame == 1)
+		{
+			if(clickedCraft1)
+				CraftDreamDraught();
+			if(clickedCraft2)
+				CraftFireHeart();
+		}
+		if(frame == 2)
+		{
+			if(clickedCraft1)
+				CraftFrostVeil();
+		}
 	}
 	void Crafting::CraftingDraw(Surface* screen) ///chance frame!!!!!!!!!!!!!!
 	{

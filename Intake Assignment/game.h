@@ -18,6 +18,7 @@
 #include "wateringCan.h"
 #include "worldState.h"
 #include "player.h"
+#include "car.h"
 
 namespace Tmpl8
 {
@@ -40,7 +41,7 @@ namespace Tmpl8
 		Map gameMap;
 		Player player;
 		House house;
-		std::vector<Order> orders;
+		Car car;
 		std::vector<FarmTile> farmTiles;
 		int dayCounter = 0;
 		int coinCounter = 200;
@@ -48,9 +49,10 @@ namespace Tmpl8
 		bool gameCompleted = false;
 		int index, index2;
 		bool tileClicked = false;
-		int daysUntilOrderReset = 5;
+		bool InventorysClosed(); // Check if all inventories are closed
+		void InventoryText();
+		void DrawInventory();
 		bool CheckCollision(float x, float y);
-		void ResetOrders();
 		void HandleInput();
 		void HandleMovement(float deltaTime);
 		void PlantSeeds(Surface* screen, int tileNumber);

@@ -49,10 +49,104 @@ bool Game::CheckAllCompleted()
 	return true;
 }*/
 
-	Game::Game() : player(), house(player.playerInventory())
+	Game::Game() : player(), house(player.playerInventory()), car(player.playerInventory())
 	{
 	}
 
+	bool Game::InventorysClosed()
+	{
+		// Check if all inventories are closed
+		if (!player.playerInventory().getInvState() && !car.getCarState() && !player.playerInventory().getSeedState())
+			return 1;
+		return 0;
+	}
+	void Game::InventoryText()
+	{
+		// Display values
+		char sunBlossom[32], moonLeaf[32], emberRoot[32], frostMint[32], berry[32];
+		char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
+		char seedSunBlossom[32], seedMoonLeaf[32], seedEmberRoot[32], seedFrostMint[32], seedBerry[32];
+		char counterSeedSunBlossom[32], counterSeedMoonLeaf[32], counterSeedEmberRoot[32], counterSeedFrostMint[32], counterSeedBerry[32];
+
+		// Format strings with current counts
+		sprintf(sunBlossom, "Sunblossom          x%d", player.playerInventory().GetItemCount(Inventory::Item::Sunblossom));
+		sprintf(moonLeaf, "Moonleaf            x%d", player.playerInventory().GetItemCount(Inventory::Item::Moonleaf));
+		sprintf(emberRoot, "Emberroot           x%d", player.playerInventory().GetItemCount(Inventory::Item::Emberroot));
+		sprintf(frostMint, "Frostmint           x%d", player.playerInventory().GetItemCount(Inventory::Item::Frostmint));
+		sprintf(berry, "Nightshade Berry    x%d", player.playerInventory().GetItemCount(Inventory::Item::Berry));
+
+		sprintf(vitalTonic, "Vital Tonic         x%d", player.playerInventory().GetItemCount(Inventory::Item::VitalTonic));
+		sprintf(calmMind, "Calm Mind Elixir    x%d", player.playerInventory().GetItemCount(Inventory::Item::CalmMind));
+		sprintf(dreamDraught, "Dream Draught       x%d", player.playerInventory().GetItemCount(Inventory::Item::DreamDraught));
+		sprintf(fireHeart, "FireHeart Brew      x%d", player.playerInventory().GetItemCount(Inventory::Item::FireHeart));
+		sprintf(frostVeil, "Frostveil Potion    x%d", player.playerInventory().GetItemCount(Inventory::Item::FrostVeil));
+
+		sprintf(seedSunBlossom, "Sunblossom          x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedSunblossom));
+		sprintf(seedMoonLeaf, "Moonleaf            x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedMoonleaf));
+		sprintf(seedEmberRoot, "Emberroot           x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedEmberroot));
+		sprintf(seedFrostMint, "Frostmint           x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedFrostmint));
+		sprintf(seedBerry, "Nightshade Berry    x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedBerry));
+
+		sprintf(counterSeedSunBlossom, "x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedSunblossom));
+		sprintf(counterSeedMoonLeaf, "x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedMoonleaf));
+		sprintf(counterSeedEmberRoot, "x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedEmberroot));
+		sprintf(counterSeedFrostMint, "x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedFrostmint));
+		sprintf(counterSeedBerry, "x%d", player.playerInventory().GetItemCount(Inventory::Item::SeedBerry));
+
+		// Display when ingredients inventory is open
+		if (player.playerInventory().getInvState() && player.playerInventory().getFrame() == 0)
+		{
+			screen->Print(sunBlossom, 350, 236, 0x0);
+			screen->Print(moonLeaf, 350, 280, 0x0);
+			screen->Print(emberRoot, 350, 321, 0x0);
+			screen->Print(frostMint, 350, 367, 0x0);
+			screen->Print(berry, 350, 411, 0x0);
+		}
+		// Display when potions inventory is open
+		if (player.playerInventory().getInvState() && player.playerInventory().getFrame() == 1)
+		{
+			screen->Print(vitalTonic, 350, 241, 0x0);
+			screen->Print(calmMind, 350, 285, 0x0);
+			screen->Print(dreamDraught, 350, 328, 0x0);
+			screen->Print(fireHeart, 350, 373, 0x0);
+			screen->Print(frostVeil, 350, 418, 0x0);
+		}
+		// Display when seeds inventory is open
+		if (player.playerInventory().getInvState() && player.playerInventory().getFrame() == 2)
+		{
+			screen->Print(seedSunBlossom, 350, 236, 0x0);
+			screen->Print(seedMoonLeaf, 350, 280, 0x0);
+			screen->Print(seedEmberRoot, 350, 321, 0x0);
+			screen->Print(seedFrostMint, 350, 367, 0x0);
+			screen->Print(seedBerry, 350, 411, 0x0);
+		}
+		// Display when planting seeds inventory is open
+		if (player.playerInventory().getSeedState() && player.playerInventory().getFrame() == 3)
+		{
+			screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
+			screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
+			screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
+			screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
+			screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
+		}
+		// Display when car shop inventory is open
+		if (car.getCarState() && car.getFrame() == 4)
+		{
+			screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
+			screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
+			screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
+			screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
+			screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
+		}
+	}
+	void Game::DrawInventory()
+	{
+		// Draw inventory
+		player.playerInventory().Draw(screen);
+		if(!player.playerInventory().getInvState())
+			car.Draw(screen);
+		InventoryText();
+	}
 	void Game::HandleInput()
 	{
 		// Mouse coordinates
@@ -86,42 +180,42 @@ bool Game::CheckAllCompleted()
 		if (player.playerInventory().getSeedState())
 		{
 			// Planting Sunblossom seed
-			if (button1 && player.playerInventory().contSeedSunblossom > 0)
+			if (button1 && player.playerInventory().GetItemCount(Inventory::Item::SeedSunblossom) > 0)
 			{
 				farmTiles[tileNumber].CreatePlant(0); // Create plant on farm tile
-				player.playerInventory().contSeedSunblossom--;
+				player.playerInventory().AddItem(Inventory::Item::SeedSunblossom, -1);
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 			}
 			// Planting Moonleaf seed
-			if (button2 && player.playerInventory().contSeedMoonleaf > 0)
+			if (button2 && player.playerInventory().GetItemCount(Inventory::Item::SeedMoonleaf) > 0)
 			{
 				farmTiles[tileNumber].CreatePlant(1); // Create plant on farm tile
-				player.playerInventory().contSeedMoonleaf--;
+				player.playerInventory().AddItem(Inventory::Item::SeedMoonleaf, -1);
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 			}
 			// Planting Emberroot seed
-			if (button3 && player.playerInventory().contSeedEmberroot > 0)
+			if (button3 && player.playerInventory().GetItemCount(Inventory::Item::SeedEmberroot) > 0)
 			{
 				farmTiles[tileNumber].CreatePlant(2); // Create plant on farm tile
-				player.playerInventory().contSeedEmberroot--;
+				player.playerInventory().AddItem(Inventory::Item::SeedEmberroot, -1);
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 			}
 			// Planting Frostmint seed
-			if (button4 && player.playerInventory().contSeedFrostmint > 0)
+			if (button4 && player.playerInventory().GetItemCount(Inventory::Item::SeedFrostmint) > 0)
 			{
 				farmTiles[tileNumber].CreatePlant(3); // Create plant on farm tile
-				player.playerInventory().contSeedFrostmint--;
+				player.playerInventory().AddItem(Inventory::Item::SeedFrostmint, -1);
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 			}
 			// Planting Nightshade Berry seed
-			if (button5 && player.playerInventory().contSeedBerry > 0)
+			if (button5 && player.playerInventory().GetItemCount(Inventory::Item::SeedBerry) > 0)
 			{
 				farmTiles[tileNumber].CreatePlant(4); // Create plant on farm tile
-				player.playerInventory().contSeedBerry--;
+				player.playerInventory().AddItem(Inventory::Item::SeedBerry, -1);
 				player.playerInventory().setSeedState(false);
 				Buttons::leftPressed = false; // Reset left click state to avoid multiple plantings
 			}
@@ -135,25 +229,6 @@ bool Game::CheckAllCompleted()
 			x.CollectPlant();
 		}
 	}
-	void Game::ResetOrders()
-	{
-		//check if all orders are completed
-		if (daysUntilOrderReset == 0) ///or CheckAllCompleted()
-		{
-			//generate new orders
-			daysUntilOrderReset = 5;
-			orders.clear();
-			srand(time(0));
-			for (int i = 0; i <= 5; i++)
-				orders.emplace_back(i,player.playerInventory());
-		}
-	}
-	void Game::UpdateOrders()
-	{
-		if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
-			for (auto& x : orders)
-				x.Logic(coinCounter);
-	}
 	void Game::UpdateFarmTiles()
 	{
 		// Tiles
@@ -162,7 +237,7 @@ bool Game::CheckAllCompleted()
 		index = 0;
 		for (auto& x : farmTiles)
 		{
-			if (player.playerInventory().InventorysClosed())
+			if (InventorysClosed())
 				x.Update();
 			if (x.getClicked() && !x.getPlanted())
 			{
@@ -180,8 +255,8 @@ bool Game::CheckAllCompleted()
 			x.UpdatePlant();
 			x.setWatered(false);
 		}
-		daysUntilOrderReset--;
-		ResetOrders();
+		car.RemoveDays();
+		car.MakeNewOrders();
 	}
 	void Game::Logic()
 	{
@@ -194,9 +269,9 @@ bool Game::CheckAllCompleted()
 			player.playerWateringCan().WateringCanState();
 
 			// Inventory
-			player.playerInventory().MainInventory(screen);
-			player.playerInventory().CarInventory(screen, coinCounter);
-			player.playerInventory().SeedsInventory(screen, tileClicked);
+			player.playerInventory().MainInventoryLogic(screen);
+			car.CarInventory(coinCounter);
+			player.playerInventory().PlantingSeedsInventory(screen, tileClicked);
 			if(player.playerInventory().getSeedState())
 				PlantSeeds(screen, index2);
 		}
@@ -205,7 +280,7 @@ bool Game::CheckAllCompleted()
 			player.playerWateringCan().setState(false); // Disable watering can when house is open
 			// Crafting
 			if (house.getCrafting().getState())
-				house.getCrafting().Craft();
+				house.getCrafting().CraftLogic();
 			house.ManageCrafring();
 			house.NightstandLogic(screen, coinCounter);
 			if (house.ClickedNextDay()) // Player confirmed to sleep, update day and progress plants
@@ -221,7 +296,7 @@ bool Game::CheckAllCompleted()
 	{
 		UpdateFarmTiles();
 		UpdatePlants();
-		UpdateOrders();
+		car.UpdateOrders(coinCounter);
 		Logic();
 	}
 	void Game::DrawUI()
@@ -231,7 +306,7 @@ bool Game::CheckAllCompleted()
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->Print(day, 750, 10, 0xff0000);
 		screen->Print(coins, 10, 10, 0xffff00);
-		if (!house.getHouseState() && player.playerInventory().InventorysClosed()) // Draw watering can only when outside and inventory is closed
+		if (!house.getHouseState() && InventorysClosed()) // Draw watering can only when outside and inventory is closed
 			player.playerWateringCan().Draw(screen);
 	}
 	void Game::DrawGame()
@@ -252,26 +327,14 @@ bool Game::CheckAllCompleted()
 			player.Draw(screen);
 
 			//Inventory
-			player.playerInventory().Draw(screen);
-			if (player.playerInventory().getCarState() && player.playerInventory().getFrame() == 5)
-			{
-				//Orders
-				// Draw order text and button based on completion status
-				char daysUntilResetText[64];
-				sprintf(daysUntilResetText, "Days until order reset: %d", daysUntilOrderReset);
-				screen->Print(daysUntilResetText, 330, 94, 0x0);
-				for (auto& x : orders)
-					x.Draw(screen);
-			}
+			DrawInventory();
+			car.DrawOrders(screen);
 		}
 		else // Inside house
 		{
 			house.Draw(screen);
 			if (house.getCrafting().getState() == true)
-			{
 				house.getCrafting().Draw(screen);
-				house.getCrafting().CraftingDraw(screen);
-			}
 		}
 
 		DrawUI();
@@ -295,8 +358,7 @@ bool Game::CheckAllCompleted()
 			for (int y = 18; y <= 20; y++)
 				farmTiles.emplace_back(x, y, player.playerWateringCan(), player.playerInventory());
 		}
-		for (int i = 0; i <= 5; i++)
-			orders.emplace_back(i, player.playerInventory());
+		car.MakeNewOrders();
 	}
 
 	// -----------------------------------------------------------
@@ -307,7 +369,7 @@ bool Game::CheckAllCompleted()
 	{
 		farmTiles.clear();
 		//delete plants?
-		orders.clear();
+		//orders.clear();
 	}
 
 	// -----------------------------------------------------------
