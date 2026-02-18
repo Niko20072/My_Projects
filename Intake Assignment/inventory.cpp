@@ -7,12 +7,11 @@ namespace Tmpl8//sterge
 		{
 			return frame;
 		}
-		
-		int Inventory::getInvState()
+		int Inventory::MainInvIsOpen()
 		{
 			return inventoryisopen;
 		}
-		int Inventory::getSeedState()
+		int Inventory::SeedInvIsOpen()
 		{
 			return seedsisopen;
 		}
@@ -64,7 +63,7 @@ namespace Tmpl8//sterge
 			inventory.SetFrame(frame);
 
 		}
-		void Inventory::PlantingSeedsInventory(Surface* screen, bool tileClicekd)
+		void Inventory::SeedInventoryLogic(Surface* screen, bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);

@@ -49,17 +49,16 @@ namespace Tmpl8
 		bool gameCompleted = false;
 		int index, index2;
 		bool tileClicked = false;
-		bool InventorysClosed(); // Check if all inventories are closed
+		bool AllInventoriesClosed(); // Check if all inventories are closed
 		void InventoryText();
 		void DrawInventory();
 		bool CheckCollision(float x, float y);
 		void HandleInput();
 		void HandleMovement(float deltaTime);
-		void PlantSeeds(Surface* screen, int tileNumber);
+		void PlantSeed(Surface* screen, int tileNumber);
 		void UpdatePlants();
-		void UpdateOrders();
 		void UpdateFarmTiles();
-		void UpdateNextDay();
+		void ProgressToNextDay();
 		void Logic();
 		void UpdateWorld();
 		void DrawUI();

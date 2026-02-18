@@ -2,7 +2,7 @@
 
 namespace Tmpl8
 {
-	bool Crafting::getState()
+	bool Crafting::CraftingIsOpen()
 	{
 		return craftingisopen;
 	}
@@ -81,7 +81,7 @@ namespace Tmpl8
 			inventory.AddItem(Inventory::Item::Berry, -1);
 		}
 	}
-	void Crafting::CraftLogic()
+	void Crafting::CraftPotions()
 	{
 		// Detect crafting button clicks
 		bool clickedCraft1 = Buttons::leftPressed && WorldState::mouseX >= 295 && WorldState::mouseX <= 359 && WorldState::mouseY >= 111 && WorldState::mouseY <= 154;

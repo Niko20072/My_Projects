@@ -14,14 +14,14 @@ namespace Tmpl8
 		
 	public:
 		House(Inventory& inv) : inventory(inv), crafting(inv) {};
-		Crafting& getCrafting() { return crafting; } // Reference to crafting system
-		int getHouseState();
+		Crafting& hCrafting() { return crafting; } // Reference to crafting system
+		int IsOpen();
 		int getFrame();
 		bool getClickedYes() { return clickedYes; }
 		void HouseLogic(); // Handle house interactions (opening/closing, crafting menu)
-		void ManageCrafring(); // Handle crafting menu interactions
+		void Craftinglogic(); // Handle crafting menu interactions
 		void BedLogic(int &dayCounter); // Handle bed click and day progression logic
-		bool ClickedNextDay();
+		bool ConfirmedToSleep();
 		void NightstandLogic(Surface* screen, int coinCounter); // Handle nightstand click
 		void Draw(Surface* screen);
 		void GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted); // Show game completed screen

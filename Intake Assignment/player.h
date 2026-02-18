@@ -13,8 +13,8 @@ namespace Tmpl8
 	{
 	public:
 		Player() : wateringCan(), inventory(wateringCan) {};
-		Inventory& playerInventory() { return inventory; }
-		WateringCan& playerWateringCan() { return wateringCan; }
+		Inventory& pInventory() { return inventory; }
+		WateringCan& pWateringCan() { return wateringCan; }
 		bool CheckCollision(float x, float y);
 		void HandleMovement(float deltaTime);
 		void Draw(Surface* screen);

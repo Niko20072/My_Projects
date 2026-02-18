@@ -2,13 +2,17 @@
 
 namespace Tmpl8
 {
-	int Car::getCarState()
+	int Car::CarInvIsOpen()
 	{
 		return carisopen;
 	}
 	int Car::getFrame()
 	{
 		return frame;
+	}
+	void Car::UpdateOrderDays()
+	{
+		daysUntilOrderReset--;
 	}
 	void Car::BuySeeds(int& coinCounter)
 	{
@@ -60,7 +64,7 @@ namespace Tmpl8
 			}
 		}
 	}
-	void Car::CarInventory(int& coinCounter)
+	void Car::CarInventoryLogic(int& coinCounter)
 	{
 		// Detect clicks and player proximity
 		bool clickedOutsideInv = Buttons::leftPressed && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -87,7 +91,7 @@ namespace Tmpl8
 				frame = 4;
 			if (clickedOnOrdersButton)
 				frame = 5;
-			if (moved || clickedOutsideInv || Buttons::ePressed || Buttons::qPressed || inventory.getInvState())
+			if (moved || clickedOutsideInv || Buttons::ePressed || Buttons::qPressed || inventory.MainInvIsOpen())
 				carisopen = false;
 		}
 		carinventory.SetFrame(frame);

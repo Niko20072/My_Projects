@@ -12,24 +12,22 @@
 
 namespace Tmpl8
 {
+	/*
 	//make player class -> game has player -> inv
 	//map -> house
-	//reference to house (player)
+	//reference to house (player)*/
+	// Frame 0 : Ingredients
+	// Frame 1 : Potions
+	// Frame 2 : Seeds
+	// Frame 3 : Planting seeds
+	// Frame 4 : Car Shop
+	// Frame 5 : Car Orders
 	class Inventory
 	{
 	public:
 
-		// Frame 0 : Ingredients
-		// Frame 1 : Potions
-		// Frame 2 : Seeds
-		// Frame 3 : Planting seeds
-		// Frame 4 : Car Shop
-		// Frame 5 : Car Orders
-
-		Inventory(WateringCan& wa) : wateringCan(wa) {}
-
 		enum class Item
-					{
+		{
 			VitalTonic,
 			CalmMind,
 			DreamDraught,
@@ -46,52 +44,26 @@ namespace Tmpl8
 			SeedFrostmint,
 			SeedBerry
 		};
-
-		/*
-		//delete -------------------------
-		// Ingredient counters
-		int contSunblossom = 10; // Sunblossom counter
-		int contMoonleaf = 10; // Moonleaf counter
-		int contEmberroot = 10; // Emberroot counter
-		int contFrostmint = 10; // Frostmint counter
-		int contBerry = 10; // Nightshade Berry counter
-
-		// Potion counters
-
-		int contVitalTonic = 10; // Vital Tonic counter
-		int contCalmMind = 10; // Calm Mind Elixir counter
-		int contDreamDraught = 10; // Dream Draught counter
-		int contFireHeart = 10; // FireHeart Brew counter
-		int contFrostveil = 10; // Frostveil Potion counter
-
-		// Seed counters
-		int contSeedSunblossom = 10; // Sunblossom Seed counter
-		int contSeedMoonleaf = 10; // Moonleaf Seed counter
-		int contSeedEmberroot = 10; // Emberroot Seed counter
-		int contSeedFrostmint = 10; // Frostmint Seed counter
-		int contSeedBerry = 10; // Nightshade Berry Seed counter
-		//delete ----------------------*/
 		
+		Inventory(WateringCan& wa) : wateringCan(wa) {}
 		int getFrame();
-		int getInvState();
-		int getSeedState();
+		int MainInvIsOpen();
+		int SeedInvIsOpen();
 		void setSeedState(bool state);
 
 		int AddItem(Item item, int quantity = 1); // Add item to inventory
 		int GetItemCount(Item item); // Get count of specific item in inventory
 
 		void MainInventoryLogic(Surface* screen); // Normal inventory management
-		void PlantingSeedsInventory(Surface* screen, bool tileClicekd); // Seed inventory management
+		void SeedInventoryLogic(Surface* screen, bool tileClicekd); // Seed inventory management
 		void Draw(Surface* screen);
-
-		//make car class that owns orders
 
 	private:
 		int frame = 0; // Inventory frame
 		bool inventoryisopen = false; // Inventory open state
 		bool seedsisopen = false; // Seed inventory open state
 		WateringCan& wateringCan; // Reference to player's watering can
-
+		Sprite inventory = Sprite(new Surface("assets/inventory.png"), 6);
 		std::unordered_map<Item, int> items = {
 			{ Item::VitalTonic, 10 },
 			{ Item::CalmMind, 10 },
@@ -109,6 +81,5 @@ namespace Tmpl8
 			{ Item::SeedFrostmint, 10 },
 			{ Item::SeedBerry, 10 }
 		}; // Map to store item counts
-		Sprite inventory = Sprite(new Surface("assets/inventory.png"), 6);
 	};
 }

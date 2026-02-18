@@ -1,7 +1,7 @@
 #include "wateringCan.h"
 namespace Tmpl8
 {
-	void WateringCan::WateringCanState()
+	void WateringCan::WateringCanLogic()
 		{
 			if (Buttons::rPressed)
 			{

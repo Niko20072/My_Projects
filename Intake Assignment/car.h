@@ -8,13 +8,10 @@ namespace Tmpl8
 	{
 	public:
 		Car(Inventory& inv) : inventory(inv) {};
-		int getCarState();
+		int CarInvIsOpen();
 		int getFrame();
-		void RemoveDays()
-		{
-			daysUntilOrderReset--;
-		}
-		void CarInventory(int& coinCounter);
+		void UpdateOrderDays();
+		void CarInventoryLogic(int& coinCounter);
 		void BuySeeds(int& coinCounter); // Buying seeds logic
 		void Draw(Surface* screen);
 		void MakeNewOrders();

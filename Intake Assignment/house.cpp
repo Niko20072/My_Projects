@@ -3,7 +3,7 @@
 
 namespace Tmpl8
 {
-	int House::getHouseState()
+	int House::IsOpen()
 	{
 		return houseisopen;
 	}
@@ -27,10 +27,10 @@ namespace Tmpl8
 		}
 
 		// Close house if Q is pressed and crafting menu is not open
-		if (Buttons::qPressed && !crafting.getState() && !bedisopen && !nightstandisopen)
+		if (Buttons::qPressed && !crafting.CraftingIsOpen() && !bedisopen && !nightstandisopen)
 			houseisopen = false;
 	}
-	void House::ManageCrafring()
+	void House::Craftinglogic()
 	{
 		bool clickedOnTable = Buttons::leftPressed && WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
 
@@ -43,13 +43,13 @@ namespace Tmpl8
 			crafting.setFrame(frame);
 		}
 		// Close crafting interface when pressing Q
-		if (Buttons::qPressed && crafting.getState())
+		if (Buttons::qPressed && crafting.CraftingIsOpen())
 		{
 			Buttons::qPressed = false; // Reset Q key state to avoid multiple toggles
 			crafting.setState(false);
 		}
 	}
-	bool House::ClickedNextDay()
+	bool House::ConfirmedToSleep()
 	{
 		// Check if player clicked on bed, yes or no buttons
 		clickedYes = Buttons::leftPressed && WorldState::mouseX >= 235 && WorldState::mouseX <= 389 && WorldState::mouseY >= 310 && WorldState::mouseY <= 385;
@@ -66,7 +66,7 @@ namespace Tmpl8
 		bool clickedOnBed = Buttons::leftPressed && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
 		
 		// Open bed menu if clicked on bed
-		if (clickedOnBed && !crafting.getState() && !nightstandisopen && frame == 0)
+		if (clickedOnBed && !crafting.CraftingIsOpen() && !nightstandisopen && frame == 0)
 		{
 			bedisopen = true;
 			frame = 1;
@@ -80,12 +80,12 @@ namespace Tmpl8
 		// Handle bed menu interactions
 		if (bedisopen)
 		{
-			if (ClickedNextDay()) // Player confirmed to sleep
+			if (ConfirmedToSleep()) // Player confirmed to sleep
 			{
 				frame = 2;
 				dayCounter++;
 			}
-			else if ((frame == 2 && Buttons::leftPressed) || (clickedNo && frame == 1) || (Buttons::qPressed && crafting.getState() == false)) // Player clicked to exit day passed view or declined to sleep || Close bed menu if Q is pressed
+			else if ((frame == 2 && Buttons::leftPressed) || (clickedNo && frame == 1) || (Buttons::qPressed && crafting.CraftingIsOpen() == false)) // Player clicked to exit day passed view or declined to sleep || Close bed menu if Q is pressed
 			{
 				bedisopen = false;
 				frame = 0;
@@ -97,7 +97,7 @@ namespace Tmpl8
 	{
 		// Check if player clicked on nightstand
 		bool clickedOnNightstand = Buttons::leftPressed && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 454;
-		if (clickedOnNightstand && !crafting.getState() && !bedisopen && frame == 0)
+		if (clickedOnNightstand && !crafting.CraftingIsOpen() && !bedisopen && frame == 0)
 		{
 			nightstandisopen = true;
 			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
@@ -105,7 +105,7 @@ namespace Tmpl8
 			nightstand.SetFrame(frame);
 		}
 		// Close nightstand if Q is pressed and crafting menu is not open
-		if (Buttons::qPressed && !crafting.getState() && !bedisopen)
+		if (Buttons::qPressed && !crafting.CraftingIsOpen() && !bedisopen)
 			nightstandisopen = false;
 	}
 	void House::Draw(Surface* screen)

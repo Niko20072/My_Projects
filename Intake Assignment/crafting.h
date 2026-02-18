@@ -11,18 +11,20 @@ namespace Tmpl8
 	public:
 		Crafting(Inventory& inv) : inventory(inv) {};
 
-		bool getState();
+		bool CraftingIsOpen();
 		void setState(bool state);
 		int getFrame();
 		void setFrame(int state);
 
 		void ManageFrames(); // Manage frame selection
+		//----update----
 		void CraftVitalTonic(); // Craft Vital Tonic
 		void CraftCalmMind(); // Craft Calm Mind Elixir
 		void CraftDreamDraught(); // Craft Dream Draught
 		void CraftFireHeart(); // Craft FireHeart Brew
 		void CraftFrostVeil(); // Craft Frostveil Potion
-		void CraftLogic(); // Handle crafting logic
+		//----update----
+		void CraftPotions(); // Handle crafting logic
 		void ManageCrafring(); // Show crafting interface
 		void Draw(Surface* screen);
 	private:

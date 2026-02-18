@@ -7,7 +7,7 @@ namespace Tmpl8
 	public:
 		int getState() { return wateringCanState; }
 		void setState(bool state) { wateringCanState = state; }
-		void WateringCanState();
+		void WateringCanLogic();
 		void Draw(Surface* screen);
 	private:
 		bool wateringCanState = false;
