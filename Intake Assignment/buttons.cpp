@@ -44,6 +44,7 @@ namespace Tmpl8
 		}
 		void CheckClick()
 		{
+			
 			qPressed = Buttons::KeyQ();
 			ePressed = Buttons::KeyE();
 			rPressed = Buttons::KeyR();

@@ -20,6 +20,10 @@
 #include "player.h"
 #include "car.h"
 
+#include <bitset>
+#include <SDL_scancode.h>
+
+
 namespace Tmpl8
 {
 	//class Surface;
@@ -34,8 +38,11 @@ namespace Tmpl8
 		void MouseUp(int button) {  /*implement if you want to detect mouse button presses  */ }
 		void MouseDown(int button) {  /*implement if you want to detect mouse button presses  */ }
 		void MouseMove(int x, int y) { /*implement if you want to detect mouse movement */ }
-		void KeyUp(int key) { /* implement if you want to handle keys */ }
-		void KeyDown(int key) { /* implement if you want to handle keys */ } //use this (bool pt mouse). muta din buttons aici (vezi ce face functia asta). uitate in template cpp (int bitset)
+		void KeyUp(SDL_Scancode key) { keys.reset(key); }
+		void KeyDown(SDL_Scancode key) { keys.set(key); } //use this (bool pt mouse). muta din buttons aici (vezi ce face functia asta). uitate in template cpp (int bitset)
+		bool GetKey(SDL_Scancode key) const { return held.test(key); } // returns true if the key is currently held down
+		bool GetKeyPressed(SDL_Scancode key) const { return pressed.test(key); } // returns true if the key was pressed since the last Tick
+		bool GetKeyReleased(SDL_Scancode key) const { return released.test(key); } // returns true if the key was released since the last Tick
 	private:
 		Surface* screen;
 		Map gameMap;
@@ -63,6 +70,10 @@ namespace Tmpl8
 		void UpdateWorld();
 		void DrawUI();
 		void DrawGame();
+		std::bitset<SDL_NUM_SCANCODES> keys; // store key states here
+		std::bitset<SDL_NUM_SCANCODES> held; // store key states from the previous tick here
+		std::bitset<SDL_NUM_SCANCODES> pressed; // store key press events here (set to true on key down, reset to false after processing in Tick)
+		std::bitset<SDL_NUM_SCANCODES> released; // store key release events here (set to true on key up, reset to false after processing in Tick)
 	};
 
 }; // namespace Tmpl8

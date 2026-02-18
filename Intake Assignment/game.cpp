@@ -5,7 +5,6 @@
 //sterge includurile useless
 //verifica ca toate variabilele sa fie folosite
 //fa mai logic
-//!!!!!!!!!!!!!!pt plante improve: totul e prea conectat si sunt destul de sigura ca trebuie modificat in asa fel incat toate sa fie mai independente
 //make ending at 1000$???
 //make stuff private
 
@@ -16,10 +15,10 @@
 namespace Tmpl8
 {
 	//ask:
-	//Public variables in inventory
 	//should i make a world class?
 	//if i make the map variables private that means i need to have a reference to the map in the farm tile and plant class? or should i just make the map variables public? Or move to worldstate?
 	//how many connections between classes are allowed?
+	//schiba hover. gen pune sa se puna pe ecran patratul cand mouseul e in zona. e mai easy
 
 	/*
 	// Convert farm tile (x,y) to index in farmTiles vector
@@ -38,16 +37,9 @@ namespace Tmpl8
 		return farmTiles[idx];
 	}*/
 
-	/* //not used anymore
-bool Game::CheckAllCompleted()
-{
-	for (auto order : orders)
-	{
-		if (order.completed == false)
-			return false;
-	}
-	return true;
-}*/
+	//use buttons template from jeremiah
+	//learn aabb cuz its important
+	//modify crafting recepie 18 feb update on discord
 
 	Game::Game() : player(), house(player.pInventory()), car(player.pInventory())
 	{
@@ -340,7 +332,7 @@ bool Game::CheckAllCompleted()
 		else // Inside house
 		{
 			house.Draw(screen);
-			if (house.hCrafting().CraftingIsOpen() == true)
+			if (house.hCrafting().CraftingIsOpen())
 				house.hCrafting().Draw(screen);
 		}
 
@@ -354,7 +346,6 @@ bool Game::CheckAllCompleted()
 	void Game::Init()
 	{
 		srand(time(0));
-		//Plant::inventory = &inventory;
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
@@ -389,7 +380,14 @@ bool Game::CheckAllCompleted()
 		
 		HandleInput();
 		WorldState::UpdateWorldState();
-
+		if (Buttons::KeyR())
+		{
+			bool r = Buttons::KeyR();
+			if (r)
+			{
+				std::cout << "button r pressed" << std::endl;
+			}
+		}
 		// Update and draw the world
 		UpdateWorld();
 		DrawGame();
