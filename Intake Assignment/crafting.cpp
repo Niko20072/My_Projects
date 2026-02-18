@@ -84,17 +84,17 @@ namespace Tmpl8
 		char vitalTonic[32], calmMind[32], dreamDraught[32], fireHeart[32], frostVeil[32];
 
 		// Format strings with current counts
-		sprintf(sunBlossom, "x%d", inventory.getContSunblossom());
-		sprintf(moonLeaf, "x%d", inventory.getContMoonleaf());
-		sprintf(emberRoot, "x%d", inventory.getContEmberroot());
-		sprintf(frostMint, "x%d", inventory.getContFrostmint());
-		sprintf(berry, "x%d", inventory.getContBerry());
+		sprintf(sunBlossom, "x%d", inventory.GetItemCount(Inventory::Item::Sunblossom));
+		sprintf(moonLeaf, "x%d", inventory.GetItemCount(Inventory::Item::Moonleaf));
+		sprintf(emberRoot, "x%d", inventory.GetItemCount(Inventory::Item::Emberroot));
+		sprintf(frostMint, "x%d", inventory.GetItemCount(Inventory::Item::Frostmint));
+		sprintf(berry, "x%d", inventory.GetItemCount(Inventory::Item::Berry));
 
-		sprintf(vitalTonic, "x%d", inventory.getContVitalTonic());
-		sprintf(calmMind, "x%d", inventory.getContCalmMind());
-		sprintf(dreamDraught, "x%d", inventory.getContDreamDraught());
-		sprintf(fireHeart, "x%d", inventory.getContFireHeart());
-		sprintf(frostVeil, "x%d", inventory.getContFrostveil());
+		sprintf(vitalTonic, "x%d", inventory.GetItemCount(Inventory::Item::VitalTonic));
+		sprintf(calmMind, "x%d", inventory.GetItemCount(Inventory::Item::CalmMind));
+		sprintf(dreamDraught, "x%d", inventory.GetItemCount(Inventory::Item::DreamDraught));
+		sprintf(fireHeart, "x%d", inventory.GetItemCount(Inventory::Item::FireHeart));
+		sprintf(frostVeil, "x%d", inventory.GetItemCount(Inventory::Item::FrostVeil));
 
 		// Display ingredients
 		screen->Print(sunBlossom, 291 - 5, 48, 0x0);

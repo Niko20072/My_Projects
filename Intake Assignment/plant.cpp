@@ -33,14 +33,14 @@ namespace Tmpl8
 	void Plant::Collect()
 	{
 		if (frame == 2) // Sunblossom
-			inventory.addContSunblossom();
+			inventory.AddItem(Inventory::Item::Sunblossom);
 		if (frame == 5) // Moonleaf
-			inventory.addContMoonleaf();
+			inventory.AddItem(Inventory::Item::Moonleaf);
 		if (frame == 9) // Emberroot
-			inventory.addContEmberroot();
+			inventory.AddItem(Inventory::Item::Emberroot);
 		if (frame == 13) // Frostmint
-			inventory.addContFrostmint();
+			inventory.AddItem(Inventory::Item::Frostmint);
 		if (frame == 18) // Berry
-			inventory.addContBerry();
+			inventory.AddItem(Inventory::Item::Berry);
 	}
 };

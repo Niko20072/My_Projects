@@ -117,7 +117,7 @@ namespace Tmpl8
 		if (nightstandisopen)
 			nightstand.Draw(screen, 0, 0);
 	}
-	void House::GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted)
+	void House::GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted) //make endscreen class
 	{
 		// Check if player clicked on send money button
 		bool sendMoney = Buttons::leftPressed && WorldState::mouseX >= 336 && WorldState::mouseX <= 468 && WorldState::mouseY >= 446 && WorldState::mouseY <= 498;

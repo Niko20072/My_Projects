@@ -53,8 +53,7 @@ namespace Tmpl8
 	{
 		if (!planted)
 		{
-			frame = 2; // Mark the tile as clicked when planting
-			plant = nullptr;
+			//plant = nullptr;
 			if (plantType == 0) // Sunblossom
 				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 0, inventory);
 			if (plantType == 1) // Moonleaf

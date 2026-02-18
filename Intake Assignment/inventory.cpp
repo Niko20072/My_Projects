@@ -24,89 +24,17 @@ namespace Tmpl8//sterge
 			seedsisopen = state;
 		}
 
-		int Inventory::getContSunblossom()
+		int Inventory::AddItem(Item item, int quantity)
 		{
-			return contSunblossom;
-		}
-		int Inventory::getContMoonleaf()
-		{
-			return contMoonleaf;
-		}
-		int Inventory::getContEmberroot()
-		{
-			return contEmberroot;
-		}
-		int Inventory::getContFrostmint()
-		{
-			return contFrostmint;
-		}
-		int Inventory::getContBerry()
-		{
-			return contBerry;
-		}
-		int Inventory::getContVitalTonic()
-		{
-			return contVitalTonic;
-		}
-		int Inventory::getContCalmMind()
-		{
-			return contCalmMind;
-		}
-		int Inventory::getContDreamDraught()
-		{
-			return contDreamDraught;
-		}
-		int Inventory::getContFireHeart()
-		{
-			return contFireHeart;
-		}
-		int Inventory::getContFrostveil()
-		{
-			return contFrostveil;
-		}
-		int Inventory::getContSeedSunblossom()
-		{
-			return contSeedSunblossom;
-		}
-		int Inventory::getContSeedMoonleaf()
-		{
-			return contSeedMoonleaf;
-		}
-		int Inventory::getContSeedEmberroot()
-		{
-			return contSeedEmberroot;
-		}
-		int Inventory::getContSeedFrostmint()
-		{
-			return contSeedFrostmint;
-		}
-		int Inventory::getContSeedBerry()
-		{
-			return contSeedBerry;
+			items[item] += quantity; // Add quantity to the specified item in the inventory
+			return items[item];
 		}
 
-		void Inventory::addContSunblossom()
+		int Inventory::GetItemCount(Item item)
 		{
-			contSunblossom++;
+			return items[item];
 		}
-		void Inventory::addContMoonleaf()
-		{
-			contMoonleaf++;
-		}
-		void Inventory::addContEmberroot()
-		{
-			contEmberroot++;
-		}
-		void Inventory::addContFrostmint()
-		{
-			contFrostmint++;
-		}
-		void Inventory::addContBerry()
-		{
-			contBerry++;
-		}
-
-		void Inventory::BuySeeds(Surface* screen, int& coinCounter)
+		void Inventory::BuySeeds(int& coinCounter)
 		{
 			// Buying seeds buttons
 			bool button1 = Buttons::leftPressed && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
@@ -121,35 +49,36 @@ namespace Tmpl8//sterge
 				// Buying Sunblossom seeds
 				if (button1 && coinCounter >= 10)
 				{
-					contSeedSunblossom++;
+					//contSeedSunblossom++;
+					AddItem(Item::SeedSunblossom); // Add seed to inventory
 					coinCounter -= 10;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Moonleaf seeds
 				if (button2 && coinCounter >= 12)
 				{
-					contSeedMoonleaf++;
+					AddItem(Item::SeedMoonleaf); // Add seed to inventory
 					coinCounter -= 12;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Emberroot seeds
 				if (button3 && coinCounter >= 18)
 				{
-					contSeedEmberroot++;
+					AddItem(Item::SeedEmberroot); // Add seed to inventory
 					coinCounter -= 18;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Frostmint seeds
 				if (button4 && coinCounter >= 20)
 				{
-					contSeedFrostmint++;
+					AddItem(Item::SeedFrostmint); // Add seed to inventory
 					coinCounter -= 20;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
 				// Buying Nightshade Berry seeds
 				if (button5 && coinCounter >= 30)
 				{
-					contSeedBerry++;
+					AddItem(Item::SeedBerry); // Add seed to inventory
 					coinCounter -= 30;
 					Buttons::leftPressed = false; // Reset left click state to avoid multiple purchases
 				}
@@ -167,29 +96,29 @@ namespace Tmpl8//sterge
 			char counterSeedSunBlossom[32], counterSeedMoonLeaf[32], counterSeedEmberRoot[32], counterSeedFrostMint[32], counterSeedBerry[32];
 
 			// Format strings with current counts
-			sprintf(sunBlossom, "Sunblossom          x%d", contSunblossom);
-			sprintf(moonLeaf, "Moonleaf            x%d", contMoonleaf);
-			sprintf(emberRoot, "Emberroot           x%d", contEmberroot);
-			sprintf(frostMint, "Frostmint           x%d", contFrostmint);
-			sprintf(berry, "Nightshade Berry    x%d", contBerry);
+			sprintf(sunBlossom, "Sunblossom          x%d", GetItemCount(Item::Sunblossom));
+			sprintf(moonLeaf, "Moonleaf            x%d", GetItemCount(Item::Moonleaf));
+			sprintf(emberRoot, "Emberroot           x%d", GetItemCount(Item::Emberroot));
+			sprintf(frostMint, "Frostmint           x%d", GetItemCount(Item::Frostmint));
+			sprintf(berry, "Nightshade Berry    x%d", GetItemCount(Item::Berry));
 
-			sprintf(vitalTonic, "Vital Tonic         x%d", contVitalTonic);
-			sprintf(calmMind, "Calm Mind Elixir    x%d", contCalmMind);
-			sprintf(dreamDraught, "Dream Draught       x%d", contDreamDraught);
-			sprintf(fireHeart, "FireHeart Brew      x%d", contFireHeart);
-			sprintf(frostVeil, "Frostveil Potion    x%d", contFrostveil);
+			sprintf(vitalTonic, "Vital Tonic         x%d", GetItemCount(Item::VitalTonic));
+			sprintf(calmMind, "Calm Mind Elixir    x%d", GetItemCount(Item::CalmMind));
+			sprintf(dreamDraught, "Dream Draught       x%d", GetItemCount(Item::DreamDraught));
+			sprintf(fireHeart, "FireHeart Brew      x%d", GetItemCount(Item::FireHeart));
+			sprintf(frostVeil, "Frostveil Potion    x%d", GetItemCount(Item::FrostVeil));
 
-			sprintf(seedSunBlossom, "Sunblossom          x%d", contSeedSunblossom);
-			sprintf(seedMoonLeaf, "Moonleaf            x%d", contSeedMoonleaf);
-			sprintf(seedEmberRoot, "Emberroot           x%d", contSeedEmberroot);
-			sprintf(seedFrostMint, "Frostmint           x%d", contSeedFrostmint);
-			sprintf(seedBerry, "Nightshade Berry    x%d", contSeedBerry);
+			sprintf(seedSunBlossom, "Sunblossom          x%d", GetItemCount(Item::SeedSunblossom));
+			sprintf(seedMoonLeaf, "Moonleaf            x%d", GetItemCount(Item::SeedMoonleaf));
+			sprintf(seedEmberRoot, "Emberroot           x%d", GetItemCount(Item::SeedEmberroot));
+			sprintf(seedFrostMint, "Frostmint           x%d", GetItemCount(Item::SeedFrostmint));
+			sprintf(seedBerry, "Nightshade Berry    x%d", GetItemCount(Item::SeedBerry));
 
-			sprintf(counterSeedSunBlossom, "x%d", contSeedSunblossom);
-			sprintf(counterSeedMoonLeaf, "x%d", contSeedMoonleaf);
-			sprintf(counterSeedEmberRoot, "x%d", contSeedEmberroot);
-			sprintf(counterSeedFrostMint, "x%d", contSeedFrostmint);
-			sprintf(counterSeedBerry, "x%d", contSeedBerry);
+			sprintf(counterSeedSunBlossom, "x%d", GetItemCount(Item::SeedSunblossom));
+			sprintf(counterSeedMoonLeaf, "x%d", GetItemCount(Item::SeedMoonleaf));
+			sprintf(counterSeedEmberRoot, "x%d", GetItemCount(Item::SeedEmberroot));
+			sprintf(counterSeedFrostMint, "x%d", GetItemCount(Item::SeedFrostmint));
+			sprintf(counterSeedBerry, "x%d", GetItemCount(Item::SeedBerry));
 
 			// Display when ingredients inventory is open
 			if (inventoryisopen && frame == 0)
@@ -303,7 +232,7 @@ namespace Tmpl8//sterge
 			}
 
 			// Buy seeds logic
-			BuySeeds(screen, coinCounter);
+			BuySeeds(coinCounter);
 		}
 		void Inventory::SeedsInventory(Surface* screen, bool tileClicekd)
 		{
@@ -344,6 +273,8 @@ namespace Tmpl8//sterge
 				return 1;
 			return 0;
 		}
+
+		
 
 		
 }

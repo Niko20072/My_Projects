@@ -16,11 +16,9 @@
 namespace Tmpl8
 {
 	//ask:
-	//order logic vector
-	//global variables
-	//public vectors
+	//Public variables in inventory
 	//should i make a world class?
-	//if i make the map variables private that means i need to have a reference to the map in the farm tile and plant class? or should i just make the map variables public?
+	//if i make the map variables private that means i need to have a reference to the map in the farm tile and plant class? or should i just make the map variables public? Or move to worldstate?
 	//how many connections between classes are allowed?
 
 	/*
@@ -238,6 +236,7 @@ bool Game::CheckAllCompleted()
 	}
 	void Game::DrawGame()
 	{
+		screen->Clear(0);
 		if (!house.getHouseState()) // Outside
 		{
 			gameMap.DrawMap(screen);
@@ -318,8 +317,7 @@ bool Game::CheckAllCompleted()
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
-		screen->Clear(0);
-
+		
 		HandleInput();
 		WorldState::UpdateWorldState();
 
@@ -331,8 +329,8 @@ bool Game::CheckAllCompleted()
 		{
 			UpdateWorld();
 			DrawGame();
-			if (!house.getHouseState()) // Handle player movement only when outside
-			player.HandleMovement(deltaTime);
+			if (!house.getHouseState()) // Handle player movement only when outside      !player.isinhouse
+				player.HandleMovement(deltaTime);
 		}
 	}
 };

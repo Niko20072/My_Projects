@@ -8,6 +8,7 @@
 #include "worldState.h"
 #include "buttons.h"
 #include "wateringCan.h"
+#include <unordered_map>
 
 namespace Tmpl8
 {
@@ -17,8 +18,36 @@ namespace Tmpl8
 	class Inventory
 	{
 	public:
+
+		// Frame 0 : Ingredients
+		// Frame 1 : Potions
+		// Frame 2 : Seeds
+		// Frame 3 : Planting seeds
+		// Frame 4 : Car Shop
+		// Frame 5 : Car Orders
+
 		Inventory(WateringCan& wa) : wateringCan(wa) {}
 
+		enum class Item
+					{
+			Sunblossom,
+			Moonleaf,
+			Emberroot,
+			Frostmint,
+			Berry,
+			VitalTonic,
+			CalmMind,
+			DreamDraught,
+			FireHeart,
+			FrostVeil,
+			SeedSunblossom,
+			SeedMoonleaf,
+			SeedEmberroot,
+			SeedFrostmint,
+			SeedBerry
+		};
+
+		//delete -------------------------
 		// Ingredient counters
 		int contSunblossom = 10; // Sunblossom counter
 		int contMoonleaf = 10; // Moonleaf counter
@@ -27,6 +56,7 @@ namespace Tmpl8
 		int contBerry = 10; // Nightshade Berry counter
 
 		// Potion counters
+
 		int contVitalTonic = 10; // Vital Tonic counter
 		int contCalmMind = 10; // Calm Mind Elixir counter
 		int contDreamDraught = 10; // Dream Draught counter
@@ -39,6 +69,7 @@ namespace Tmpl8
 		int contSeedEmberroot = 10; // Emberroot Seed counter
 		int contSeedFrostmint = 10; // Frostmint Seed counter
 		int contSeedBerry = 10; // Nightshade Berry Seed counter
+		//delete ----------------------
 		
 		// Vector of pointers to potion counters
 		std::vector<int*> potionCounters = { &contVitalTonic, &contCalmMind, &contDreamDraught, &contFireHeart, &contFrostveil };
@@ -49,36 +80,21 @@ namespace Tmpl8
 		int getSeedState();
 		void setSeedState(bool state);
 
-		int getContSunblossom();
-		int getContMoonleaf();
-		int getContEmberroot();
-		int getContFrostmint();
-		int getContBerry();
-		int getContVitalTonic();
-		int getContCalmMind();
-		int getContDreamDraught();
-		int getContFireHeart();
-		int getContFrostveil();
-		int getContSeedSunblossom();
-		int getContSeedMoonleaf();
-		int getContSeedEmberroot();
-		int getContSeedFrostmint();
-		int getContSeedBerry();
+		int AddItem(Item item, int quantity = 1); // Add item to inventory
+		int GetItemCount(Item item); // Get count of specific item in inventory
 
-		void addContSunblossom();
-		void addContMoonleaf();
-		void addContEmberroot();
-		void addContFrostmint();
-		void addContBerry();
-
-		void BuySeeds(Surface* screen, int& coinCounter); // Buying seeds logic
-		void PlantSeeds(Surface* screen, float plantX, float plantY, int tileNumber); // Planting seeds logic
-		void DrawInventory(Surface* screen); // Drawing inventory on screen
+		void BuySeeds(int& coinCounter); // Buying seeds logic
+		
 		void MainInventory(Surface* screen); // Normal inventory management
 		void CarInventory(Surface* screen, int& coinCounter); // Car inventory management
 		void SeedsInventory(Surface* screen, bool tileClicekd); // Seed inventory management
 		void Draw(Surface* screen); // Draw inventory if open
 		bool InventorysClosed(); // Check if all inventories are closed
+
+		
+
+		//make recepie
+		//make random function for orders
 
 	private:
 		int frame = 0; // Inventory frame
@@ -87,13 +103,27 @@ namespace Tmpl8
 		bool seedsisopen = false; // Seed inventory open state
 		WateringCan& wateringCan; // Reference to player's watering can
 
+		std::unordered_map<Item, int> items = {
+			{ Item::Sunblossom, 10 },
+			{ Item::Emberroot, 10 }, 
+			{ Item::Moonleaf, 10 }, 
+			{ Item::Frostmint, 10 }, 
+			{ Item::Berry, 10 },
+			{ Item::VitalTonic, 10 },
+			{ Item::CalmMind, 10 },
+			{ Item::DreamDraught, 10 },
+			{ Item::FireHeart, 10 },
+			{ Item::FrostVeil, 10 },
+			{ Item::SeedSunblossom, 10 },
+			{ Item::SeedEmberroot, 10 },
+			{ Item::SeedMoonleaf, 10 },
+			{ Item::SeedFrostmint, 10 },
+			{ Item::SeedBerry, 10 }
+		}; // Map to store item counts
+
 		Sprite inventory = Sprite(new Surface("assets/inventory.png"), 6);
-		// Frame 0 : Ingredients
-		// Frame 1 : Potions
-		// Frame 2 : Seeds
-		// Frame 3 : Planting seeds
-		// Frame 4 : Car Shop
-		// Frame 5 : Car Orders
+		void DrawInventory(Surface* screen); // Drawing inventory on screen
+		
 		
 
 	};
