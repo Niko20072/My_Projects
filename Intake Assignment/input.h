@@ -15,6 +15,5 @@ namespace Input
     void onKeyUp(SDL_Scancode key);
     void onMouseButtonDown(int button);
     void onMouseButtonUp(int button);
-
     void Update();
 };

@@ -65,6 +65,13 @@ namespace Tmpl8
 		// Check if player clicked on bed
 		bool clickedOnBed = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
 		
+		// Open bed menu if clicked on bed
+		if (clickedOnBed && !crafting.CraftingIsOpen() && !nightstandisopen && frame == 0)
+		{
+			bedisopen = true;
+			frame = 1;
+		}
+
 		// Handle bed menu interactions
 		if (bedisopen)
 		{
@@ -80,12 +87,7 @@ namespace Tmpl8
 			}
 		}
 
-		// Open bed menu if clicked on bed
-		if (clickedOnBed && !crafting.CraftingIsOpen() && !nightstandisopen && frame == 0)
-		{
-			bedisopen = true;
-			frame = 1;
-		}
+		
 		// Frame 0: Normal house view
 		// Frame 1: Sleep confirmation view
 		// Frame 2: Day passed view
@@ -95,7 +97,7 @@ namespace Tmpl8
 	void House::NightstandLogic(int coinCounter)
 	{
 		// Check if player clicked on nightstand
-		bool clickedOnNightstand = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 454;
+		bool clickedOnNightstand = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 445;
 		if (clickedOnNightstand && !crafting.CraftingIsOpen() && !bedisopen && frame == 0)
 		{
 			nightstandisopen = true;
@@ -108,7 +110,7 @@ namespace Tmpl8
 	}
 	void House::DrawHover(Surface* screen)
 	{
-		bool hoverNightstand = WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 454;
+		bool hoverNightstand = WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 445;
 		bool hoverBed = WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
 		bool hoverTable = WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
 		if (hoverNightstand)

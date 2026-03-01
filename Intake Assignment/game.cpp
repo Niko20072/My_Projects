@@ -183,7 +183,7 @@ namespace Tmpl8
 			WorldState::mouseX = mousePos.x;
 			WorldState::mouseY = mousePos.y;
 			// Mouse coordinates on screen
-			//std::cout << "Mouse X: " << mouseX << ", Y: " << mouseY << std::endl;
+			std::cout << "Mouse X: " << WorldState::mouseX << ", Y: " << WorldState::mouseY << std::endl;
 		}
 	}
 	void Game::PlantSeed(Surface* screen, int tileNumber)
@@ -284,11 +284,12 @@ namespace Tmpl8
 				player.pWateringCan().setState(false);
 
 			// Inventory
+			if (player.pInventory().SeedInvIsOpen()) //check this before update to avoid double click bug
+				PlantSeed(screen, index2);
 			player.pInventory().MainInventoryLogic(screen);
 			car.CarInventoryLogic(coinCounter);
 			player.pInventory().SeedInventoryLogic(screen, tileClicked);
-			if(player.pInventory().SeedInvIsOpen())
-				PlantSeed(screen, index2);
+			
 		}
 		else // Inside house
 		{
