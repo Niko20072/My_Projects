@@ -62,7 +62,7 @@ namespace Tmpl8
 		bool CheckCollision(float x, float y);
 		void HandleInput();
 		void HandleMovement(float deltaTime);
-		void PlantSeed(Surface* screen, int tileNumber);
+		void PlantSeed(int tileNumber);
 		void UpdatePlants();
 		void UpdateFarmTiles();
 		void ProgressToNextDay();

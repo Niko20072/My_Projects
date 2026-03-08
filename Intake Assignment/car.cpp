@@ -126,7 +126,6 @@ namespace Tmpl8
 		{
 			carinventory.Draw(screen, 140, 20);
 			DrawCarText(screen);
-			std::cout << CheckIfAnySeedButtonPressed() << std::endl;
 		}
 			
 	}
@@ -156,7 +155,7 @@ namespace Tmpl8
 			// Draw order text and button based on completion status
 			char daysUntilResetText[64];
 			sprintf(daysUntilResetText, "Days until orders reset: %d", daysUntilOrderReset);
-			screen->PrintScaled(daysUntilResetText, 245, 94, 2, 2, 0x870101);
+			screen->PrintScaled(daysUntilResetText, 245, 92, 2, 2, 0x870101);
 			for (auto& x : orders)
 				x.Draw(screen);
 		}

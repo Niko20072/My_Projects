@@ -14,7 +14,6 @@ namespace Tmpl8
 		bool CheckIfAnySeedButtonPressed();
 		void UpdateOrderDays();
 		void CarInventoryLogic(int& coinCounter);
-		void DrawCarText(Surface* screen);
 		void BuySeeds(int& coinCounter); // Buying seeds logic
 		void Draw(Surface* screen);
 		void MakeNewOrders();
@@ -29,5 +28,6 @@ namespace Tmpl8
 		std::vector<Order> orders;
 		// Buying seeds buttons
 		bool button1 = false, button2 = false, button3 = false, button4 = false, button5 = false;
+		void DrawCarText(Surface* screen);
 	};
 }

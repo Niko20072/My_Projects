@@ -87,22 +87,22 @@ namespace Tmpl8//sterge
 
 			// Format strings with current counts
 			sprintf(sunBlossom, "Sunblossom  x%d", items[Item::Sunblossom]);
-			sprintf(moonLeaf, "Moonleaf            x%d", items[Item::Moonleaf]);
-			sprintf(emberRoot, "Emberroot           x%d", items[Item::Emberroot]);
-			sprintf(frostMint, "Frostmint           x%d", items[Item::Frostmint]);
-			sprintf(berry, "Nightshade Berry    x%d", items[Item::Berry]);
+			sprintf(moonLeaf, "Moonleaf  x%d", items[Item::Moonleaf]);
+			sprintf(emberRoot, "Emberroot  x%d", items[Item::Emberroot]);
+			sprintf(frostMint, "Frostmint  x%d", items[Item::Frostmint]);
+			sprintf(berry, "Nightshade Berry x%d", items[Item::Berry]);
 
-			sprintf(vitalTonic, "Vital Tonic         x%d", items[Item::VitalTonic]);
-			sprintf(calmMind, "Calm Mind Elixir    x%d", items[Item::CalmMind]);
-			sprintf(dreamDraught, "Dream Draught       x%d", items[Item::DreamDraught]);
-			sprintf(fireHeart, "FireHeart Brew      x%d", items[Item::FireHeart]);
-			sprintf(frostVeil, "Frostveil Potion    x%d", items[Item::FrostVeil]);
+			sprintf(vitalTonic, "Vital Tonic x%d", items[Item::VitalTonic]);
+			sprintf(calmMind, "Calm Mind Elixir x%d", items[Item::CalmMind]);
+			sprintf(dreamDraught, "Dream Draught x%d", items[Item::DreamDraught]);
+			sprintf(fireHeart, "FireHeart Brew x%d", items[Item::FireHeart]);
+			sprintf(frostVeil, "Frostveil Potion x%d", items[Item::FrostVeil]);
 
-			sprintf(seedSunBlossom, "Sunblossom          x%d", items[Item::SeedSunblossom]);
-			sprintf(seedMoonLeaf, "Moonleaf            x%d", items[Item::SeedMoonleaf]);
-			sprintf(seedEmberRoot, "Emberroot           x%d", items[Item::SeedEmberroot]);
-			sprintf(seedFrostMint, "Frostmint           x%d", items[Item::SeedFrostmint]);
-			sprintf(seedBerry, "Nightshade Berry    x%d", items[Item::SeedBerry]);
+			sprintf(seedSunBlossom, "Sunblossom  x%d", items[Item::SeedSunblossom]);
+			sprintf(seedMoonLeaf, "Moonleaf  x%d", items[Item::SeedMoonleaf]);
+			sprintf(seedEmberRoot, "Emberroot  x%d", items[Item::SeedEmberroot]);
+			sprintf(seedFrostMint, "Frostmint  x%d", items[Item::SeedFrostmint]);
+			sprintf(seedBerry, "Nightshade Berry x%d", items[Item::SeedBerry]);
 
 			sprintf(counterSeedSunBlossom, "x%d", items[Item::SeedSunblossom]);
 			sprintf(counterSeedMoonLeaf, "x%d", items[Item::SeedMoonleaf]);
@@ -114,37 +114,37 @@ namespace Tmpl8//sterge
 			if (MainInvIsOpen() && frame == 0)
 			{
 				screen->PrintScaled(sunBlossom, 350-20, 236, 2, 2, 0x0);
-				screen->PrintScaled(moonLeaf, 350-20, 280, 2, 2, 0x0);
-				screen->PrintScaled(emberRoot, 350 - 20, 321, 2, 2, 0x0);
-				screen->PrintScaled(frostMint, 350 - 20, 367, 2, 2, 0x0);
-				screen->PrintScaled(berry, 350 - 20, 411, 2, 2, 0x0);
+				screen->PrintScaled(moonLeaf, 350-20, 277, 2, 2, 0x0);
+				screen->PrintScaled(emberRoot, 350 - 20, 319, 2, 2, 0x0);
+				screen->PrintScaled(frostMint, 350 - 20, 365, 2, 2, 0x0);
+				screen->PrintScaled(berry, 350 - 20-14, 409, 2, 2, 0x0);
 			}
 			// Display when potions inventory is open
 			if (MainInvIsOpen() && frame == 1)
 			{
-				screen->Print(vitalTonic, 350, 241, 0x0);
-				screen->Print(calmMind, 350, 285, 0x0);
-				screen->Print(dreamDraught, 350, 328, 0x0);
-				screen->Print(fireHeart, 350, 373, 0x0);
-				screen->Print(frostVeil, 350, 418, 0x0);
+				screen->PrintScaled(vitalTonic, 350 - 30, 239, 2, 2, 0x0);
+				screen->PrintScaled(calmMind, 350 - 30, 282, 2, 2, 0x0);
+				screen->PrintScaled(dreamDraught, 350 - 30, 326, 2, 2, 0x0);
+				screen->PrintScaled(fireHeart, 350 - 30, 369, 2, 2, 0x0);
+				screen->PrintScaled(frostVeil, 350 - 30, 417, 2, 2, 0x0);
 			}
 			// Display when seeds inventory is open
 			if (MainInvIsOpen() && frame == 2)
 			{
-				screen->Print(seedSunBlossom, 350, 236, 0x0);
-				screen->Print(seedMoonLeaf, 350, 280, 0x0);
-				screen->Print(seedEmberRoot, 350, 321, 0x0);
-				screen->Print(seedFrostMint, 350, 367, 0x0);
-				screen->Print(seedBerry, 350, 411, 0x0);
+				screen->PrintScaled(seedSunBlossom, 350 - 20, 236, 2, 2, 0x0);
+				screen->PrintScaled(seedMoonLeaf, 350 - 20, 277, 2, 2, 0x0);
+				screen->PrintScaled(seedEmberRoot, 350 - 20, 319, 2, 2, 0x0);
+				screen->PrintScaled(seedFrostMint, 350 - 20, 365, 2, 2, 0x0);
+				screen->PrintScaled(seedBerry, 350 - 20 - 14, 409, 2, 2, 0x0);
 			}
 			// Display when planting seeds inventory is open
 			if (SeedInvIsOpen() && frame == 3)
 			{
-				screen->Print(counterSeedSunBlossom, 350 + 160, 236, 0x0);
-				screen->Print(counterSeedMoonLeaf, 350 + 160, 280, 0x0);
-				screen->Print(counterSeedEmberRoot, 350 + 160, 321, 0x0);
-				screen->Print(counterSeedFrostMint, 350 + 160, 367, 0x0);
-				screen->Print(counterSeedBerry, 350 + 160, 411, 0x0);
+				screen->PrintScaled(counterSeedSunBlossom, 350 + 160, 236, 2, 2, 0x0);
+				screen->PrintScaled(counterSeedMoonLeaf, 350 + 160, 278, 2, 2, 0x0);
+				screen->PrintScaled(counterSeedEmberRoot, 350 + 160, 321, 2, 2, 0x0);
+				screen->PrintScaled(counterSeedFrostMint, 350 + 160, 364, 2, 2, 0x0);
+				screen->PrintScaled(counterSeedBerry, 350 + 160, 405, 2, 2, 0x0);
 			}
 			
 		}

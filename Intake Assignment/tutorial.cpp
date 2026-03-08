@@ -81,7 +81,7 @@ namespace Tmpl8
             break;
 		case TutorialState::WaterSeed:
             sprintf(tutorialText, "Water the plant by pressing R to equip");
-            sprintf(tutorialText2, "the watering can, then click on the plant");
+            sprintf(tutorialText2, "the watering can, then clicking on the plant");
             if(wateringCan.getState() && Input::GetMouseButtonPressed(1))
 				tutorialState = TutorialState::ClickHouse;
             break;
@@ -116,7 +116,7 @@ namespace Tmpl8
 				tutorialState = TutorialState::ExplainNightstand;
 			break;
         case TutorialState::ExplainNightstand:
-            sprintf(tutorialText, "Here is how to finish the game:");
+            sprintf(tutorialText, "Here is how you can finish the game:");
             sprintf(tutorialText2, "Make 2000 coins and get your broom back!");
             if(!house.NightstandIsOpen())
 				tutorialState = TutorialState::ClickBed;
@@ -136,7 +136,7 @@ namespace Tmpl8
         case TutorialState::HaveFun:
             sprintf(tutorialText, "That's all you need to know.");
             sprintf(tutorialText2, "Have fun playing!");
-            if (!house.IsOpen() || house.hCrafting().CraftingIsOpen() || house.NightstandIsOpen() || house.BedIsOpen())
+            if (!house.IsOpen() || house.hCrafting().CraftingIsOpen() || house.NightstandIsOpen())
                 tutorialState = TutorialState::Done;
 			break;
         case TutorialState::Done:

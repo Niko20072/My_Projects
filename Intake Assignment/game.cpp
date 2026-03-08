@@ -102,9 +102,9 @@ namespace Tmpl8
 		bool carHover = WorldState::mouseWorldX >= 528 && WorldState::mouseWorldX <= 686 && WorldState::mouseWorldY >= 175 && WorldState::mouseWorldY <= 220;
 		bool doorHover = WorldState::mouseWorldX >= 196 && WorldState::mouseWorldX <= 233 && WorldState::mouseWorldY >= 183 && WorldState::mouseWorldY <= 234;
 		if (carHover)
-			car_hover.Draw(screen, 503 - WorldState::cameraX, 152 - WorldState::cameraY);
+			car_hover.Draw(screen, static_cast<int>(503 - WorldState::cameraX), static_cast<int>(152 - WorldState::cameraY)); //fixed conversion from float to int warning
 		if (doorHover)
-			door_hover.Draw(screen, 192 - WorldState::cameraX, 179 - WorldState::cameraY);
+			door_hover.Draw(screen, static_cast<int>(192 - WorldState::cameraX), static_cast<int>(179 - WorldState::cameraY));
 	}
 	/*void Game::HoverInsideObjects()
 	{
@@ -130,13 +130,13 @@ namespace Tmpl8
 		{
 			HWND hwnd = GetActiveWindow();
 			ScreenToClient(hwnd, &mousePos);
-			WorldState::mouseX = mousePos.x;
-			WorldState::mouseY = mousePos.y;
+			WorldState::mouseX = static_cast<float>(mousePos.x); //fixed conversion from long to float warning
+			WorldState::mouseY = static_cast<float>(mousePos.y);
 			// Mouse coordinates on screen
-			std::cout << "Mouse X: " << WorldState::mouseX << ", Y: " << WorldState::mouseY << std::endl;
+			//std::cout << "Mouse X: " << WorldState::mouseX << ", Y: " << WorldState::mouseY << std::endl;
 		}
 	}
-	void Game::PlantSeed(Surface* screen, int tileNumber)
+	void Game::PlantSeed(int tileNumber)
 	{
 		
 		// Planting seeds buttons
@@ -243,7 +243,7 @@ namespace Tmpl8
 
 			// Inventory
 			if (player.pInventory().SeedInvIsOpen()) //check this before update to avoid double click bug
-				PlantSeed(screen, index2);
+				PlantSeed(index2);
 			player.pInventory().MainInventoryLogic(screen);
 			car.CarInventoryLogic(coinCounter);
 			player.pInventory().SeedInventoryLogic(screen, tileClicked);
@@ -330,7 +330,7 @@ namespace Tmpl8
 
 	void Game::Init()
 	{
-		srand(time(0));
+		srand(static_cast<unsigned int>(time(0))); //fixed conversion from time_t to unsigned int warning
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
