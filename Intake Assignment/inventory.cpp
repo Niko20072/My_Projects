@@ -148,7 +148,7 @@ namespace Tmpl8//sterge
 			}
 			
 		}
-		void Inventory::MainInventoryLogic(Surface* screen)
+		void Inventory::MainInventoryLogic()
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
@@ -180,7 +180,7 @@ namespace Tmpl8//sterge
 			inventory.SetFrame(frame);
 
 		}
-		void Inventory::SeedInventoryLogic(Surface* screen, bool tileClicekd)
+		void Inventory::SeedInventoryLogic(bool tileClicekd)
 		{
 			// Detect clicks
 			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);

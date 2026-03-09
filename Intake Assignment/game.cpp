@@ -244,9 +244,9 @@ namespace Tmpl8
 			// Inventory
 			if (player.pInventory().SeedInvIsOpen()) //check this before update to avoid double click bug
 				PlantSeed(index2);
-			player.pInventory().MainInventoryLogic(screen);
+			player.pInventory().MainInventoryLogic();
 			car.CarInventoryLogic(coinCounter);
-			player.pInventory().SeedInventoryLogic(screen, tileClicked);
+			player.pInventory().SeedInventoryLogic(tileClicked);
 			
 		}
 		else // Inside house
@@ -259,7 +259,7 @@ namespace Tmpl8
 				house.hCrafting().CraftPotions();
 
 			// House Interactions
-			house.NightstandLogic(coinCounter);
+			house.NightstandLogic();
 			house.BedLogic(dayCounter);
 			if (house.ConfirmedToSleep()) // Player confirmed to sleep, update day and progress plants
 				ProgressToNextDay();

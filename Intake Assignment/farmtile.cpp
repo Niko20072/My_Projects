@@ -10,17 +10,13 @@ namespace Tmpl8
 	FarmTile::FarmTile(float x,float y, WateringCan& wa, Inventory& inv) : farmTileX(x * WorldState::mapTileSize), farmTileY(y * WorldState::mapTileSize), wateringCan(wa), inventory(inv), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/tiles_hover.png"), 1)) {}
 	void FarmTile::Draw(Surface* screen)
 	{
-		farmTile->Draw(screen, farmTileX - WorldState::cameraX, farmTileY - WorldState::cameraY);
+		farmTile->Draw(screen, static_cast<int>(farmTileX - WorldState::cameraX), static_cast<int>(farmTileY - WorldState::cameraY));
 	}
 	void FarmTile::DrawHover(Surface* screen)
 	{
 		bool checkHover = WorldState::mouseWorldX >= farmTileX && WorldState::mouseWorldX < farmTileX + WorldState::mapTileSize && WorldState::mouseWorldY >= farmTileY && WorldState::mouseWorldY < farmTileY + WorldState::mapTileSize;
 		if (checkHover)
-			hover->Draw(screen, farmTileX - WorldState::cameraX, farmTileY - WorldState::cameraY);
-	}
-	void FarmTile::SetFrame(int frame)
-	{
-		farmTile->SetFrame(frame);
+			hover->Draw(screen, static_cast<int>(farmTileX - WorldState::cameraX), static_cast<int>(farmTileY - WorldState::cameraY));
 	}
 	void FarmTile::Update()
 	{

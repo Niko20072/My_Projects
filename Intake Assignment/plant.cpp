@@ -11,7 +11,7 @@ namespace Tmpl8
 	void Plant::Draw(Surface* screen)
 	{
 		plant.SetFrame(frame);
-		plant.Draw(screen, x - WorldState::cameraX, y - WorldState::cameraY - 10);
+		plant.Draw(screen, static_cast<int>(x - WorldState::cameraX), static_cast<int>(y - WorldState::cameraY - 10));
 	}
 	void Plant::Update()
 	{

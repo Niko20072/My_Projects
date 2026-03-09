@@ -23,7 +23,7 @@ namespace Tmpl8
 		void Craftinglogic(); // Handle crafting menu interactions
 		void BedLogic(int &dayCounter); // Handle bed click and day progression logic
 		bool ConfirmedToSleep();
-		void NightstandLogic(int coinCounter); // Handle nightstand click
+		void NightstandLogic(); // Handle nightstand click
 		void Draw(Surface* screen);
 		void GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted); // Show game completed screen
 	private:

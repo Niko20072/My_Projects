@@ -53,8 +53,8 @@ namespace Tmpl8
 
 		void InventoryText(Surface* screen);
 
-		void MainInventoryLogic(Surface* screen); // Normal inventory management
-		void SeedInventoryLogic(Surface* screen, bool tileClicekd); // Seed inventory management
+		void MainInventoryLogic(); // Normal inventory management
+		void SeedInventoryLogic(bool tileClicekd); // Seed inventory management
 		void Draw(Surface* screen);
 
 	private:

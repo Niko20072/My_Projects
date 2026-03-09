@@ -22,7 +22,7 @@ namespace Tmpl8
 	private:
 		Inventory& inventory;
 		//plant(std::make_unique<Sprite>(new Surface("assets/plant.png"), 20)
-		Sprite plant = Sprite(new Surface("assets/plant.png"), 20);
+		Sprite plant = Sprite(new Surface("assets/plant12.png"), 20);
 		int harvestDay; //the day when the plant is grown
 		int daysPassed = 0; //plant age
 		bool grown = false;

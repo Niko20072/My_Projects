@@ -95,7 +95,7 @@ namespace Tmpl8
 
 		house.SetFrame(frame);
 	}
-	void House::NightstandLogic(int coinCounter)
+	void House::NightstandLogic()
 	{
 		// Check if player clicked on nightstand
 		bool clickedOnNightstand = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 445;

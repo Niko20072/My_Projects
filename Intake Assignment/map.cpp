@@ -16,8 +16,8 @@ namespace Tmpl8
 	bool Map::CheckCollision(float x, float y)
 	{
 		//sprit corners
-		int left = x;
-		int top = y;
+		int left = static_cast<int>(x);
+		int top = static_cast<int>(y);
 		int right = left + 46;
 		int bottom = top + 22;
 
@@ -31,7 +31,7 @@ namespace Tmpl8
 	}
 	void Map::Draw(Surface*screen)
 	{
-		tiles.CopyTo(screen, -WorldState::cameraX, -WorldState::cameraY);
+		tiles.CopyTo(screen, static_cast<int>(-WorldState::cameraX), static_cast<int>(-WorldState::cameraY));
 		return;
 	}
 	/*
