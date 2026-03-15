@@ -5,6 +5,7 @@ namespace Tmpl8
 	//pune toata harta ca png, collision box
 	//copy to screen + offset
 	//transform 
+	const int Map::TileSize = 48;
 	bool Map::IsBlocked(int x,int y)
 	{
 		//Transform screen coordinates to tile coordinates

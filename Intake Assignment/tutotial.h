@@ -42,6 +42,7 @@ namespace Tmpl8
 		TutorialState tutorialState = TutorialState::Move;
 		char tutorialText[256] = "";
 		char tutorialText2[256] = "";
+		int box[4] = { 0,0,0,0 }; //xyxy
 		bool planted = false;
 		Inventory& inventory; // Reference to Inventory
 		Car& car; // Reference to Car

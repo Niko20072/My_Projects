@@ -16,13 +16,11 @@ namespace Tmpl8
 		bool getTutorialCraft() { return tutorialCraft; }
 
 		void ManageFrames(); // Manage frame selection
-		//----update----
 		void CraftVitalTonic(); // Craft Vital Tonic
 		void CraftCalmMind(); // Craft Calm Mind Elixir
 		void CraftDreamDraught(); // Craft Dream Draught
 		void CraftFireHeart(); // Craft FireHeart Brew
 		void CraftFrostVeil(); // Craft Frostveil Potion
-		//----update----
 		void CraftPotions(); // Handle crafting logic
 		void Draw(Surface* screen);
 	private:

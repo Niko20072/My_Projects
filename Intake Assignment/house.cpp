@@ -61,7 +61,6 @@ namespace Tmpl8
 			return true;
 		return false;
 	}
-	//Fix double click problem(bed after clicking yes)
 	void House::BedLogic(int& dayCounter)
 	{
 		// Check if player clicked on bed
@@ -134,7 +133,6 @@ namespace Tmpl8
 		if (nightstandisopen)
 			nightstand.Draw(screen, 0, 0);
 	}
-	//Fix double click problem(send money and nightstand button)
 	void House::GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted) 
 	{
 		// Check if player clicked on send money button

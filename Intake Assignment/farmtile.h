@@ -38,7 +38,6 @@ namespace Tmpl8
 		float farmTileY;
 		int frame = 0; // Current frame of the farm tile sprite
 		bool planted = false; // Whether a plant is planted on this tile
-		//bool isClicked = false; // Whether the tile has been clicked
 		bool clicked = false;
 		bool watered = false;
 	};

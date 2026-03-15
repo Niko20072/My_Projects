@@ -85,6 +85,13 @@ namespace Tmpl8
 	void FarmTile::DrawPlant(Surface* screen)
 	{
 		if (planted) // avoid null pointer access
+		{
 			plant->Draw(screen);
+			/*if ((!plant->getGrown() && clicked && !wateringCan.getState()))
+			{
+				screen->PrintScaled("Not ready!", static_cast<int>(farmTileX - WorldState::cameraX - 25), static_cast<int>(farmTileY - WorldState::cameraY - 20), 2, 2, 0xffff00);
+			}*/
+		}
+			
 	}
 };

@@ -7,12 +7,11 @@ namespace Tmpl8
 	class Map
 	{
 	public:
+		//make constructor
 		Surface tiles = ("assets/MediumMap.png");
-		static const int TileSize = 48; // Size of each tile in pixels
+		static const int TileSize; // Size of each tile in pixels
 		bool CheckCollision(float x, float y);
 		void Draw(Surface* screen);
-		//void DrawTile(Surface* screen, int tx, int ty, int x, int y); // Draw a single tile at (x,y) on the screen
-		//void DrawMap(Surface* screen); // Draw the entire map on the screen'
 	private:
 		const int MapWidth = 26; // Number of tiles horizontally
 		static const int MapHeight = 26; // Number of tiles vertically
@@ -47,5 +46,12 @@ namespace Tmpl8
 			"0HX1HX2HX3HX4HX5HX6HX7HX8HX9HX:HX;HX<HX=HX>HX?HX@HXAHXBHXCHXDHXEHXFHXGHXHHXIHX",
 			"0IX1IX2IX3IX4IX5IX6IX7IX8IX9IX:IX;IX<IX=IX>IX?IX@IXAIXBIXCIXDIXEIXFIXGIXHIXIIX",
 		}; //104 lectie
+		/*
+		char map2[MapHeight][79] = 
+		{
+			"XXXXXXXXXXXXXXXXXXXXXXXXXX"
+			"XXXXXXXX000X000000XX00000X"
+			""
+		}*/
 	};
 }

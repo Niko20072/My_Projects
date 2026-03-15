@@ -37,47 +37,6 @@ namespace Tmpl8
 		sprintf(complete, "completed");
 		//std::cout <<" Potion number: " << potionNumber << std::endl;
 	}
-	/*
-	void Order::Logic(int& coinCounter)
-	{
-		// Check if send button is clicked
-		int button = Buttons::leftPressed && WorldState::mouseX >= (475 - range) && WorldState::mouseX <= (526 + range) && WorldState::mouseY >= (235 + orderNumber * 35 - range) && WorldState::mouseY <= (242 + orderNumber * 35 + range);
-
-		// Process order if button clicked and not completed
-		if (button && !completed)
-		{
-			Buttons::leftPressed = false; // Reset left click state to avoid multiple clicks
-
-			// Order with one potion
-			if (potionNumber == 1)
-			{
-				// Check if enough potions in inventory
-				
-				if (inventory.VerifyRandomPotionOrder(potionType1, potionTypeNumber1))
-				{
-					// Remove potions from inventory and add coins
-					inventory.RandomPotionOrder(potionType1, potionTypeNumber1); // Remove potions from inventory
-					coinCounter += price;
-					// Mark order as completed
-					completed = true;
-				}
-			}
-			// Order with two potions
-			if (potionNumber > 1)
-			{
-				// Check if enough potions in inventory
-				if (inventory.VerifyRandomPotionOrder(potionType1, potionTypeNumber1) && inventory.VerifyRandomPotionOrder(potionType2, potionTypeNumber2))
-				{
-					// Remove potions from inventory and add coins
-					inventory.RandomPotionOrder(potionType1, potionTypeNumber1); // Remove potions from inventory
-					inventory.RandomPotionOrder(potionType2, potionTypeNumber2);
-					coinCounter += price;
-					// Mark order as completed
-					completed = true;
-				}
-			}
-		}
-	}*/
 	void Order::Logic(int& coinCounter)
 	{
 		// Check if send button is clicked

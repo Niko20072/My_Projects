@@ -129,7 +129,7 @@ namespace Tmpl8
             break;
 		case TutorialState::ExplainBed:
             sprintf(tutorialText, "Sleeping will advance the day, causing");
-            sprintf(tutorialText2, "your plants to grow and orders to refresh (every 5 days) (Q to exit)");
+            sprintf(tutorialText2, "your plants to grow and orders to refresh (every 5 days)");
 			if (!house.BedIsOpen() || house.ConfirmedToSleep())
 				tutorialState = TutorialState::HaveFun;
             break;
@@ -149,28 +149,42 @@ namespace Tmpl8
 	}
     void Tutorial::Draw(Surface* screen)
     {
-        if (tutorialState == TutorialState::InteractInventory)
+        if (tutorialState != TutorialState::Done)
         {
-			screen->PrintScaled("here:", 260, 488, 2, 2, 0xff0000);
+            if (tutorialState != TutorialState::ExplainBed)
+                screen->Bar(box[0], box[1], box[2], box[3], 0x0);
+            if (tutorialState == TutorialState::InteractInventory)
+            {
+                screen->PrintScaled("here:", 260, 488, 2, 2, 0xff0000);
+            }
+            if (tutorialState == TutorialState::ExplainTable || tutorialState == TutorialState::ExitTable)
+            {
+                screen->CentreScaled(tutorialText, 409 + 15, 2, 2, 0xff0000);
+                screen->CentreScaled(tutorialText2, 409 + 35, 2, 2, 0xff0000);
+                box[0] = 85;
+                box[1] = 417;
+                box[2] = 712;
+                box[3] = 459;
+            }
+            else if (tutorialText2[0] == '\0')
+            {
+                screen->CentreScaled(tutorialText, 20, 2, 2, 0xff0000);
+                box[0] = 175;
+                box[1] = 13;
+                box[2] = 619;
+                box[3] = 34;
+            }
+            else
+            {
+                screen->CentreScaled(tutorialText, 10, 2, 2, 0xff0000);
+                screen->CentreScaled(tutorialText2, 30, 2, 2, 0xff0000);
+                box[0] = 121;
+                box[1] = 3;
+                box[2] = 675;
+                box[3] = 46;
+            }
+            if (tutorialState == TutorialState::Move || tutorialState == TutorialState::OpenInventory || tutorialState == TutorialState::InteractInventory)
+                screen->PrintScaled("Press X to skip the tutorial", 10, 580, 2, 2, 0x8f0d7d);
         }
-        if (tutorialState == TutorialState::ExplainTable || tutorialState == TutorialState::ExitTable)
-        {
-            screen->CentreScaled(tutorialText, 409 + 15, 2, 2, 0xff0000);
-            screen->CentreScaled(tutorialText2, 409 + 35, 2, 2, 0xff0000);
-			screen->Bar(103, 331, 294, 476, 0xff0000); // Highlight crafting table
-        }
-        else if (tutorialText2[0] == '\0')
-        {
-            screen->CentreScaled(tutorialText, 20, 2, 2, 0xff0000);
-			screen->Bar(0, 0, 800, 600, 0x7f000000); // Semi-transparent background for better readability
-        }
-        else
-        {
-            screen->CentreScaled(tutorialText, 10, 2, 2, 0xff0000);
-            screen->CentreScaled(tutorialText2, 30, 2, 2, 0xff0000);
-			screen->Bar(0, 0, 800, 600, 0x7f000000); // Semi-transparent background for better readability
-        }
-        if(tutorialState == TutorialState::Move || tutorialState == TutorialState::OpenInventory || tutorialState == TutorialState::InteractInventory)
-		    screen->PrintScaled("Press X to skip the tutorial", 10, 580, 2, 2, 0x8f0d7d);
 	}
 }

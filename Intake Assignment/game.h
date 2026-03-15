@@ -50,19 +50,18 @@ namespace Tmpl8
 		std::vector<FarmTile> farmTiles;
 		int dayCounter = 0;
 		int coinCounter = 250;
-		char day[32], coins[32];
+		char day[32] = "", coins[32] = "";
 		bool gameCompleted = false;
-		int index, index2;
 		bool tileClicked = false;
+		FarmTile* selectedTile = nullptr;
 		void GodMode();
 		bool AllInventoriesClosed(); // Check if all inventories are closed
 		void DrawInventory();
 		void HoverOutsideObjects();
-		//void HoverInsideObjects();
 		bool CheckCollision(float x, float y);
 		void HandleInput();
 		void HandleMovement(float deltaTime);
-		void PlantSeed(int tileNumber);
+		void PlantSeed(FarmTile& farmtile);
 		void UpdatePlants();
 		void UpdateFarmTiles();
 		void ProgressToNextDay();

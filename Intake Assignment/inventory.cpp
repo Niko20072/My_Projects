@@ -76,7 +76,6 @@ namespace Tmpl8//sterge
 			return items[item];
 		}
 
-		//make text bigger
 		void Inventory::InventoryText(Surface*screen)
 		{
 			// Display values

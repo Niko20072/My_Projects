@@ -4,11 +4,11 @@ namespace Tmpl8
 {
 	namespace WorldState
 	{
-		const int playerX = 648 / 2 + 46, playerY = 512 / 2 + 22; //player position
+		
 		float worldPlayerX, worldPlayerY; //player position in world coordinates
 		float reachX1, reachY1, reachX2, reachY2; //player reach area (rectangle around player)
 		float cameraX = 10.0f, cameraY = 50.0f; //world coordinates (map offset)
-		const float cameraSpeed = 360.0f;
+		
 		float mouseX = 0, mouseY = 0; //mouse position on screen
 		float mouseWorldX, mouseWorldY; //mouse position in world coordinates
 		const int mapTileSize = Map::TileSize;

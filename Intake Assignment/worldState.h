@@ -3,8 +3,8 @@ namespace Tmpl8
 {
 	namespace WorldState
 	{
-		extern const int playerX, playerY; //player position
-		extern const float cameraSpeed;
+		constexpr int playerX = 648 / 2 + 48, playerY = 512 / 2 + 22; //player position
+		constexpr float cameraSpeed = 360.0f;
 		extern float mouseX, mouseY;
 
 		// Transform screen coordinates -> world coordinates -> mouse screen position
@@ -26,7 +26,7 @@ namespace Tmpl8
 		extern float reachX2;
 		extern float reachY2;
 
-		extern const int mapTileSize;
+		extern const int mapTileSize; //remove
 
 		void UpdateWorldState();
 	}
