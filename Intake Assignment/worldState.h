@@ -6,6 +6,7 @@ namespace Tmpl8
 		constexpr int playerX = 648 / 2 + 48, playerY = 512 / 2 + 22; //player position
 		constexpr float cameraSpeed = 360.0f;
 		extern float mouseX, mouseY;
+		extern float playerColisionX1, playerColisionY1, playerColisionX2, playerColisionY2; //player collision box (rectangle around player)
 
 		// Transform screen coordinates -> world coordinates -> mouse screen position
 		extern float mouseWorldX;

@@ -8,16 +8,45 @@ namespace Tmpl8
 	{
 	public:
 		//make constructor
-		Surface tiles = ("assets/MediumMap.png");
 		static const int TileSize; // Size of each tile in pixels
-		bool CheckCollision(float x, float y);
+		bool CheckCollision(float x1, float y1, float x2, float y2);
 		void Draw(Surface* screen);
 	private:
-		const int MapWidth = 26; // Number of tiles horizontally
-		static const int MapHeight = 26; // Number of tiles vertically
-		const int MapSize = 1264; // Width of the tileset image in pixels
+		//Map hight and width = 26 tiles, each tile is 48 pixels, so total size of map is 1248 pixels
+		Surface tiles = ("assets/MediumMap2.png");
 		bool IsBlocked(int x, int y); // Check if tile at (x,y) is blocked
-		char map[MapHeight][79] =
+		//Collision map
+		char map[26][27] =
+		{
+			"XXXXXXXXXXXXXXXXXXXXXXXXXX",
+			"XXXXXXXX000X000000XX00000X",
+			"XXXXXX00000XXX00000000000X",
+			"XXXXXX00000XXX00000000X00X",
+			"X0000000000000XX000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X000000000000000000000000X",
+			"X00000000000000000000XXXXX",
+			"X00000000000000000000XXXXX",
+			"X00000000000000000000XXXXX",
+			"X00000000000000000000XXXXX",
+			"XXX000000000000000000XXXXX",
+			"XXX000000000000000000XXXXX",
+			"XXX000000000000000000XXXXX",
+			"XXXXXXXXXXXXXXXXXXXXXXXXXX"
+		};
+		/*
+		char map[26][79] =
 		{
 			"00X10X20X30X40X50X60X70X80X90X:0X;0X<0X=0X>0X?0X@0XA0XB0XC0XD0XE0XF0XG0XH0XI0X",
 			"01X11X21X31X41X51X61X71X81 91 :1 ;1X<1 =1 >1 ?1 @1 A1 B1XC1XD1 E1 F1 G1 H1 I1X",
@@ -45,13 +74,6 @@ namespace Tmpl8
 			"0GX1GX2GX3G 4G 5G 6G 7G 8G 9G :G ;G <G =G >G ?G @G AG BG CG DG EGXFGXGGXHGXIGX",
 			"0HX1HX2HX3HX4HX5HX6HX7HX8HX9HX:HX;HX<HX=HX>HX?HX@HXAHXBHXCHXDHXEHXFHXGHXHHXIHX",
 			"0IX1IX2IX3IX4IX5IX6IX7IX8IX9IX:IX;IX<IX=IX>IX?IX@IXAIXBIXCIXDIXEIXFIXGIXHIXIIX",
-		}; //104 lectie
-		/*
-		char map2[MapHeight][79] = 
-		{
-			"XXXXXXXXXXXXXXXXXXXXXXXXXX"
-			"XXXXXXXX000X000000XX00000X"
-			""
-		}*/
+		}; //104 lectie*/
 	};
 }

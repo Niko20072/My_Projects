@@ -7,6 +7,7 @@ namespace Tmpl8
 		
 		float worldPlayerX, worldPlayerY; //player position in world coordinates
 		float reachX1, reachY1, reachX2, reachY2; //player reach area (rectangle around player)
+		float playerColisionX1 = 0, playerColisionY1 = 0, playerColisionX2 = 0, playerColisionY2 = 0; //player collision box (rectangle around player)
 		float cameraX = 10.0f, cameraY = 50.0f; //world coordinates (map offset)
 		
 		float mouseX = 0, mouseY = 0; //mouse position on screen
@@ -29,6 +30,11 @@ namespace Tmpl8
 			reachY1 = worldPlayerY - 25.0f;
 			reachX2 = worldPlayerX + 46.0f + 50.0f;
 			reachY2 = worldPlayerY + 94.0f + 25.0f;
+
+			playerColisionX1 = worldPlayerX;
+			playerColisionY1 = worldPlayerY;
+			playerColisionX2 = worldPlayerX + 46.0f;
+			playerColisionY2 = worldPlayerY + 94.0f;
 		}
 	}
 }

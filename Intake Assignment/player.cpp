@@ -5,7 +5,6 @@
 
 namespace Tmpl8
 {
-	
 	void Player::HandleMovement(float deltaTime)
 	{
 		// -----------------------------------------------------------
@@ -47,7 +46,7 @@ namespace Tmpl8
 		}
 
 		// Check for collision before updating camera position
-		if (map.CheckCollision(newCameraX + WorldState::playerX, newCameraY + WorldState::playerY) == true)
+		if (map.CheckCollision(newCameraX + WorldState::playerX, newCameraY + WorldState::playerY, newCameraX + WorldState::playerX + 48, newCameraY + WorldState::playerY + 94) == true)
 		{
 			WorldState::cameraX = newCameraX;
 			WorldState::cameraY = newCameraY;
@@ -57,6 +56,7 @@ namespace Tmpl8
 	{
 		// Player reach box
 		//screen->Box(WorldState::reachX1 - WorldState::cameraX, WorldState::reachY1 - WorldState::cameraY, WorldState::reachX2 - WorldState::cameraX, WorldState::reachY2 - WorldState::cameraY, 0x00ff00);
+		screen->Box(WorldState::playerColisionX1 - WorldState::cameraX, WorldState::playerColisionY1 - WorldState::cameraY, WorldState::playerColisionX2 - WorldState::cameraX, WorldState::playerColisionY2 - WorldState::cameraY, 0xff0000);
 		player1.Draw(screen, WorldState::playerX, WorldState::playerY);
 	}
 }

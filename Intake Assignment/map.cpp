@@ -2,9 +2,6 @@
 #include "worldState.h"
 namespace Tmpl8
 {
-	//pune toata harta ca png, collision box
-	//copy to screen + offset
-	//transform 
 	const int Map::TileSize = 48;
 	bool Map::IsBlocked(int x,int y)
 	{
@@ -12,15 +9,15 @@ namespace Tmpl8
 		int tx = x / TileSize;
 		int ty = y / TileSize;
 		//return true if tile is blocked/ false if not
-		return map[ty][tx * 3 + 2] == 'X';
+		return map[ty][tx] == 'X';
 	}
-	bool Map::CheckCollision(float x, float y)
+	bool Map::CheckCollision(float x1, float y1, float x2, float y2)
 	{
 		//sprit corners
-		int left = static_cast<int>(x);
-		int top = static_cast<int>(y);
-		int right = left + 46;
-		int bottom = top + 22;
+		int left = static_cast<int>(x1);
+		int top = static_cast<int>(y1);
+		int right = static_cast<int>(x2);
+		int bottom = static_cast<int>(y2);
 
 		//check all corners for collision
 		if (IsBlocked(left, top)) return false;
