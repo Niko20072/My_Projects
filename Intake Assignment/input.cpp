@@ -15,6 +15,7 @@ namespace //internal
     {
         keys.set(key, isDown);
     }
+	float mouseX = 0.0f, mouseY = 0.0f; // store current mouse coordinates
 }
 
 namespace Input
@@ -25,6 +26,8 @@ namespace Input
 	bool GetMouseButton(int button) { return mouseHeld.test(button - 1); } // returns true if the mouse button is currently held down
     bool GetMouseButtonPressed(int button) { return mousePressed.test(button - 1); } // returns true if the mouse button was pressed since the last Tick
     bool GetMouseButtonReleased(int button) { return mouseReleased.test(button - 1);  } // returns true if the mouse button was released since the last Tick
+    float GetMouseX() { return mouseX; } // returns the current x coordinate of the mouse
+    float GetMouseY() { return mouseY; } // returns the current y coordinate of the mouse
     void onKeyDown(SDL_Scancode key)
     {
         SetKeyState(key, true);
@@ -40,6 +43,11 @@ namespace Input
     void onMouseButtonUp(int button)
     {
         mouseKeys.set(button - 1, false);
+	}
+    void SetMouseCoordinates(float x, float y)
+    {
+        mouseX = x;
+        mouseY = y;
 	}
     void Update()
     {

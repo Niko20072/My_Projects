@@ -3,11 +3,12 @@
 
 namespace Tmpl8
 {
-	//fix static TileSize
+	class Camera;
 	class Map
 	{
 	public:
 		//make constructor
+		Map(Camera& cam) : camera(cam) {}
 		static const int TileSize; // Size of each tile in pixels
 		bool CheckCollision(float x1, float y1, float x2, float y2);
 		void Draw(Surface* screen);
@@ -15,6 +16,7 @@ namespace Tmpl8
 		//Map hight and width = 26 tiles, each tile is 48 pixels, so total size of map is 1248 pixels
 		Surface tiles = ("assets/MediumMap2.png");
 		bool IsBlocked(int x, int y); // Check if tile at (x,y) is blocked
+		Camera& camera; // Reference to game camera
 		//Collision map
 		char map[26][27] =
 		{

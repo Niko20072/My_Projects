@@ -1,6 +1,5 @@
 #pragma once
 #include <windows.h>
-#include "worldState.h"
 #include <bitset>
 #include <SDL_scancode.h>
 namespace Tmpl8

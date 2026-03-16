@@ -11,9 +11,12 @@ namespace Input
     bool GetMouseButton(int button); // returns true if the mouse button is currently held down
     bool GetMouseButtonPressed(int button); // returns true if the mouse button was pressed since the last Tick
     bool GetMouseButtonReleased(int button); // returns true if the mouse button was released since the last Tick
+    float GetMouseX(); // returns the current x coordinate of the mouse
+    float GetMouseY(); // returns the current y coordinate of the mouse
     void onKeyDown(SDL_Scancode key);
     void onKeyUp(SDL_Scancode key);
     void onMouseButtonDown(int button);
     void onMouseButtonUp(int button);
+	void SetMouseCoordinates(float x, float y);
     void Update();
 };

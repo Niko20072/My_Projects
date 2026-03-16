@@ -1,6 +1,5 @@
 #include "inventory.h"
 #include "wateringCan.h"
-#include "worldState.h"
 #include "input.h"
 
 namespace Tmpl8//sterge
@@ -150,10 +149,10 @@ namespace Tmpl8//sterge
 		void Inventory::MainInventoryLogic()
 		{
 			// Detect clicks
-			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
-			bool clickedOnPlantButton = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 323 && WorldState::mouseX <= 366 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-			bool clickedOnPotionButton = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 375 && WorldState::mouseX <= 510 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-			bool clickedOnSeedButton = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 430 && WorldState::mouseX <= 475 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
+			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(Input::GetMouseX() >= 207 && Input::GetMouseX() <= 579 && Input::GetMouseY() >= 78 && Input::GetMouseY() <= 519);
+			bool clickedOnPlantButton = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 323 && Input::GetMouseX() <= 366 && Input::GetMouseY() >= 471 && Input::GetMouseY() <= 510;
+			bool clickedOnPotionButton = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 375 && Input::GetMouseX() <= 510 && Input::GetMouseY() >= 471 && Input::GetMouseY() <= 510;
+			bool clickedOnSeedButton = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 430 && Input::GetMouseX() <= 475 && Input::GetMouseY() >= 471 && Input::GetMouseY() <= 510;
 
 			//Toggle normal inventory
 			if (Input::GetKeyPressed(SDL_SCANCODE_E)) //add state maybe
@@ -182,7 +181,7 @@ namespace Tmpl8//sterge
 		void Inventory::SeedInventoryLogic(bool tileClicekd)
 		{
 			// Detect clicks
-			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
+			bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(Input::GetMouseX() >= 207 && Input::GetMouseX() <= 579 && Input::GetMouseY() >= 78 && Input::GetMouseY() <= 519);
 			bool moved = Input::GetKeyPressed(SDL_SCANCODE_W) || Input::GetKeyPressed(SDL_SCANCODE_A) || Input::GetKeyPressed(SDL_SCANCODE_S) || Input::GetKeyPressed(SDL_SCANCODE_D);
 
 			//Toggle seed inventory

@@ -5,15 +5,16 @@
 namespace Tmpl8
 {
 	class Inventory;
+	class Player;
 	class Car
 	{
 	public:
-		Car(Inventory& inv) : inventory(inv) {};
+		Car(Inventory& inv, Player& plyr) : inventory(inv), player(plyr) {};
 		int CarInvIsOpen();
 		int getFrame();
 		bool CheckIfAnySeedButtonPressed();
 		void UpdateOrderDays();
-		void CarInventoryLogic(int& coinCounter);
+		void CarInventoryLogic(int& coinCounter, float mouseWorldX, float mouseWorldY);
 		void BuySeeds(int& coinCounter); // Buying seeds logic
 		void Draw(Surface* screen);
 		void MakeNewOrders();
@@ -21,6 +22,7 @@ namespace Tmpl8
 		void DrawOrders(Surface* screen);
 	private:
 		Inventory& inventory;
+		Player& player;
 		bool carisopen = false; // Car inventory open state
 		int frame = 4;
 		int daysUntilOrderReset = 0;

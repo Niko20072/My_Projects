@@ -1,8 +1,7 @@
 #include "car.h"
 #include "inventory.h"
 #include "input.h"
-#include "worldState.h"
-
+#include "player.h"
 
 namespace Tmpl8
 {
@@ -27,12 +26,11 @@ namespace Tmpl8
 	void Car::BuySeeds(int& coinCounter)
 	{
 		// Buying seeds buttons
-		button1 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
-		button2 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 267 && WorldState::mouseY <= 293;
-		button3 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 310 && WorldState::mouseY <= 337;
-		button4 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 355 && WorldState::mouseY <= 379;
-		button5 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 394 && WorldState::mouseY <= 420;
-
+		button1 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 224 && Input::GetMouseY() <= 250;
+		button2 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 267 && Input::GetMouseY() <= 293;
+		button3 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 310 && Input::GetMouseY() <= 337;
+		button4 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 355 && Input::GetMouseY() <= 379;
+		button5 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 394 && Input::GetMouseY() <= 420;
 		// Buying seeds if car inventory is open
 		if (carisopen && frame == 4)
 		{
@@ -69,14 +67,14 @@ namespace Tmpl8
 			}
 		}
 	}
-	void Car::CarInventoryLogic(int& coinCounter)
+	void Car::CarInventoryLogic(int& coinCounter, float mouseWorldX, float mouseWorldY)
 	{
 		// Detect clicks and player proximity
-		bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(WorldState::mouseX >= 207 && WorldState::mouseX <= 579 && WorldState::mouseY >= 78 && WorldState::mouseY <= 519);
-		bool clickedOnShopButton = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 345 && WorldState::mouseX <= 389 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-		bool clickedOnOrdersButton = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 399 && WorldState::mouseX <= 444 && WorldState::mouseY >= 471 && WorldState::mouseY <= 510;
-		bool playerCloseToCar = WorldState::reachX2 >= 528 && WorldState::reachX1 <= 686 && WorldState::reachY2 >= 175 && WorldState::reachY1 <= 220;
-		bool mouseOnCar = WorldState::mouseWorldX >= 528 && WorldState::mouseWorldX <= 686 && WorldState::mouseWorldY >= 175 && WorldState::mouseWorldY <= 220;
+		bool clickedOutsideInv = Input::GetMouseButtonPressed(1) && !(Input::GetMouseX() >= 207 && Input::GetMouseX() <= 579 && Input::GetMouseY() >= 78 && Input::GetMouseY() <= 519);
+		bool clickedOnShopButton = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 345 && Input::GetMouseX() <= 389 && Input::GetMouseY() >= 471 && Input::GetMouseY() <= 510;
+		bool clickedOnOrdersButton = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 399 && Input::GetMouseX() <= 444 && Input::GetMouseY() >= 471 && Input::GetMouseY() <= 510;
+		bool playerCloseToCar = player.getReachX2() >= 528 && player.getReachX1() <= 686 && player.getReachY2() >= 175 && player.getReachY1() <= 220;
+		bool mouseOnCar = mouseWorldX >= 528 && mouseWorldX <= 686 && mouseWorldY >= 175 && mouseWorldY <= 220;
 		bool moved = Input::GetKeyPressed(SDL_SCANCODE_W) || Input::GetKeyPressed(SDL_SCANCODE_A) || Input::GetKeyPressed(SDL_SCANCODE_S) || Input::GetKeyPressed(SDL_SCANCODE_D);
 
 		//Click car inventory

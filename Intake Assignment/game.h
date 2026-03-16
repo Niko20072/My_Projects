@@ -16,12 +16,12 @@
 #include "orders.h"
 #include "nightstand.h"
 #include "wateringCan.h"
-#include "worldState.h"
 #include "player.h"
 #include "car.h"
 #include "SDL_scancode.h"
 #include "input.h"
 #include "tutotial.h"
+#include "camera.h"
 
 namespace Tmpl8
 {
@@ -36,13 +36,14 @@ namespace Tmpl8
 		void Tick(float deltaTime);
 		void MouseUp(int button) { Input::onMouseButtonUp(button); }
 		void MouseDown(int button) { Input::onMouseButtonDown(button); }
-		void MouseMove(int , int ) { /*implement if you want to detect mouse movement */ }
+		void MouseMove(int , int ) {}
 		void KeyUp(SDL_Scancode key) { Input::onKeyUp(key); }
 		void KeyDown(SDL_Scancode key) { Input::onKeyDown(key); }
-		
+
 	private:
 		Surface* screen;
 		Map gameMap;
+		Camera camera;
 		Player player;
 		House house;
 		Car car;
@@ -53,12 +54,14 @@ namespace Tmpl8
 		char day[32] = "", coins[32] = "";
 		bool gameCompleted = false;
 		bool tileClicked = false;
+		float mouseX = 0, mouseY = 0; //mouse position on screen
+		float mouseWorldX, mouseWorldY; //mouse position in world coordinates
 		FarmTile* selectedTile = nullptr;
 		void GodMode();
 		bool AllInventoriesClosed(); // Check if all inventories are closed
 		void DrawInventory();
 		void HoverOutsideObjects();
-		bool CheckCollision(float x, float y);
+		void UpdateWorldState();
 		void HandleInput();
 		void HandleMovement(float deltaTime);
 		void PlantSeed(FarmTile& farmtile);

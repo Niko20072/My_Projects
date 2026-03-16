@@ -8,19 +8,21 @@ namespace Tmpl8
 {
 	class Inventory;
 	class WateringCan;
+	class Camera;
+	class Player;
 
 	class FarmTile
 	{
 	public:
-		FarmTile(float x, float y, WateringCan& wa, Inventory& inv);
+		FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl);
 		bool getPlanted() { return planted; }
 		int getClicked() { return clicked; }
 		void setClicked(bool state) { clicked = state; }
 		void setWatered(bool state) { watered = state; }
 
 		void Draw(Surface* screen);// Draw farm tile at its position
-		void DrawHover(Surface* screen);
-		void Update(); // Update tile state based on interaction
+		void DrawHover(Surface* screen, float mouseWorldX, float mouseWorldY);
+		void Update(float mouseWorldX, float mouseWorldY); // Update tile state based on interaction
 
 		//planting and plant management
 		void CreatePlant(int plantType); // Create a plant on this tile based on the plant type (1-5)
@@ -31,6 +33,8 @@ namespace Tmpl8
 	private:
 		WateringCan& wateringCan; // reference to existing watering can state
 		Inventory& inventory;
+		Camera& camera;
+		Player& player;
 		std::unique_ptr<Sprite> farmTile;
 		std::unique_ptr<Sprite> hover;
 		std::unique_ptr<Plant> plant;

@@ -1,7 +1,5 @@
 #include "tutotial.h"
 #include "input.h"
-#include "worldState.h"
-
 #include "inventory.h"
 #include "car.h"
 #include "house.h"

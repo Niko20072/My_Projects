@@ -1,7 +1,6 @@
 #include "orders.h"
 #include "input.h"
 #include "template.h"
-#include "worldState.h"
 #include "inventory.h"
 
 namespace Tmpl8
@@ -40,7 +39,7 @@ namespace Tmpl8
 	void Order::Logic(int& coinCounter)
 	{
 		// Check if send button is clicked
-		int button = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= (475 - range) && WorldState::mouseX <= (526 + range) && WorldState::mouseY >= (235 + orderNumber * 35 - range) && WorldState::mouseY <= (242 + orderNumber * 35 + range);
+		int button = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= (475 - range) && Input::GetMouseX() <= (526 + range) && Input::GetMouseY() >= (235 + orderNumber * 35 - range) && Input::GetMouseY() <= (242 + orderNumber * 35 + range);
 
 		// Process order if button clicked and not completed
 		if (button && !completed)
@@ -80,7 +79,7 @@ namespace Tmpl8
 	}
 	void Order::Draw(Surface* screen)
 	{
-		int hover = WorldState::mouseX >= (475 - range) && WorldState::mouseX <= (526 + range) && WorldState::mouseY >= (235 + orderNumber * 35 - range) && WorldState::mouseY <= (242 + orderNumber * 35 + range);
+		int hover = Input::GetMouseX() >= (475 - range) && Input::GetMouseX() <= (526 + range) && Input::GetMouseY() >= (235 + orderNumber * 35 - range) && Input::GetMouseY() <= (242 + orderNumber * 35 + range);
 		// Button outline
 		if (hover && !completed)
 			screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0xfffb00);

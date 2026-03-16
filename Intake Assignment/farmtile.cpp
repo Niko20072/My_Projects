@@ -1,28 +1,30 @@
 #include "farmtile.h"
 #include "input.h"
-#include "worldState.h"
 #include "wateringCan.h"
 #include "inventory.h"
+#include "map.h"
+#include "camera.h"
+#include "player.h"
 
 
 namespace Tmpl8
 {
-	FarmTile::FarmTile(float x, float y, WateringCan& wa, Inventory& inv) : farmTileX(x * WorldState::mapTileSize), farmTileY(y * WorldState::mapTileSize), wateringCan(wa), inventory(inv), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/tiles_hover.png"), 1)) {}
+	FarmTile::FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), inventory(inv), camera(cam), player(pl), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/tiles_hover.png"), 1)) {}
 	void FarmTile::Draw(Surface* screen)
 	{
-		farmTile->Draw(screen, static_cast<int>(farmTileX - WorldState::cameraX), static_cast<int>(farmTileY - WorldState::cameraY));
+		farmTile->Draw(screen, static_cast<int>(farmTileX - camera.getCameraX()), static_cast<int>(farmTileY - camera.getCameraY()));
 	}
-	void FarmTile::DrawHover(Surface* screen)
+	void FarmTile::DrawHover(Surface* screen, float mouseWorldX, float mouseWorldY)
 	{
-		bool checkHover = WorldState::mouseWorldX >= farmTileX && WorldState::mouseWorldX < farmTileX + WorldState::mapTileSize && WorldState::mouseWorldY >= farmTileY && WorldState::mouseWorldY < farmTileY + WorldState::mapTileSize;
+		bool checkHover = mouseWorldX >= farmTileX && mouseWorldX < farmTileX + Map::TileSize && mouseWorldY >= farmTileY && mouseWorldY < farmTileY + Map::TileSize;
 		if (checkHover)
-			hover->Draw(screen, static_cast<int>(farmTileX - WorldState::cameraX), static_cast<int>(farmTileY - WorldState::cameraY));
+			hover->Draw(screen, static_cast<int>(farmTileX - camera.getCameraX()), static_cast<int>(farmTileY - camera.getCameraY()));
 	}
-	void FarmTile::Update()
+	void FarmTile::Update(float mouseWorldX, float mouseWorldY)
 	{
 		// Tile rectangle
-		bool checkHover = WorldState::mouseWorldX >= farmTileX && WorldState::mouseWorldX < farmTileX + WorldState::mapTileSize && WorldState::mouseWorldY >= farmTileY && WorldState::mouseWorldY < farmTileY + WorldState::mapTileSize;
-		bool tileInReach = WorldState::reachX1 < farmTileX + WorldState::mapTileSize && WorldState::reachX2 > farmTileX && WorldState::reachY1 < farmTileY + WorldState::mapTileSize && WorldState::reachY2 > farmTileY;
+		bool checkHover = mouseWorldX >= farmTileX && mouseWorldX < farmTileX + Map::TileSize && mouseWorldY >= farmTileY && mouseWorldY < farmTileY + Map::TileSize;
+		bool tileInReach = player.getReachX1() < farmTileX + Map::TileSize && player.getReachX2() > farmTileX && player.getReachY1() < farmTileY + Map::TileSize && player.getReachY2() > farmTileY;
 
 		// Click
 		if (Input::GetMouseButtonPressed(1) && checkHover && tileInReach)
@@ -45,15 +47,15 @@ namespace Tmpl8
 		{
 			//plant = nullptr;
 			if (plantType == 0) // Sunblossom
-				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 0, inventory);
+				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 0, inventory, camera);
 			if (plantType == 1) // Moonleaf
-				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 3, inventory);
+				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 3, inventory, camera);
 			if (plantType == 2) // Emberroot
-				plant = std::make_unique<Plant>(farmTileX, farmTileY, 3, 6, inventory);
+				plant = std::make_unique<Plant>(farmTileX, farmTileY, 3, 6, inventory, camera);
 			if (plantType == 3) // Frostmint
-				plant = std::make_unique<Plant>(farmTileX, farmTileY, 3, 10, inventory);
+				plant = std::make_unique<Plant>(farmTileX, farmTileY, 3, 10, inventory, camera);
 			if (plantType == 4) // Nightshade Berry
-				plant = std::make_unique<Plant>(farmTileX, farmTileY, 4, 14, inventory);
+				plant = std::make_unique<Plant>(farmTileX, farmTileY, 4, 14, inventory, camera);
 			planted = true;
 		}
 	}

@@ -6,12 +6,13 @@
 namespace Tmpl8
 {
 	class Inventory;
+	class Player;
 
 	class House
 	{
 		
 	public:
-		House(Inventory& inv) : inventory(inv), crafting(inv) {};
+		House(Inventory& inv, Player& pl) : inventory(inv), crafting(inv), player(pl) {};
 		Crafting& hCrafting() { return crafting; } // Reference to crafting system
 		bool IsOpen();
 		int getFrame();
@@ -19,7 +20,7 @@ namespace Tmpl8
 		bool BedIsOpen() { return bedisopen; }
 		int MainScreenOpen();
 		bool getClickedYes() { return clickedYes; }
-		void HouseLogic(); // Handle house interactions (opening/closing, crafting menu)
+		void HouseLogic(float mouseWorldX, float mouseWorldY); // Handle house interactions (opening/closing, crafting menu)
 		void Craftinglogic(); // Handle crafting menu interactions
 		void BedLogic(int &dayCounter); // Handle bed click and day progression logic
 		bool ConfirmedToSleep();
@@ -34,6 +35,7 @@ namespace Tmpl8
 		Sprite table_hover = Sprite(new Surface("assets/table_hover.png"), 1);
 		Sprite nightstand_hover = Sprite(new Surface("assets/nightstand_hover.png"), 1);
 		Inventory& inventory; // reference to existing inventory
+		Player& player; // reference to existing player
 		Crafting crafting;
 		bool houseisopen = false; // Is the house menu open?
 		bool nightstandisopen = false; // Is the nightstand menu open?

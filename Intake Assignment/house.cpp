@@ -1,7 +1,7 @@
 #include "house.h"
 #include "input.h"
-#include "worldstate.h"
 #include "Windows.h"
+#include "player.h"
 
 namespace Tmpl8
 {
@@ -19,11 +19,11 @@ namespace Tmpl8
 			return 1;
 		return 0;
 	}
-	void House::HouseLogic()
+	void House::HouseLogic(float mouseWorldX, float mouseWorldY)
 	{
 		// Check if player clicked on house door and is in reach
-		bool houseInReach = WorldState::reachX2 >= 196 && WorldState::reachX1 <= 233 && WorldState::reachY2 >= 183 && WorldState::reachY1 <= 232;
-		bool hoverOnDoor = WorldState::mouseWorldX >= 196 && WorldState::mouseWorldX <= 233 && WorldState::mouseWorldY >= 183 && WorldState::mouseWorldY <= 234;
+		bool houseInReach = player.getReachX2() >= 196 && player.getReachX1() <= 233 && player.getReachY2() >= 183 && player.getReachY1() <= 232;
+		bool hoverOnDoor = mouseWorldX >= 196 && mouseWorldX <= 233 && mouseWorldY >= 183 && mouseWorldY <= 234;
 
 		// Open house if left mouse button is clicked while in reach of door
 		if (Input::GetMouseButtonPressed(1) && houseInReach && hoverOnDoor)
@@ -39,7 +39,7 @@ namespace Tmpl8
 	}
 	void House::Craftinglogic()
 	{
-		bool clickedOnTable = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
+		bool clickedOnTable = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 103 && Input::GetMouseX() <= 294 && Input::GetMouseY() >= 331 && Input::GetMouseY() <= 476;
 
 		// Open crafting interface when clicking on crafting table inside house
 		if (clickedOnTable && houseisopen && frame == 0) //fix this
@@ -55,8 +55,8 @@ namespace Tmpl8
 	bool House::ConfirmedToSleep()
 	{
 		// Check if player clicked yes or no buttons
-		clickedYes = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 235 && WorldState::mouseX <= 389 && WorldState::mouseY >= 310 && WorldState::mouseY <= 385;
-		clickedNo = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 405 && WorldState::mouseX <= 557 && WorldState::mouseY >= 310 && WorldState::mouseY <= 383;
+		clickedYes = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 235 && Input::GetMouseX() <= 389 && Input::GetMouseY() >= 310 && Input::GetMouseY() <= 385;
+		clickedNo = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 405 && Input::GetMouseX() <= 557 && Input::GetMouseY() >= 310 && Input::GetMouseY() <= 383;
 		if (bedisopen && clickedYes && frame == 1) // Player confirmed to sleep
 			return true;
 		return false;
@@ -64,7 +64,7 @@ namespace Tmpl8
 	void House::BedLogic(int& dayCounter)
 	{
 		// Check if player clicked on bed
-		bool clickedOnBed = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
+		bool clickedOnBed = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 511 && Input::GetMouseX() <= 742 && Input::GetMouseY() >= 320 && Input::GetMouseY() <= 565;
 		
 		// Open bed menu if clicked on bed
 		if (clickedOnBed && !crafting.CraftingIsOpen() && !nightstandisopen && frame == 0)
@@ -97,7 +97,7 @@ namespace Tmpl8
 	void House::NightstandLogic()
 	{
 		// Check if player clicked on nightstand
-		bool clickedOnNightstand = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 445;
+		bool clickedOnNightstand = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 386 && Input::GetMouseX() <= 497 && Input::GetMouseY() >= 351 && Input::GetMouseY() <= 445;
 		if (clickedOnNightstand && !crafting.CraftingIsOpen() && !bedisopen && frame == 0)
 		{
 			nightstandisopen = true;
@@ -110,9 +110,9 @@ namespace Tmpl8
 	}
 	void House::DrawHover(Surface* screen)
 	{
-		bool hoverNightstand = WorldState::mouseX >= 386 && WorldState::mouseX <= 497 && WorldState::mouseY >= 351 && WorldState::mouseY <= 445;
-		bool hoverBed = WorldState::mouseX >= 511 && WorldState::mouseX <= 742 && WorldState::mouseY >= 320 && WorldState::mouseY <= 565;
-		bool hoverTable = WorldState::mouseX >= 103 && WorldState::mouseX <= 294 && WorldState::mouseY >= 331 && WorldState::mouseY <= 476;
+		bool hoverNightstand = Input::GetMouseX() >= 386 && Input::GetMouseX() <= 497 && Input::GetMouseY() >= 351 && Input::GetMouseY() <= 445;
+		bool hoverBed = Input::GetMouseX() >= 511 && Input::GetMouseX() <= 742 && Input::GetMouseY() >= 320 && Input::GetMouseY() <= 565;
+		bool hoverTable = Input::GetMouseX() >= 103 && Input::GetMouseX() <= 294 && Input::GetMouseY() >= 331 && Input::GetMouseY() <= 476;
 		if (hoverNightstand)
 			nightstand_hover.Draw(screen, 0, 0);
 		if (hoverBed)
@@ -136,7 +136,7 @@ namespace Tmpl8
 	void House::GameCompleted(Surface* screen, int coinCounter, bool& gameCompleted) 
 	{
 		// Check if player clicked on send money button
-		bool sendMoney = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 336 && WorldState::mouseX <= 468 && WorldState::mouseY >= 446 && WorldState::mouseY <= 498;
+		bool sendMoney = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 336 && Input::GetMouseX() <= 468 && Input::GetMouseY() >= 446 && Input::GetMouseY() <= 498;
 
 		// Complete game if send money button is clicked, nightstand is open, and player has enough coins
 		if (sendMoney && nightstandisopen && coinCounter >= 2000 && !gameCompleted)

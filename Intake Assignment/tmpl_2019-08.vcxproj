@@ -222,6 +222,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
     <ClCompile Include="car.cpp" />
     <ClCompile Include="crafting.cpp" />
     <ClCompile Include="farmtile.cpp" />
@@ -237,9 +238,9 @@
     <ClCompile Include="template.cpp" />
     <ClCompile Include="tutorial.cpp" />
     <ClCompile Include="wateringCan.cpp" />
-    <ClCompile Include="worldState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="car.h" />
     <ClInclude Include="crafting.h" />
     <ClInclude Include="farmtile.h" />
@@ -255,7 +256,6 @@
     <ClInclude Include="template.h" />
     <ClInclude Include="tutotial.h" />
     <ClInclude Include="wateringCan.h" />
-    <ClInclude Include="worldState.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="_readme.txt" />

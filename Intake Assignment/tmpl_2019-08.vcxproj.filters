@@ -17,10 +17,10 @@
     <ClCompile Include="orders.cpp" />
     <ClCompile Include="crafting.cpp" />
     <ClCompile Include="wateringCan.cpp" />
-    <ClCompile Include="worldState.cpp" />
     <ClCompile Include="car.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
@@ -39,10 +39,10 @@
     <ClInclude Include="orders.h" />
     <ClInclude Include="crafting.h" />
     <ClInclude Include="wateringCan.h" />
-    <ClInclude Include="worldState.h" />
     <ClInclude Include="car.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="tutotial.h" />
+    <ClInclude Include="camera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="template code">

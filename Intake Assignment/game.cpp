@@ -46,10 +46,16 @@ namespace Tmpl8
 	//add sound when plant is not ready
 	//hotbar for seeds
 
-	Game::Game() : player(gameMap), house(player.pInventory()), car(player.pInventory()), tutorial(player.pInventory(), car, house, player.pWateringCan())
+	Game::Game() : gameMap(camera), player(gameMap, camera), house(player.pInventory(), player), car(player.pInventory(), player), tutorial(player.pInventory(), car, house, player.pWateringCan()), camera()
 	{
 	}
-
+	void Game::UpdateWorldState()
+	{
+		// Transform screen coordinates -> world coordinates -> mouse screen position
+		mouseWorldX = camera.getCameraX() + mouseX;
+		mouseWorldY = camera.getCameraY() + mouseY;
+		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
+	}
 	void Game::GodMode()
 	{
 		if(Input::GetKeyPressed(SDL_SCANCODE_G))
@@ -91,17 +97,16 @@ namespace Tmpl8
 	{
 		Sprite car_hover = Sprite(new Surface("assets/car_hover2.png"), 1);
 		Sprite door_hover = Sprite(new Surface("assets/door_hover2.png"), 1);
-		bool carHover = WorldState::mouseWorldX >= 528 && WorldState::mouseWorldX <= 686 && WorldState::mouseWorldY >= 175 && WorldState::mouseWorldY <= 220;
-		bool doorHover = WorldState::mouseWorldX >= 196 && WorldState::mouseWorldX <= 233 && WorldState::mouseWorldY >= 183 && WorldState::mouseWorldY <= 234;
+		bool carHover = mouseWorldX >= 528 && mouseWorldX <= 686 && mouseWorldY >= 175 && mouseWorldY <= 220;
+		bool doorHover = mouseWorldX >= 196 && mouseWorldX <= 233 && mouseWorldY >= 183 && mouseWorldY <= 234;
 		if (carHover)
-			car_hover.Draw(screen, static_cast<int>(503 - WorldState::cameraX), static_cast<int>(152 - WorldState::cameraY)); //fixed conversion from float to int warning
+			car_hover.Draw(screen, static_cast<int>(503 - camera.getCameraX()), static_cast<int>(152 - camera.getCameraY())); //fixed conversion from float to int warning
 		if (doorHover)
-			door_hover.Draw(screen, static_cast<int>(192 - WorldState::cameraX), static_cast<int>(179 - WorldState::cameraY));
+			door_hover.Draw(screen, static_cast<int>(192 - camera.getCameraX()), static_cast<int>(179 - camera.getCameraY()));
 	}
 	void Game::HandleInput()
 	{
 		Input::Update(); // Update input states
-
 		// Mouse coordinates
 		POINT mousePos;
 
@@ -109,22 +114,22 @@ namespace Tmpl8
 		{
 			HWND hwnd = GetActiveWindow();
 			ScreenToClient(hwnd, &mousePos);
-			WorldState::mouseX = static_cast<float>(mousePos.x); //fixed conversion from long to float warning
-			WorldState::mouseY = static_cast<float>(mousePos.y);
+			mouseX = static_cast<float>(mousePos.x); //fixed conversion from long to float warning
+			mouseY = static_cast<float>(mousePos.y);
 			// Mouse coordinates on screen
 			//std::cout << "Mouse X: " << WorldState::mouseX << ", Y: " << WorldState::mouseY << std::endl;
 		}
+		Input::SetMouseCoordinates(mouseX, mouseY);
 	}
 	void Game::PlantSeed(FarmTile &farmtile)
 	{
 		
 		// Planting seeds buttons
-		bool button1 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 224 && WorldState::mouseY <= 250;
-		bool button2 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 267 && WorldState::mouseY <= 293;
-		bool button3 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 310 && WorldState::mouseY <= 337;
-		bool button4 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 355 && WorldState::mouseY <= 379;
-		bool button5 = Input::GetMouseButtonPressed(1) && WorldState::mouseX >= 458 && WorldState::mouseX <= 499 && WorldState::mouseY >= 394 && WorldState::mouseY <= 420;
-
+		bool button1 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
+		bool button2 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 267 && mouseY <= 293;
+		bool button3 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 310 && mouseY <= 337;
+		bool button4 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 355 && mouseY <= 379;
+		bool button5 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 394 && mouseY <= 420;
 		if (player.pInventory().SeedInvIsOpen())
 		{
 			// Planting Sunblossom seed
@@ -188,7 +193,7 @@ namespace Tmpl8
 		for (auto& farmtile : farmTiles)
 		{
 			if (AllInventoriesClosed())
-				farmtile.Update();
+				farmtile.Update(mouseWorldX, mouseWorldY);
 			if (farmtile.getClicked() && !farmtile.getPlanted())
 			{
 				tileClicked = true;
@@ -213,7 +218,7 @@ namespace Tmpl8
 		GodMode();
 
 		// House interaction
-		house.HouseLogic();
+		house.HouseLogic(mouseWorldX, mouseWorldY);
 
 		if (!house.IsOpen()) // Outside
 		{
@@ -225,7 +230,7 @@ namespace Tmpl8
 			if (player.pInventory().SeedInvIsOpen()) //check this before update to avoid double click bug
 				PlantSeed(*selectedTile);
 			player.pInventory().MainInventoryLogic();
-			car.CarInventoryLogic(coinCounter);
+			car.CarInventoryLogic(coinCounter, mouseWorldX, mouseWorldY);
 			player.pInventory().SeedInventoryLogic(tileClicked);
 			
 		}
@@ -251,6 +256,8 @@ namespace Tmpl8
 	}
 	void Game::UpdateWorld()
 	{
+		player.Update();
+		UpdateWorldState();
 		UpdateFarmTiles();
 		UpdatePlants();
 		car.UpdateOrders(coinCounter);
@@ -282,7 +289,7 @@ namespace Tmpl8
 			{
 				x.Draw(screen);
 				if (AllInventoriesClosed())
-					x.DrawHover(screen);
+					x.DrawHover(screen, mouseWorldX, mouseWorldY);
 				x.DrawPlant(screen);
 			}
 				
@@ -313,12 +320,12 @@ namespace Tmpl8
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
-				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory());
+				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory(), camera, player);
 		}
 		for (int x = 3; x <= 19; x++)
 		{
 			for (int y = 18; y <= 20; y++)
-				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory());
+				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory(), camera, player);
 		}
 		car.MakeNewOrders();
 	}
@@ -342,7 +349,7 @@ namespace Tmpl8
 		deltaTime /= 1000.0f; // convert to seconds.
 	
 		HandleInput();
-		WorldState::UpdateWorldState();
+		UpdateWorldState();
 
 		// Update and draw the world
 		UpdateWorld();

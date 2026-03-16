@@ -1,5 +1,5 @@
 #include "map.h"
-#include "worldState.h"
+#include "camera.h"
 namespace Tmpl8
 {
 	const int Map::TileSize = 48;
@@ -29,7 +29,7 @@ namespace Tmpl8
 	}
 	void Map::Draw(Surface*screen)
 	{
-		tiles.CopyTo(screen, static_cast<int>(-WorldState::cameraX), static_cast<int>(-WorldState::cameraY));
+		tiles.CopyTo(screen, static_cast<int>(-camera.getCameraX()), static_cast<int>(-camera.getCameraY()));
 		return;
 	}
 	/*

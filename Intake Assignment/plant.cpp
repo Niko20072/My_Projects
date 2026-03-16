@@ -1,17 +1,16 @@
 #include "plant.h"
 #include "inventory.h"
-#include "worldState.h"
 
 namespace Tmpl8
 {
-	Plant::Plant(float x, float y, int harvestDay, int frame, Inventory& inv) : x(x), y(y), harvestDay(harvestDay), frame(frame), inventory(inv)
+	Plant::Plant(float x, float y, int harvestDay, int frame, Inventory& inv, Camera& cam) : x(x), y(y), harvestDay(harvestDay), frame(frame), inventory(inv), camera(cam)
 	{
 
 	}
 	void Plant::Draw(Surface* screen)
 	{
 		plant.SetFrame(frame);
-		plant.Draw(screen, static_cast<int>(x - WorldState::cameraX), static_cast<int>(y - WorldState::cameraY - 10));
+		plant.Draw(screen, static_cast<int>(x - camera.getCameraX()), static_cast<int>(y - camera.getCameraY() - 10));
 	}
 	void Plant::Update()
 	{
