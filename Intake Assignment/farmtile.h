@@ -29,7 +29,7 @@ namespace Tmpl8
 		void DeletePlant(); // Delete the plant on this tile
 		void CollectPlant(); // Update the plant's state each day
 		void UpdatePlant(); // Progress the plant to the next day
-		void DrawPlant(Surface* screen);
+		void DrawPlant(Surface* screen, float DeltaTime);
 	private:
 		WateringCan& wateringCan; // reference to existing watering can state
 		Inventory& inventory;
@@ -44,5 +44,6 @@ namespace Tmpl8
 		bool planted = false; // Whether a plant is planted on this tile
 		bool clicked = false;
 		bool watered = false;
+		float time = 0;
 	};
 };

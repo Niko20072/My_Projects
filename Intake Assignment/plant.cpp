@@ -3,10 +3,7 @@
 
 namespace Tmpl8
 {
-	Plant::Plant(float x, float y, int harvestDay, int frame, Inventory& inv, Camera& cam) : x(x), y(y), harvestDay(harvestDay), frame(frame), inventory(inv), camera(cam)
-	{
-
-	}
+	Plant::Plant(float x, float y, int harvestDay, int frame, Inventory& inv, Camera& cam) : x(x), y(y), harvestDay(harvestDay), frame(frame), inventory(inv), camera(cam){}
 	void Plant::Draw(Surface* screen)
 	{
 		plant.SetFrame(frame);

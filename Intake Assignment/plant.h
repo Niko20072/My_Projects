@@ -10,6 +10,7 @@ namespace Tmpl8
 {
 	class Inventory;
 	class Camera;
+
 	class Plant
 	{
 	public:
@@ -33,6 +34,5 @@ namespace Tmpl8
 		float x, y;
 		bool alive = true;
 		bool watered = false;
-		//static bool wateringCan;
 	};
 }

@@ -12,7 +12,7 @@ namespace Tmpl8
 	{
 		
 	public:
-		House(Inventory& inv, Player& pl) : inventory(inv), crafting(inv), player(pl) {};
+		House(Player& pl);
 		Crafting& hCrafting() { return crafting; } // Reference to crafting system
 		bool IsOpen();
 		int getFrame();
@@ -34,8 +34,9 @@ namespace Tmpl8
 		Sprite bed_hover = Sprite(new Surface("assets/bed_hover.png"), 1);
 		Sprite table_hover = Sprite(new Surface("assets/table_hover.png"), 1);
 		Sprite nightstand_hover = Sprite(new Surface("assets/nightstand_hover.png"), 1);
-		Inventory& inventory; // reference to existing inventory
 		Player& player; // reference to existing player
+		Inventory& inventory; // reference to existing inventory
+		
 		Crafting crafting;
 		bool houseisopen = false; // Is the house menu open?
 		bool nightstandisopen = false; // Is the nightstand menu open?

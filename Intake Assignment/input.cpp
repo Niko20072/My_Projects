@@ -1,6 +1,6 @@
 #include "input.h"
 #include <bitset>
-
+#include <iostream>
 namespace //internal 
 {
     std::bitset<SDL_NUM_SCANCODES> keys; // store key states here
@@ -28,6 +28,12 @@ namespace Input
     bool GetMouseButtonReleased(int button) { return mouseReleased.test(button - 1);  } // returns true if the mouse button was released since the last Tick
     float GetMouseX() { return mouseX; } // returns the current x coordinate of the mouse
     float GetMouseY() { return mouseY; } // returns the current y coordinate of the mouse
+    void onMouseMove(int x, int y)
+    {
+        mouseX = static_cast<float>(x);
+        mouseY = static_cast<float>(y);
+		//std::cout << mouseX << " " << mouseY << std::endl;
+	}
     void onKeyDown(SDL_Scancode key)
     {
         SetKeyState(key, true);

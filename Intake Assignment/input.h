@@ -13,6 +13,7 @@ namespace Input
     bool GetMouseButtonReleased(int button); // returns true if the mouse button was released since the last Tick
     float GetMouseX(); // returns the current x coordinate of the mouse
     float GetMouseY(); // returns the current y coordinate of the mouse
+	void onMouseMove(int x, int y); // call this function when the mouse moves to update the mouse coordinates
     void onKeyDown(SDL_Scancode key);
     void onKeyUp(SDL_Scancode key);
     void onMouseButtonDown(int button);

@@ -36,7 +36,7 @@ namespace Tmpl8
 		void Tick(float deltaTime);
 		void MouseUp(int button) { Input::onMouseButtonUp(button); }
 		void MouseDown(int button) { Input::onMouseButtonDown(button); }
-		void MouseMove(int , int ) {}
+		void MouseMove(int x, int y) { Input::onMouseMove(x, y); }
 		void KeyUp(SDL_Scancode key) { Input::onKeyUp(key); }
 		void KeyDown(SDL_Scancode key) { Input::onKeyDown(key); }
 
@@ -49,12 +49,13 @@ namespace Tmpl8
 		Car car;
 		Tutorial tutorial;
 		std::vector<FarmTile> farmTiles;
+		float time = 0;
 		int dayCounter = 0;
 		int coinCounter = 250;
 		char day[32] = "", coins[32] = "";
 		bool gameCompleted = false;
 		bool tileClicked = false;
-		float mouseX = 0, mouseY = 0; //mouse position on screen
+		//float mouseX = 0, mouseY = 0; //mouse position on screen
 		float mouseWorldX, mouseWorldY; //mouse position in world coordinates
 		FarmTile* selectedTile = nullptr;
 		void GodMode();
@@ -62,11 +63,11 @@ namespace Tmpl8
 		void DrawInventory();
 		void HoverOutsideObjects();
 		void UpdateWorldState();
-		void HandleInput();
 		void HandleMovement(float deltaTime);
 		void PlantSeed(FarmTile& farmtile);
 		void UpdatePlants();
 		void UpdateFarmTiles();
+		void ResetFarmTilesClick();
 		void ProgressToNextDay();
 		void Logic();
 		void UpdateWorld();

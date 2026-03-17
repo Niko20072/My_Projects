@@ -7,10 +7,12 @@ namespace Tmpl8
 	class Car;
 	class House;
 	class WateringCan;
+	class Player;
+
 	class Tutorial
 	{
 	public:
-		Tutorial(Inventory& inv, Car& c, House& h, WateringCan& wc) : inventory(inv), car(c), house(h), wateringCan(wc) {}
+		Tutorial(Player& pl, Car& c, House& h);
 		void Update();
 		void Draw(Surface* screen);
 		void setPlanted(bool state) { planted = state; }
@@ -44,6 +46,7 @@ namespace Tmpl8
 		char tutorialText2[256] = "";
 		int box[4] = { 0,0,0,0 }; //xyxy
 		bool planted = false;
+		Player& player; // Reference to player
 		Inventory& inventory; // Reference to Inventory
 		Car& car; // Reference to Car
 		House& house; // Reference to House

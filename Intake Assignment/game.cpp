@@ -4,11 +4,7 @@
 //verifica ca toate variabilele sa fie folosite
 //make stuff private
 
-//improve buttons
-//make namespace class
-
 //change crafting frame
-//add hover for all objects
 
 namespace Tmpl8
 {
@@ -41,19 +37,14 @@ namespace Tmpl8
 	//add forward declaration of classes in game.h
 	//fix plants and crafting sprites
 
-
-	//black box over text - done
 	//add sound when plant is not ready
 	//hotbar for seeds
-
-	Game::Game() : gameMap(camera), player(gameMap, camera), house(player.pInventory(), player), car(player.pInventory(), player), tutorial(player.pInventory(), car, house, player.pWateringCan()), camera()
-	{
-	}
+	Game::Game() : gameMap(camera), player(gameMap, camera), house(player), car(player), tutorial(player, car, house), camera() {};
 	void Game::UpdateWorldState()
 	{
 		// Transform screen coordinates -> world coordinates -> mouse screen position
-		mouseWorldX = camera.getCameraX() + mouseX;
-		mouseWorldY = camera.getCameraY() + mouseY;
+		mouseWorldX = camera.getCameraX() + Input::GetMouseX(); //asta ar trebui sa fie invers si cu minus
+		mouseWorldY = camera.getCameraY() + Input::GetMouseY();
 		//std::cout << "World X: " << worldX << ", Y: " << worldY << std::endl;
 	}
 	void Game::GodMode()
@@ -87,11 +78,9 @@ namespace Tmpl8
 	}
 	void Game::DrawInventory()
 	{
-		// Draw inventory
 		player.pInventory().Draw(screen);
 		if(!player.pInventory().MainInvIsOpen())
 			car.Draw(screen);
-		//InventoryText();
 	}
 	void Game::HoverOutsideObjects()
 	{
@@ -104,32 +93,15 @@ namespace Tmpl8
 		if (doorHover)
 			door_hover.Draw(screen, static_cast<int>(192 - camera.getCameraX()), static_cast<int>(179 - camera.getCameraY()));
 	}
-	void Game::HandleInput()
-	{
-		Input::Update(); // Update input states
-		// Mouse coordinates
-		POINT mousePos;
-
-		if (GetCursorPos(&mousePos))
-		{
-			HWND hwnd = GetActiveWindow();
-			ScreenToClient(hwnd, &mousePos);
-			mouseX = static_cast<float>(mousePos.x); //fixed conversion from long to float warning
-			mouseY = static_cast<float>(mousePos.y);
-			// Mouse coordinates on screen
-			//std::cout << "Mouse X: " << WorldState::mouseX << ", Y: " << WorldState::mouseY << std::endl;
-		}
-		Input::SetMouseCoordinates(mouseX, mouseY);
-	}
 	void Game::PlantSeed(FarmTile &farmtile)
 	{
 		
 		// Planting seeds buttons
-		bool button1 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 224 && mouseY <= 250;
-		bool button2 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 267 && mouseY <= 293;
-		bool button3 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 310 && mouseY <= 337;
-		bool button4 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 355 && mouseY <= 379;
-		bool button5 = Input::GetMouseButtonPressed(1) && mouseX >= 458 && mouseX <= 499 && mouseY >= 394 && mouseY <= 420;
+		bool button1 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 224 && Input::GetMouseY() <= 250;
+		bool button2 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 267 && Input::GetMouseY() <= 293;
+		bool button3 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 310 && Input::GetMouseY() <= 337;
+		bool button4 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 355 && Input::GetMouseY() <= 379;
+		bool button5 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 394 && Input::GetMouseY() <= 420;
 		if (player.pInventory().SeedInvIsOpen())
 		{
 			// Planting Sunblossom seed
@@ -198,9 +170,14 @@ namespace Tmpl8
 			{
 				tileClicked = true;
 				selectedTile = &farmtile;
-				break;
 			}
 		}
+	}
+	void Game::ResetFarmTilesClick()
+	{
+		// reset farmtile clicked state
+		for (auto& x : farmTiles)
+			x.setClicked(false);
 	}
 	void Game::ProgressToNextDay()
 	{
@@ -214,7 +191,7 @@ namespace Tmpl8
 	}
 	void Game::Logic()
 	{
-		//check if godmode is activated
+		//check if godmode is activated (press G)
 		GodMode();
 
 		// House interaction
@@ -249,10 +226,6 @@ namespace Tmpl8
 			if (house.ConfirmedToSleep()) // Player confirmed to sleep, update day and progress plants
 				ProgressToNextDay();
 		}
-
-		// reset farmtile clicked state
-		for (auto& x : farmTiles)
-			x.setClicked(false);
 	}
 	void Game::UpdateWorld()
 	{
@@ -290,7 +263,7 @@ namespace Tmpl8
 				x.Draw(screen);
 				if (AllInventoriesClosed())
 					x.DrawHover(screen, mouseWorldX, mouseWorldY);
-				x.DrawPlant(screen);
+				x.DrawPlant(screen,time);
 			}
 				
 			// Player
@@ -316,7 +289,6 @@ namespace Tmpl8
 
 	void Game::Init()
 	{
-		//add from map
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
@@ -347,13 +319,15 @@ namespace Tmpl8
 	void Game::Tick(float deltaTime)
 	{
 		deltaTime /= 1000.0f; // convert to seconds.
-	
-		HandleInput();
+		time = deltaTime;
+
+		Input::Update();
 		UpdateWorldState();
 
 		// Update and draw the world
 		UpdateWorld();
 		DrawGame();
+		ResetFarmTilesClick();
 
 		// Handle player movement only when outside
 		if (!house.IsOpen())

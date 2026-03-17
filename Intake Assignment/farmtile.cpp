@@ -29,6 +29,8 @@ namespace Tmpl8
 		// Click
 		if (Input::GetMouseButtonPressed(1) && checkHover && tileInReach)
 			clicked = true;
+		//else
+		//	clicked = false; //why is this not working
 		if (clicked && wateringCan.getState())
 			watered = true;
 		// Hover & state logic
@@ -57,6 +59,7 @@ namespace Tmpl8
 			if (plantType == 4) // Nightshade Berry
 				plant = std::make_unique<Plant>(farmTileX, farmTileY, 4, 14, inventory, camera);
 			planted = true;
+			time = 10; // Set time to a high value to prevent "Not ready!" message from showing immediately after planting
 		}
 	}
 	void FarmTile::DeletePlant()
@@ -84,15 +87,19 @@ namespace Tmpl8
 		}
 		
 	}
-	void FarmTile::DrawPlant(Surface* screen)
+	void FarmTile::DrawPlant(Surface* screen, float deltaTime)
 	{
 		if (planted) // avoid null pointer access
 		{
 			plant->Draw(screen);
-			/*if ((!plant->getGrown() && clicked && !wateringCan.getState()))
+			//std::cout << time << std::endl;
+			if (!plant->getGrown() && clicked && !wateringCan.getState())
+				time = 0;
+			if (time <= 2)
 			{
-				screen->PrintScaled("Not ready!", static_cast<int>(farmTileX - WorldState::cameraX - 25), static_cast<int>(farmTileY - WorldState::cameraY - 20), 2, 2, 0xffff00);
-			}*/
+				time += deltaTime;
+				screen->PrintScaled("Not ready!", static_cast<int>(farmTileX - camera.getCameraX() - 25), static_cast<int>(farmTileY - camera.getCameraY() - 20), 2, 2, 0xffff00);
+			}
 		}
 			
 	}

@@ -5,6 +5,7 @@
 
 namespace Tmpl8
 {
+	House::House(Player& pl) : player(pl), inventory(player.pInventory()), crafting(inventory) {};
 	bool House::IsOpen()
 	{
 		return houseisopen;

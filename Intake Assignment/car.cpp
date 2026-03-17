@@ -5,6 +5,7 @@
 
 namespace Tmpl8
 {
+	Car::Car(Player& pl) : player(pl), inventory(player.pInventory()) {};
 	int Car::CarInvIsOpen()
 	{
 		return carisopen;

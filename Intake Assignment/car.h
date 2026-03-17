@@ -9,7 +9,7 @@ namespace Tmpl8
 	class Car
 	{
 	public:
-		Car(Inventory& inv, Player& plyr) : inventory(inv), player(plyr) {};
+		Car(Player& pl);
 		int CarInvIsOpen();
 		int getFrame();
 		bool CheckIfAnySeedButtonPressed();
@@ -21,8 +21,8 @@ namespace Tmpl8
 		void UpdateOrders(int& coinCounter);
 		void DrawOrders(Surface* screen);
 	private:
-		Inventory& inventory;
 		Player& player;
+		Inventory& inventory;
 		bool carisopen = false; // Car inventory open state
 		int frame = 4;
 		int daysUntilOrderReset = 0;

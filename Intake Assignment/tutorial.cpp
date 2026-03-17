@@ -4,8 +4,11 @@
 #include "car.h"
 #include "house.h"
 #include "wateringCan.h"
+#include "player.h"
+
 namespace Tmpl8
 {
+    Tutorial::Tutorial(Player &pl, Car &c, House &h) : player(pl), car(c), house(h), inventory(pl.pInventory()), wateringCan(pl.pWateringCan()) {};
 	void Tutorial::Update()
 	{
 		// Tutorial logic here
