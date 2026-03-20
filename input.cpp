@@ -32,7 +32,7 @@ namespace Input
     {
         mouseX = static_cast<float>(x);
         mouseY = static_cast<float>(y);
-		std::cout << mouseX << " " << mouseY << std::endl;
+		//std::cout << mouseX << " " << mouseY << std::endl;
 	}
     void onKeyDown(SDL_Scancode key)
     {

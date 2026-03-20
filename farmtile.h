@@ -2,7 +2,7 @@
 #include "surface.h"
 #include <iostream>
 #include "plant.h"
-
+#include <Audio/Sound.hpp>
 
 namespace Tmpl8
 {
@@ -38,6 +38,7 @@ namespace Tmpl8
 		std::unique_ptr<Sprite> farmTile;
 		std::unique_ptr<Sprite> hover;
 		std::unique_ptr<Plant> plant;
+		Audio::Sound itemCollect;
 		float farmTileX;
 		float farmTileY;
 		int frame = 0; // Current frame of the farm tile sprite

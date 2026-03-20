@@ -7,9 +7,14 @@
 #include "player.h"
 
 
+
 namespace Tmpl8
 {
-	FarmTile::FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), inventory(inv), camera(cam), player(pl), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/tiles_hover.png"), 1)) {}
+	FarmTile::FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), inventory(inv), camera(cam), player(pl), farmTile(std::make_unique<Sprite>(new Surface("assets/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/tiles_hover.png"), 1)) 
+	{
+		itemCollect.loadMusic("assets/audio/itempickup.mp3");
+		itemCollect.setVolume(2.2f);
+	}
 	void FarmTile::Draw(Surface* screen)
 	{
 		farmTile->Draw(screen, static_cast<int>(farmTileX - camera.getCameraX()), static_cast<int>(farmTileY - camera.getCameraY()));
@@ -73,6 +78,7 @@ namespace Tmpl8
 		{
 			if ((plant->getGrown() || !plant->getAlive()) && clicked && !wateringCan.getState()) // Check if the plant is ready for harvest or dead, and the tile has been clicked
 			{
+				itemCollect.play();
 				plant->Collect();
 				DeletePlant();
 			}

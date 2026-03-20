@@ -65,6 +65,7 @@ namespace Tmpl8
 		bool cutScenePlayed = false;
 		bool tileClicked = false;
 		float mouseWorldX, mouseWorldY; //mouse position in world coordinates
+		float volume;
 		FarmTile* selectedTile = nullptr;
 		enum class GameStates
 		{
@@ -85,6 +86,8 @@ namespace Tmpl8
 		void ResetFarmTilesClick();
 		void ProgressToNextDay();
 		void Logic(float deltaTime);
+		void DrawAudioBar();
+		void Audio();
 		void UpdateWorld(float deltaTime);
 		void DrawUI();
 		void DrawGame();

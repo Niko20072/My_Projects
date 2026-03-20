@@ -1,7 +1,7 @@
 #pragma once
 #include "surface.h"
 #include "crafting.h"
-
+#include <Audio/Sound.hpp>
 
 namespace Tmpl8
 {
@@ -37,6 +37,8 @@ namespace Tmpl8
 		Inventory& inventory; // reference to existing inventory
 		
 		Crafting crafting;
+		Audio::Sound doorOpen;
+		Audio::Sound doorClose;
 		bool houseisopen = false; // Is the house menu open?
 		bool nightstandisopen = false; // Is the nightstand menu open?
 		bool bedisopen = false; // Is the bed menu open?

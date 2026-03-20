@@ -246,6 +246,25 @@ namespace Tmpl8
 				ProgressToNextDay();
 		}
 	}
+	void Game::DrawAudioBar()
+	{
+		int barWidth = static_cast<int>(volume * 3);
+		if (Input::GetKey(SDL_SCANCODE_EQUALS) || Input::GetKey(SDL_SCANCODE_MINUS))
+		{
+			screen->Box(7, 27, 103, 48, 0x000000); // Draw background for volume bar
+			screen->Bar(10, 30, 10 + barWidth, 45, 0x276CF5); // Draw volume bar
+		}
+	}
+	void Game::Audio()
+	{
+		volume = Audio::Device::getMasterVolume();
+		// Adjust game volume with +/- keys.
+		if (Input::GetKey(SDL_SCANCODE_EQUALS) && volume <= 30)
+			Audio::Device::setMasterVolume(volume + 0.1f);
+		if (Input::GetKey(SDL_SCANCODE_MINUS))
+			Audio::Device::setMasterVolume(volume - 0.1f);
+		//std::cout << "Current Volume: " << volume << std::endl;
+	}
 	void Game::UpdateWorld(float deltaTime)
 	{
 		if (gameState == GameStates::MainMenu)
@@ -276,6 +295,7 @@ namespace Tmpl8
 		{
 			endScreen.ManageFrames();
 		}
+		Audio();
 		States();
 		
 	}
@@ -340,13 +360,14 @@ namespace Tmpl8
 		{
 			endScreen.DrawGameCompletedScreen(screen);
 		}
+		DrawAudioBar();
 		
 	}
 
 	// -----------------------------------------------------------
 	// Initialize the application
 	// -----------------------------------------------------------
-
+	
 	void Game::Init()
 	{
 		for (int x = 3; x <= 23; x++)
@@ -361,7 +382,7 @@ namespace Tmpl8
 		}
 		car.MakeNewOrders();
 
-		backgroundMusic.loadMusic("assets/audio/Rondo_Alla_Turka.ogg");
+		backgroundMusic.loadMusic("assets/audio/background.mp3");
 		backgroundMusic.setLooping(true);
 		backgroundMusic.setVolume(0.2f);
 		backgroundMusic.play();
@@ -385,18 +406,6 @@ namespace Tmpl8
 	{
 		deltaTime /= 1000.0f; // convert to seconds
 		Input::Update();
-
-		// Adjust game volume with +/- keys.
-		if (Input::GetKey(SDL_SCANCODE_EQUALS))
-		{
-			float volume = Audio::Device::getMasterVolume();
-			Audio::Device::setMasterVolume(volume + 0.1f);
-		}
-		if (Input::GetKey(SDL_SCANCODE_MINUS))
-		{
-			float volume = Audio::Device::getMasterVolume();
-			Audio::Device::setMasterVolume(volume - 0.1f);
-		}
 		UpdateWorld(deltaTime);
 		DrawGame();
 	}

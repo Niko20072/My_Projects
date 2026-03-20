@@ -3,9 +3,16 @@
 #include "Windows.h"
 #include "player.h"
 
+
 namespace Tmpl8
 {
-	House::House(Player& pl) : player(pl), inventory(player.pInventory()), crafting(inventory) {};
+	House::House(Player& pl) : player(pl), inventory(player.pInventory()), crafting(inventory) 
+	{
+		doorOpen.loadMusic("assets/audio/opendoor.mp3");
+		doorOpen.setVolume(1.7f);
+		doorClose.loadMusic("assets/audio/closedoor.mp3");
+		doorClose.setVolume(0.3f);
+	};
 	bool House::IsOpen()
 	{
 		return houseisopen;
@@ -29,6 +36,7 @@ namespace Tmpl8
 		// Open house if left mouse button is clicked while in reach of door
 		if (Input::GetMouseButtonPressed(1) && houseInReach && hoverOnDoor)
 		{
+			doorOpen.play();
 			houseisopen = true;
 			frame = 0;
 			house.SetFrame(frame);
@@ -36,7 +44,11 @@ namespace Tmpl8
 
 		// Close house if Q is pressed and crafting menu is not open
 		if (Input::GetKeyPressed(SDL_SCANCODE_Q) && !crafting.CraftingIsOpen() && !bedisopen && !nightstandisopen)
+		{
+			doorClose.play();
 			houseisopen = false;
+		}
+			
 	}
 	void House::Craftinglogic()
 	{
