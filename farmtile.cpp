@@ -10,7 +10,7 @@
 
 namespace Tmpl8
 {
-	FarmTile::FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), wateringCan(wa), inventory(inv), camera(cam), player(pl), farmTile(std::make_unique<Sprite>(new Surface("assets/image/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/image/tiles_hover.png"), 1)) 
+	FarmTile::FarmTile(float x, float y, Player& pl, Camera& cam) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), player(pl), camera(cam), wateringCan(player.pWateringCan()), inventory(player.pInventory()), farmTile(std::make_unique<Sprite>(new Surface("assets/image/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/image/tiles_hover.png"), 1))
 	{
 		itemCollect.loadMusic("assets/audio/itempickup.mp3");
 		itemCollect.setVolume(2.2f);

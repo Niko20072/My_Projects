@@ -14,7 +14,7 @@ namespace Tmpl8
 	class FarmTile
 	{
 	public:
-		FarmTile(float x, float y, WateringCan& wa, Inventory& inv, Camera& cam, Player& pl);
+		FarmTile(float x, float y, Player& pl, Camera& cam);
 		//---Getters---
 		bool getPlanted();
 		int getClicked();
@@ -32,10 +32,10 @@ namespace Tmpl8
 		void UpdatePlant(); // Progress the plant to the next day
 		void DrawPlant(Surface* screen);
 	private:
-		WateringCan& wateringCan; // reference to existing watering can state
-		Inventory& inventory;
+		Player& player; // reference to existing player
 		Camera& camera;
-		Player& player;
+		WateringCan& wateringCan; 
+		Inventory& inventory;
 		std::unique_ptr<Sprite> farmTile;
 		std::unique_ptr<Sprite> hover;
 		std::unique_ptr<Plant> plant;

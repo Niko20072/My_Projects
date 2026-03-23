@@ -72,28 +72,26 @@ namespace Tmpl8
 		bool tileClicked = false;
 		float mouseWorldX, mouseWorldY; //mouse position in world coordinates
 		float volume;
-		// --- Core ---
-		void UpdateWorldMousePosition();
+		// --- Main functions ---
+		void States();
 		void UpdateWorld(float deltaTime);
 		void Logic(float deltaTime);
-		void DrawGame();
+		// --- Rendering ---
 		void DrawUI();
-		// --- Systems ---
-		void Audio();
-		void DrawAudioBar();
-		// --- Gameplay ---
-		void HandleMovement(float deltaTime);
-		void PlantSeed(FarmTile& farmtile);
-		void CollectPlants(float deltaTime);
-		void UpdateFarmTiles();
-		void ResetFarmTilesClick();
-		void ProgressToNextDay();
 		void HoverOutsideObjects();
+		void DrawAudioBar();
+		void DrawGame();
+		// --- Gameplay  ---
+		void UpdateMouseWorldPosition();
+		void ResetFarmTilesClick();
+		void UpdateFarmTiles();
+		void CollectPlants(float deltaTime);
+		void PlantSeed(FarmTile& farmtile);
+		void ProgressToNextDay();
 		bool AllInventoriesClosed(); // Check if all inventories are closed
+		// --- Audio ---
+		void Audio();
 		// --- Debug ---
 		void GodMode();
-		// --- State ---
-		void States();
 	};
-
 }; // namespace Tmpl8

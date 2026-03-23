@@ -79,7 +79,7 @@ namespace Tmpl8
 			coinCounter = 9999;
 		}
 	}
-	void Game::UpdateWorldMousePosition()
+	void Game::UpdateMouseWorldPosition()
 	{
 		// worldX = screenX + cameraX;
 		// screenX = worldX - cameraX;
@@ -211,9 +211,10 @@ namespace Tmpl8
 			// ---Inventory---
 			player.pInventory().MainInventoryLogic();
 			car.CarInventoryLogic(coinCounter, mouseWorldX, mouseWorldY);
-			player.pInventory().SeedInventoryLogic(tileClicked);
-			if (player.pInventory().SeedInvIsOpen())
+			if (player.pInventory().SeedInvIsOpen()) // do this before inventory seed logic to avoid double click
 				PlantSeed(*selectedTile);
+			player.pInventory().SeedInventoryLogic(tileClicked);
+			
 
 			// ---WateringCan---
 			player.pWateringCan().WateringCanLogic();
@@ -277,7 +278,7 @@ namespace Tmpl8
 			player.HandleMovement(deltaTime);
 
 			// ---Mouse World Coordinates---
-			UpdateWorldMousePosition();
+			UpdateMouseWorldPosition();
 
 			// ---Check Game Completed---
 			house.CheckGameCompleted(coinCounter, gameCompleted);
@@ -375,12 +376,12 @@ namespace Tmpl8
 		for (int x = 3; x <= 23; x++)
 		{
 			for (int y = 7; y <= 17; y++)
-				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory(), camera, player);
+				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player, camera);
 		}
 		for (int x = 3; x <= 19; x++)
 		{
 			for (int y = 18; y <= 20; y++)
-				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player.pWateringCan(), player.pInventory(), camera, player);
+				farmTiles.emplace_back(static_cast<float>(x), static_cast<float>(y), player, camera);
 		}
 
 		// ---Orders---
@@ -399,9 +400,8 @@ namespace Tmpl8
 
 	void Game::Shutdown()
 	{
-		farmTiles.clear();
-		//delete plants?
-		//orders.clear();
+		farmTiles.clear(); // do i need to do this?
+		//orders.clear();??
 	}
 
 	// -----------------------------------------------------------
