@@ -370,7 +370,7 @@ namespace Tmpl8
 	
 	void Game::Init()
 	{
-		std::cout<<"You can ajust the game volume with +/- keys.\nOther instructions are in the readMe file.\n";
+		std::cout<<"You can ajust the game volume with +/- keys.\nOther instructions are in the readme file.\n";
 
 		// ---FarmTiles---
 		for (int x = 3; x <= 23; x++)

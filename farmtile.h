@@ -17,7 +17,7 @@ namespace Tmpl8
 		FarmTile(float x, float y, Player& pl, Camera& cam);
 		//---Getters---
 		bool getPlanted();
-		int getClicked();
+		bool getClicked();
 		//---Setters---
 		void setClicked(bool state);
 		void setWatered(bool state);

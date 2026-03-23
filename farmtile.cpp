@@ -12,6 +12,7 @@ namespace Tmpl8
 {
 	FarmTile::FarmTile(float x, float y, Player& pl, Camera& cam) : farmTileX(x * Map::TileSize), farmTileY(y * Map::TileSize), player(pl), camera(cam), wateringCan(player.pWateringCan()), inventory(player.pInventory()), farmTile(std::make_unique<Sprite>(new Surface("assets/image/tiles.png"), 3)), hover(std::make_unique<Sprite>(new Surface("assets/image/tiles_hover.png"), 1))
 	{
+		// Load Audio
 		itemCollect.loadMusic("assets/audio/itempickup.mp3");
 		itemCollect.setVolume(2.2f);
 	}
@@ -19,7 +20,7 @@ namespace Tmpl8
 	{ 
 		return planted; 
 	}
-	int FarmTile::getClicked() 
+	bool FarmTile::getClicked() 
 	{ 
 		return clicked; 
 	}
@@ -41,7 +42,7 @@ namespace Tmpl8
 		if (checkHover)
 			hover->Draw(screen, static_cast<int>(farmTileX - camera.getCameraX()), static_cast<int>(farmTileY - camera.getCameraY()));
 	}
-	void FarmTile::Update(float mouseWorldX, float mouseWorldY) //add deltatime here
+	void FarmTile::Update(float mouseWorldX, float mouseWorldY)
 	{
 		// Tile rectangle
 		bool checkHover = mouseWorldX >= farmTileX && mouseWorldX < farmTileX + Map::TileSize && mouseWorldY >= farmTileY && mouseWorldY < farmTileY + Map::TileSize;
@@ -50,8 +51,6 @@ namespace Tmpl8
 		// Click
 		if (Input::GetMouseButtonPressed(1) && checkHover && tileInReach)
 			clicked = true;
-		//else
-		//	clicked = false; //why is this not working
 		if (clicked && wateringCan.getState())
 			watered = true;
 		// Hover & state logic
@@ -68,7 +67,6 @@ namespace Tmpl8
 	{
 		if (!planted)
 		{
-			//plant = nullptr;
 			if (plantType == 0) // Sunblossom
 				plant = std::make_unique<Plant>(farmTileX, farmTileY, 2, 0, inventory, camera);
 			if (plantType == 1) // Moonleaf

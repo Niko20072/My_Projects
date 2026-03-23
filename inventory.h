@@ -40,13 +40,13 @@ namespace Tmpl8
 		Inventory(WateringCan& wa) : wateringCan(wa) {}
 		//---Getters---
 		int getFrame();
-		int MainInvIsOpen();
-		int SeedInvIsOpen();
+		bool MainInvIsOpen();
+		bool SeedInvIsOpen();
 		//---Setters---
 		void setSeedState(bool state);
 		//---Items management---
-		int AddItem(Item item, int quantity = 1); // Add item to inventory
-		int SetItemTo(Item item, int quantity);
+		void AddItem(Item item, int quantity = 1); // Add item to inventory
+		void SetItemTo(Item item, int quantity);
 		int GetItemCount(Item item); // Get count of specific item in inventory
 		//--Main functions---
 		void MainInventoryLogic(); // Normal inventory management

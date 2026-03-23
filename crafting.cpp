@@ -110,7 +110,7 @@ namespace Tmpl8
 				CraftFrostVeil();
 		}
 	}
-	void Crafting::CraftingDraw(Surface* screen) ///chance frame!!!!!!!!!!!!!!
+	void Crafting::CraftingDraw(Surface* screen)
 	{
 		crafting.Draw(screen, 0, 0);
 
@@ -156,7 +156,6 @@ namespace Tmpl8
 	}
 	void Crafting::Draw(Surface* screen)
 	{
-		// Draw crafting interface
 		if (craftingisopen)
 		{
 			ManageFrames();

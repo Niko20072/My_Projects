@@ -8,6 +8,7 @@ namespace Tmpl8
 {
 	House::House(Player& pl) : player(pl), inventory(player.pInventory()), crafting(inventory) 
 	{
+		// Load Audio
 		doorOpen.loadMusic("assets/audio/opendoor.mp3");
 		doorOpen.setVolume(1.7f);
 		doorClose.loadMusic("assets/audio/closedoor.mp3");
@@ -37,11 +38,11 @@ namespace Tmpl8
 	{ 
 		return clickedYes; 
 	}
-	int House::MainScreenOpen()
+	bool House::MainScreenOpen()
 	{
 		if(houseisopen && !nightstandisopen && !bedisopen && !crafting.CraftingIsOpen())
-			return 1;
-		return 0;
+			return true;
+		return false;
 	}
 	void House::HouseLogic(float mouseWorldX, float mouseWorldY)
 	{

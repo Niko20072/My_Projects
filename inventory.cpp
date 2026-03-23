@@ -8,11 +8,11 @@ namespace Tmpl8//sterge
 	{
 		return frame;
 	}
-	int Inventory::MainInvIsOpen()
+	bool Inventory::MainInvIsOpen()
 	{
 		return inventoryisopen;
 	}
-	int Inventory::SeedInvIsOpen()
+	bool Inventory::SeedInvIsOpen()
 	{
 		return seedsisopen;
 	}
@@ -21,15 +21,13 @@ namespace Tmpl8//sterge
 		seedsisopen = state;
 	}
 
-	int Inventory::AddItem(Item item, int quantity)
+	void Inventory::AddItem(Item item, int quantity)
 	{
 		items[item] += quantity; // Add quantity to the specified item in the inventory
-		return items[item];
 	}
-	int Inventory::SetItemTo(Item item, int quantity)
+	void Inventory::SetItemTo(Item item, int quantity)
 	{
 		items[item] = quantity; // Set the specified item to the given quantity in the inventory
-		return items[item];
 	}
 	int Inventory::GetItemCount(Item item)
 	{

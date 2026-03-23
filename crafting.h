@@ -23,7 +23,7 @@ namespace Tmpl8
 		void CraftFireHeart(); // Craft FireHeart Brew
 		void CraftFrostVeil(); // Craft Frostveil Potion
 		void CraftPotions(); // Handle crafting logic
-		void Draw(Surface* screen);
+		void Draw(Surface* screen); // Draw crafting interface
 	private:
 		Inventory& inventory;
 		Sprite crafting = Sprite(new Surface("assets/image/crafting.png"), 3);

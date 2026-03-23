@@ -19,7 +19,7 @@ namespace Tmpl8
 		int getFrame();
 		bool NightstandIsOpen();
 		bool BedIsOpen();
-		int MainScreenOpen();
+		bool MainScreenOpen();
 		bool getClickedYes();
 		//---Main functions---
 		void HouseLogic(float mouseWorldX, float mouseWorldY); // Handle house interactions (opening/closing, crafting menu)
