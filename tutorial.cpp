@@ -11,7 +11,7 @@ namespace Tmpl8
     Tutorial::Tutorial(Player &pl, Car &c, House &h) : player(pl), car(c), house(h), inventory(pl.pInventory()), wateringCan(pl.pWateringCan()) {};
 	void Tutorial::Update()
 	{
-        if (Input::GetKeyPressed(SDL_SCANCODE_X))
+        if (Input::GetKeyPressed(SDL_SCANCODE_X)) // Skip tutorial if X is pressed
             tutorialState = TutorialState::Done;
         switch (tutorialState)
         {
@@ -157,8 +157,11 @@ namespace Tmpl8
                 screen->PrintScaled("here:", 260, 488, 2, 2, 0xff0000);
             if (tutorialState == TutorialState::ExplainTable || tutorialState == TutorialState::ExitTable)
             {
+                // Tutorial text
                 screen->CentreScaled(tutorialText, 409 + 15, 2, 2, 0xff0000);
                 screen->CentreScaled(tutorialText2, 409 + 35, 2, 2, 0xff0000);
+
+                // Move black background for text
                 box[0] = 85;
                 box[1] = 417;
                 box[2] = 712;

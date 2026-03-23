@@ -21,8 +21,8 @@ namespace Tmpl8
 		float getReachX2();
 		float getReachY2();
 		//--Main functions---
-		void HandleMovement(float deltaTime);
-		void Draw(Surface* screen);
+		void HandleMovement(float deltaTime); // Move the player (camera) and update coordinates
+		void Draw(Surface* screen); // Draw player (+ range + bounding box)
 	private:
 		Map &map; // reference to game map
 		Camera& camera; // reference to game camera

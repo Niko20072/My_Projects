@@ -10,8 +10,8 @@ namespace Tmpl8
 		//---Setters---
 		void setState(bool state);
 		//--Main functions---
-		void WateringCanLogic();
-		void Draw(Surface* screen);
+		void WateringCanLogic(); // Equip if R is pressed
+		void Draw(Surface* screen); // Draw sprite
 	private:
 		Sprite wateringCan = Sprite(new Surface("assets/image/wateringCan.png"), 2);
 		bool wateringCanState = false;

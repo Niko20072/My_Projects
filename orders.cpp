@@ -80,10 +80,14 @@ namespace Tmpl8
 	void Order::Draw(Surface* screen)
 	{
 		int hover = Input::GetMouseX() >= (475 - range) && Input::GetMouseX() <= (526 + range) && Input::GetMouseY() >= (235 + orderNumber * 35 - range) && Input::GetMouseY() <= (242 + orderNumber * 35 + range);
+
+		// Button outline
 		if (hover && !completed)
-			screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0xfffb00); // Button outline
+			screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0xfffb00); 
 		else
-			screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0); // Button outline
+			screen->Box(475 - range, 235 + orderNumber * 35 - range, 526 + range, 242 + orderNumber * 35 + range, 0x0);
+
+		// Order text
 		if (completed)
 		{
 			screen->Print(order, 265, 236 + orderNumber * 35, 0x0);

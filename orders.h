@@ -14,6 +14,7 @@ namespace Tmpl8
 		void Draw(Surface* screen); // Draw order on screen
 	private:
 		Inventory& inventory; // Reference to player's inventory
+
 		// Potion types and their prices
 		const std::vector<const char*> potionsTypes = { "Vital Tonic", "Calm Mind", "Dream Draught", "FireHeart", "FrostVeil" };
 		const std::vector<int> priceNumbers = { 60,45,70,95,85 };

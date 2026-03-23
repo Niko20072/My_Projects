@@ -20,9 +20,9 @@ namespace Tmpl8
 		//---Setters---
 		void setWatered(bool state);
 		//--Main functions---
-		void Update();
-		void Collect();
-		void Draw(Surface* screen);
+		void Update(); // Update plant for the next day
+		void Collect(); // Collect plant logic
+		void Draw(Surface* screen); // Draw plant
 	private:
 		Inventory& inventory;
 		Camera& camera;

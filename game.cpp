@@ -6,8 +6,6 @@
 //make stuff private
 //unsigned int?
 
-//change crafting frame
-
 namespace Tmpl8
 {
 	//fa sa pot pierde daca nu mai ai potiuni sau iteme sa poti crafta potiunile
@@ -20,13 +18,10 @@ namespace Tmpl8
 
 	//to do:
 	//add forward declaration of classes in game.h
-	//fix plants and crafting sprites
-	//make text white in the cutscene
-	//add selected inventory
+	//fix plant sprite
 
 	//add sound when plant is not ready
 	//hotbar for seeds
-
 
 	//ask about what to delete when game closed
 	//check assets licence
