@@ -67,41 +67,45 @@ namespace Tmpl8//sterge
 		sprintf(counterSeedFrostMint, "x%d", items[Item::SeedFrostmint]);
 		sprintf(counterSeedBerry, "x%d", items[Item::SeedBerry]);
 
-		// Display when ingredients inventory is open
-		if (MainInvIsOpen() && frame == 0)
+		if (MainInvIsOpen())
 		{
-			screen->PrintScaled(sunBlossom, 350 - 20, 236, 2, 2, 0x0);
-			screen->PrintScaled(moonLeaf, 350 - 20, 277, 2, 2, 0x0);
-			screen->PrintScaled(emberRoot, 350 - 20, 319, 2, 2, 0x0);
-			screen->PrintScaled(frostMint, 350 - 20, 365, 2, 2, 0x0);
-			screen->PrintScaled(berry, 350 - 20 - 14, 409, 2, 2, 0x0);
+			// Display when ingredients inventory is open
+			if (frame == 0)
+			{
+				screen->PrintScaled(sunBlossom, 330, 236, 2, 2, 0x0);
+				screen->PrintScaled(moonLeaf, 330, 277, 2, 2, 0x0);
+				screen->PrintScaled(emberRoot, 330, 319, 2, 2, 0x0);
+				screen->PrintScaled(frostMint, 330, 365, 2, 2, 0x0);
+				screen->PrintScaled(berry, 316, 409, 2, 2, 0x0);
+			}
+			// Display when potions inventory is open
+			else if (frame == 1)
+			{
+				screen->PrintScaled(vitalTonic, 320, 239, 2, 2, 0x0);
+				screen->PrintScaled(calmMind, 320, 282, 2, 2, 0x0);
+				screen->PrintScaled(dreamDraught, 320, 326, 2, 2, 0x0);
+				screen->PrintScaled(fireHeart, 320, 369, 2, 2, 0x0);
+				screen->PrintScaled(frostVeil, 320, 417, 2, 2, 0x0);
+			}
+			// Display when seeds inventory is open
+			else if (frame == 2)
+			{
+				screen->PrintScaled(seedSunBlossom, 330, 236, 2, 2, 0x0);
+				screen->PrintScaled(seedMoonLeaf, 330, 277, 2, 2, 0x0);
+				screen->PrintScaled(seedEmberRoot, 330, 319, 2, 2, 0x0);
+				screen->PrintScaled(seedFrostMint, 330, 365, 2, 2, 0x0);
+				screen->PrintScaled(seedBerry, 316, 409, 2, 2, 0x0);
+			}
 		}
-		// Display when potions inventory is open
-		if (MainInvIsOpen() && frame == 1)
-		{
-			screen->PrintScaled(vitalTonic, 350 - 30, 239, 2, 2, 0x0);
-			screen->PrintScaled(calmMind, 350 - 30, 282, 2, 2, 0x0);
-			screen->PrintScaled(dreamDraught, 350 - 30, 326, 2, 2, 0x0);
-			screen->PrintScaled(fireHeart, 350 - 30, 369, 2, 2, 0x0);
-			screen->PrintScaled(frostVeil, 350 - 30, 417, 2, 2, 0x0);
-		}
-		// Display when seeds inventory is open
-		if (MainInvIsOpen() && frame == 2)
-		{
-			screen->PrintScaled(seedSunBlossom, 350 - 20, 236, 2, 2, 0x0);
-			screen->PrintScaled(seedMoonLeaf, 350 - 20, 277, 2, 2, 0x0);
-			screen->PrintScaled(seedEmberRoot, 350 - 20, 319, 2, 2, 0x0);
-			screen->PrintScaled(seedFrostMint, 350 - 20, 365, 2, 2, 0x0);
-			screen->PrintScaled(seedBerry, 350 - 20 - 14, 409, 2, 2, 0x0);
-		}
+		
 		// Display when planting seeds inventory is open
 		if (SeedInvIsOpen() && frame == 3)
 		{
-			screen->PrintScaled(counterSeedSunBlossom, 350 + 160, 236, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedMoonLeaf, 350 + 160, 278, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedEmberRoot, 350 + 160, 321, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedFrostMint, 350 + 160, 364, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedBerry, 350 + 160, 405, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedSunBlossom, 510, 236, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedMoonLeaf, 510, 278, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedEmberRoot, 510, 321, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedFrostMint, 510, 364, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedBerry, 510, 405, 2, 2, 0x0);
 		}
 
 	}

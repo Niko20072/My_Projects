@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+IMAGES:
+House + Ground: https://shubibubi.itch.io/cozy-farm
+Fence: https://kenmi-art.itch.io/cute-fantasy-rpg
+Truck: https://www.dreamstime.com/retro-pick-up-car-pixel-art-style-vector-illustration-image271588842
+Well: https://opengameart.org/content/16x16-fence-and-well-tiny-16
+Windmill: https://www.freepik.com/premium-vector/pixel-art-grain-mill-item-8bit_13443494.htm#from_element=cross_selling__vector
+Inventory: https://www.vectorstock.com/royalty-free-vector/rolled-old-paper-in-pixel-art-style-vector-41621900
+Player: https://www.reddit.com/r/PixelArt/comments/17fjf9b/forrest_witch_need_advice_first_pixel_art/#lightbox
+House interior: https://www.artstation.com/artwork/ZammZ0
+Nightstand note: https://www.vecteezy.com/vector-art/49315197-8-bit-pixel-art-medieval-paper-scroll-parchment
+Crafting book: https://www.shutterstock.com/ro/image-vector/pixel-art-illustration-book-pixelated-library-2505019159?dd_referrer=https%3A%2F%2Fwww.google.com%2F
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+AUDIO:
+Pick up sound: https://youtu.be/Q_4fGDa6f7Y?is=sg6D0w2bv8JSpJbW
+Backgroud music: https://youtu.be/zYJ2jQr_k1A?is=zrVf2FFRpiKX3Jxe
+Door open/close: https://youtu.be/6Ur01bT1778?is=DZBoY8p15z8fYWtz
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+I MADE:
+Main menu
+Sleeping menu
+Cutscenes
+Buttons
+Wateringcan
+Potions
+Plants
+Items
+House accessories
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

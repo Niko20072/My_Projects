@@ -6,7 +6,7 @@
 
 namespace Tmpl8
 {
-	Player::Player(Map& m, Camera& c) : map(m), camera(c), wateringCan(), inventory(wateringCan) {}
+	Player::Player(Map& m, Camera& c) : map(m), camera(c), inventory(wateringCan) {}
 	Inventory& Player::pInventory() 
 	{ 
 		return inventory; 
@@ -61,9 +61,9 @@ namespace Tmpl8
 			player1.SetFrame(2);
 			movedir.y = 1;
 		}
-		if (movedir.sqrLentgh() > 0)
+		if (movedir.sqrLentgh() > 0) // Check if the movement direction vector is not (0,0)
 		{
-			movedir.normalize();
+			movedir.normalize(); // Normalize the vector so diagonal movement is not faster than horizontal/vertical
 			newCameraX += movedir.x * camera.getCameraSpeed() * deltaTime;
 			newCameraY += movedir.y * camera.getCameraSpeed() * deltaTime;
 		}

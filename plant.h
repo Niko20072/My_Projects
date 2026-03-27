@@ -27,9 +27,9 @@ namespace Tmpl8
 		Inventory& inventory;
 		Camera& camera;
 		Sprite plant = Sprite(new Surface("assets/image/plants.png"), 20);
-		int harvestDay; //the day when the plant is grown
-		int daysPassed = 0; //plant age
-		int frame; //sprite frame
+		int harvestDay; // The day when the plant is grown
+		int daysPassed = 0; // Plant age
+		int frame; // Sprite frame
 		float x, y;
 		bool grown = false;
 		bool alive = true;

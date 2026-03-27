@@ -16,11 +16,11 @@ namespace Tmpl8
 		itemCollect.loadMusic("assets/audio/itempickup.mp3");
 		itemCollect.setVolume(2.2f);
 	}
-	bool FarmTile::getPlanted() 
+	bool FarmTile::isPlanted() 
 	{ 
 		return planted; 
 	}
-	bool FarmTile::getClicked() 
+	bool FarmTile::isClicked() 
 	{ 
 		return clicked; 
 	}
@@ -55,9 +55,9 @@ namespace Tmpl8
 			watered = true;
 		// Hover & state logic
 		if (watered)
-			frame = 2;   // idle wet tile
+			frame = 2;   // wet tile
 		else if (planted)
-			frame = 1;   // idle dry tile
+			frame = 1;   // dry tile
 		else
 			frame = 0;   // default tile
 
@@ -98,7 +98,7 @@ namespace Tmpl8
 			}
 			else if (!plant->getGrown() && clicked && !wateringCan.getState()) // If the plant is not ready and the tile has been clicked, start accumulating time
 				time = 0;
-			if (time <= 2)
+			if (time <= 2) // For 2 seconds print "Not ready"
 			{
 				time += deltaTime;
 				printNotReady = true;

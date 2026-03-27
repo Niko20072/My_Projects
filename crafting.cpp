@@ -23,17 +23,19 @@ namespace Tmpl8
 	void Crafting::ManageFrames()
 	{
 		// Manage frame selection buttons
-		bool button1 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 244 && Input::GetMouseX() <= 314 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
-		bool button2 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 364 && Input::GetMouseX() <= 434 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
-		bool button3 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 485 && Input::GetMouseX() <= 554 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
-		if (button1)
-			frame = 0;
-		if (button2)
-			frame = 1;
-		if (button3)
-			frame = 2;
-		crafting.SetFrame(frame);
-
+		if (craftingisopen)
+		{
+			bool button1 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 244 && Input::GetMouseX() <= 314 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
+			bool button2 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 364 && Input::GetMouseX() <= 434 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
+			bool button3 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 485 && Input::GetMouseX() <= 554 && Input::GetMouseY() >= 516 && Input::GetMouseY() <= 584;
+			if (button1)
+				frame = 0;
+			if (button2)
+				frame = 1;
+			if (button3)
+				frame = 2;
+			crafting.SetFrame(frame);
+		}
 	}
 	void Crafting::CraftVitalTonic()
 	{
@@ -44,7 +46,6 @@ namespace Tmpl8
 			inventory.AddItem(Inventory::Item::Sunblossom, -1);
 			inventory.AddItem(Inventory::Item::Emberroot, -1);
 		}
-		//else add sound maybe
 	}
 	void Crafting::CraftCalmMind()
 	{
@@ -132,34 +133,31 @@ namespace Tmpl8
 		sprintf(frostVeil, "x%d", inventory.GetItemCount(Inventory::Item::FrostVeil));
 
 		// Display ingredients
-		screen->PrintScaled(sunBlossom, 291 - 11, 48, 2, 2, 0x0);
-		screen->PrintScaled(moonLeaf, 341 - 12, 48, 2, 2, 0x0);
-		screen->PrintScaled(emberRoot, 392 - 9, 48, 2, 2, 0x0);
-		screen->PrintScaled(frostMint, 443 - 10, 48, 2, 2, 0x0);
-		screen->PrintScaled(berry, 499 - 11, 48, 2, 2, 0x0);
+		screen->PrintScaled(sunBlossom, 280, 48, 2, 2, 0x0);
+		screen->PrintScaled(moonLeaf, 329, 48, 2, 2, 0x0);
+		screen->PrintScaled(emberRoot, 383, 48, 2, 2, 0x0);
+		screen->PrintScaled(frostMint, 433, 48, 2, 2, 0x0);
+		screen->PrintScaled(berry, 488, 48, 2, 2, 0x0);
 
 		// Display potions based on selected frame
 		if (frame == 0)
 		{
-			screen->PrintScaled(vitalTonic, 329 - 13, 163, 2, 2, 0x0);
-			screen->PrintScaled(calmMind, 676 - 13, 163, 2, 2, 0x0);
+			screen->PrintScaled(vitalTonic, 316, 163, 2, 2, 0x0);
+			screen->PrintScaled(calmMind, 663, 163, 2, 2, 0x0);
 		}
 		if (frame == 1)
 		{
-			screen->PrintScaled(dreamDraught, 329 - 13, 163, 2, 2, 0x0);
-			screen->PrintScaled(fireHeart, 676 - 13, 163, 2, 2, 0x0);
+			screen->PrintScaled(dreamDraught, 316, 163, 2, 2, 0x0);
+			screen->PrintScaled(fireHeart, 663, 163, 2, 2, 0x0);
 		}
 		if (frame == 2)
 		{
-			screen->PrintScaled(frostVeil, 329 - 13, 163, 2, 2, 0x0);
+			screen->PrintScaled(frostVeil, 316, 163, 2, 2, 0x0);
 		}
 	}
 	void Crafting::Draw(Surface* screen)
 	{
 		if (craftingisopen)
-		{
-			ManageFrames();
 			CraftingDraw(screen);
-		}
 	}
 }

@@ -10,7 +10,7 @@ namespace Tmpl8
 	{
 	public:
 		Order(int number, Inventory	&inv); // Constructor
-		void Logic(int& coinCounter); // Logic for order processing
+		void Update(int& coinCounter); // Logic for order processing
 		void Draw(Surface* screen); // Draw order on screen
 	private:
 		Inventory& inventory; // Reference to player's inventory
@@ -22,11 +22,12 @@ namespace Tmpl8
 		int orderNumber; // Which order it is
 		int potionNumber; // How many potions ordered
 		int numberPotionType1; // How many of first potion ordered
-		int numberOfPotionType2; // How many of second potion ordered
+		int numberPotionType2; // How many of second potion ordered
 		int potionType1; // Type of potion1 ordered
 		int potionType2; // Type of potion2 ordered
 		int price; // Price of the order
 		bool completed = false; // Is the order completed?
 		char order[64], send[32], complete[32]; // Text buffers
+		int range = 5; // Click range (and Button outline)
 	};
 }

@@ -35,7 +35,8 @@ namespace Tmpl8
 			SeedMoonleaf,
 			SeedEmberroot,
 			SeedFrostmint,
-			SeedBerry
+			SeedBerry,
+			COUNT
 		};
 		Inventory(WateringCan& wa) : wateringCan(wa) {}
 		//---Getters---
@@ -44,7 +45,7 @@ namespace Tmpl8
 		bool SeedInvIsOpen();
 		//---Setters---
 		void setSeedState(bool state);
-		//---Items management---
+		//---Item management---
 		void AddItem(Item item, int quantity = 1); // Add item to inventory
 		void SetItemTo(Item item, int quantity);
 		int GetItemCount(Item item); // Get count of specific item in inventory

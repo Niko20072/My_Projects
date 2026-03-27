@@ -9,6 +9,7 @@ namespace Tmpl8
 {
 	class Map;
 	class Camera;
+
 	class Player
 	{
 	public:

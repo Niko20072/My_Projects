@@ -9,12 +9,10 @@
 namespace Tmpl8
 {
 	//fa sa pot pierde daca nu mai ai potiuni sau iteme sa poti crafta potiunile
-	//deltatime = the time between frames
-
+	
 	//add state
 	//learn aabb cuz its important
 	//modify crafting recepie 18 feb update on discord
-
 
 	//to do:
 	//add forward declaration of classes in game.h
@@ -34,7 +32,7 @@ namespace Tmpl8
 	//update:: button class, split inv and seed inv, states for inv, be able to hold the seeds so you dont need to click "plant" every time (annoying), fix collision and drawing for map (improve collision)
 
 	//vs,git - nu pun in fisier, -> pptx format prezentare
-	Game::Game() : gameMap(camera), player(gameMap, camera), house(player), car(player), tutorial(player, car, house), camera(){};
+	Game::Game() : camera(), gameMap(camera), player(gameMap, camera), house(player), car(player), tutorial(player, car, house) {};
 	void Game::States()
 	{
 		switch (gameState)
@@ -55,23 +53,14 @@ namespace Tmpl8
 	}
 	void Game::GodMode()
 	{
+		// Activate debug "God Mode" when G is pressed
 		if(Input::GetKeyPressed(SDL_SCANCODE_G))
 		{
-			player.pInventory().SetItemTo(Inventory::Item::VitalTonic, 99);
-			player.pInventory().SetItemTo(Inventory::Item::CalmMind, 99);
-			player.pInventory().SetItemTo(Inventory::Item::DreamDraught, 99);
-			player.pInventory().SetItemTo(Inventory::Item::FireHeart, 99);
-			player.pInventory().SetItemTo(Inventory::Item::FrostVeil, 99);
-			player.pInventory().SetItemTo(Inventory::Item::Sunblossom, 99);
-			player.pInventory().SetItemTo(Inventory::Item::Moonleaf, 99);
-			player.pInventory().SetItemTo(Inventory::Item::Emberroot, 99);
-			player.pInventory().SetItemTo(Inventory::Item::Frostmint, 99);
-			player.pInventory().SetItemTo(Inventory::Item::Berry, 99);
-			player.pInventory().SetItemTo(Inventory::Item::SeedSunblossom, 99);
-			player.pInventory().SetItemTo(Inventory::Item::SeedMoonleaf, 99);
-			player.pInventory().SetItemTo(Inventory::Item::SeedEmberroot, 99);
-			player.pInventory().SetItemTo(Inventory::Item::SeedFrostmint, 99);
-			player.pInventory().SetItemTo(Inventory::Item::SeedBerry, 99);
+			for (int i=0;i<static_cast<int>(Inventory::Item	::COUNT);i++)
+			{
+				Inventory::Item item = static_cast<Inventory::Item>(i);
+				player.pInventory().SetItemTo(item, 99);
+			}
 			coinCounter = 9999;
 		}
 	}
@@ -109,48 +98,45 @@ namespace Tmpl8
 		bool button3 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 310 && Input::GetMouseY() <= 337;
 		bool button4 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 355 && Input::GetMouseY() <= 379;
 		bool button5 = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= 458 && Input::GetMouseX() <= 499 && Input::GetMouseY() >= 394 && Input::GetMouseY() <= 420;
+		bool planted = false;
 		// Planting Sunblossom seed
 		if (button1 && player.pInventory().GetItemCount(Inventory::Item::SeedSunblossom) > 0)
 		{
-			tutorial.setPlanted(true); // Set tutorial state to seed planted
+			planted = true;
 			farmtile.CreatePlant(0); // Create plant on farm tile
 			player.pInventory().AddItem(Inventory::Item::SeedSunblossom, -1);
-			player.pInventory().setSeedState(false);
-			selectedTile = nullptr;
 		}
 		// Planting Moonleaf seed
 		if (button2 && player.pInventory().GetItemCount(Inventory::Item::SeedMoonleaf) > 0)
 		{
-			tutorial.setPlanted(true); // Set tutorial state to seed planted
+			planted = true;
 			farmtile.CreatePlant(1); // Create plant on farm tile
 			player.pInventory().AddItem(Inventory::Item::SeedMoonleaf, -1);
-			player.pInventory().setSeedState(false);
-			selectedTile = nullptr;
 		}
 		// Planting Emberroot seed
 		if (button3 && player.pInventory().GetItemCount(Inventory::Item::SeedEmberroot) > 0)
 		{
-			tutorial.setPlanted(true); // Set tutorial state to seed planted
+			planted = true;
 			farmtile.CreatePlant(2); // Create plant on farm tile
 			player.pInventory().AddItem(Inventory::Item::SeedEmberroot, -1);
-			player.pInventory().setSeedState(false);
-			selectedTile = nullptr;
 		}
 		// Planting Frostmint seed
 		if (button4 && player.pInventory().GetItemCount(Inventory::Item::SeedFrostmint) > 0)
 		{
-			tutorial.setPlanted(true); // Set tutorial state to seed planted
+			planted = true;
 			farmtile.CreatePlant(3); // Create plant on farm tile
 			player.pInventory().AddItem(Inventory::Item::SeedFrostmint, -1);
-			player.pInventory().setSeedState(false);
-			selectedTile = nullptr;
 		}
 		// Planting Nightshade Berry seed
 		if (button5 && player.pInventory().GetItemCount(Inventory::Item::SeedBerry) > 0)
 		{
-			tutorial.setPlanted(true); // Set tutorial state to seed planted
+			planted = true;
 			farmtile.CreatePlant(4); // Create plant on farm tile
 			player.pInventory().AddItem(Inventory::Item::SeedBerry, -1);
+		}
+		if (planted)
+		{
+			tutorial.setPlanted(true); // Set tutorial state to seed planted
 			player.pInventory().setSeedState(false);
 			selectedTile = nullptr;
 		}
@@ -168,7 +154,7 @@ namespace Tmpl8
 		{
 			if (AllInventoriesClosed())
 				farmtile.Update(mouseWorldX, mouseWorldY);
-			if (farmtile.getClicked() && !farmtile.getPlanted())
+			if (farmtile.isClicked() && !farmtile.isPlanted())
 			{
 				tileClicked = true;
 				selectedTile = &farmtile;
@@ -227,6 +213,7 @@ namespace Tmpl8
 
 			// ---Crafting---
 			house.Craftinglogic();
+			house.hCrafting().ManageFrames();
 			if (house.hCrafting().CraftingIsOpen())
 				house.hCrafting().CraftPotions();
 
@@ -301,8 +288,6 @@ namespace Tmpl8
 		sprintf(coins, "COINS: %d", coinCounter);
 		screen->PrintScaled(day, 710, 10, 2, 2, 0x0389afc);
 		screen->PrintScaled(coins, 10, 10, 2, 2, 0xffff00);
-		if (!house.IsOpen() && AllInventoriesClosed())// Draw watering can only when outside and inventory is closed
-			player.pWateringCan().Draw(screen);
 	}
 	void Game::DrawGame()
 	{
@@ -337,6 +322,10 @@ namespace Tmpl8
 
 				// Player
 				player.Draw(screen);
+
+				// Watering can
+				if (AllInventoriesClosed())
+					player.pWateringCan().Draw(screen);
 
 				// Inventory
 				player.pInventory().Draw(screen);
@@ -387,7 +376,7 @@ namespace Tmpl8
 		backgroundMusic.loadMusic("assets/audio/background.mp3");
 		backgroundMusic.setLooping(true);
 		backgroundMusic.setVolume(0.2f);
-		//backgroundMusic.play();
+		backgroundMusic.play();
 	}
 
 	// -----------------------------------------------------------

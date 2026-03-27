@@ -42,8 +42,8 @@ namespace Tmpl8
 
 	private:
 		Surface* screen;
-		Map gameMap;
 		Camera camera;
+		Map gameMap;
 		Player player;
 		House house;
 		Car car;

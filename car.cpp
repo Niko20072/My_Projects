@@ -111,11 +111,11 @@ namespace Tmpl8
 		// Display when car shop inventory is open
 		if (carisopen && frame == 4)
 		{
-			screen->PrintScaled(counterSeedSunBlossom, 350 + 160, 236, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedMoonLeaf, 350 + 160, 278, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedEmberRoot, 350 + 160, 321, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedFrostMint, 350 + 160, 364, 2, 2, 0x0);
-			screen->PrintScaled(counterSeedBerry, 350 + 160, 405, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedSunBlossom, 510, 236, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedMoonLeaf, 510, 278, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedEmberRoot, 510, 321, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedFrostMint, 510, 364, 2, 2, 0x0);
+			screen->PrintScaled(counterSeedBerry, 510, 405, 2, 2, 0x0);
 		}
 	}
 	void Car::Draw(Surface* screen)
@@ -143,7 +143,7 @@ namespace Tmpl8
 	{
 		if (carisopen && frame == 5)
 			for (auto& order : orders)
-				order.Logic(coinCounter);
+				order.Update(coinCounter);
 	}
 	void Car::DrawOrders(Surface* screen)
 	{

@@ -5,7 +5,6 @@
 
 namespace Tmpl8
 {
-	int range = 5; // Click range (and Button outline)
 	Order::Order(int number, Inventory& inv) : inventory(inv)
 	{
 		orderNumber = number;
@@ -13,7 +12,7 @@ namespace Tmpl8
 		potionType1 = IRand(5); // Type of first potion (0-5)
 		potionType2 = IRand(5); // Type of second potion (0-5)
 		numberPotionType1 = 1 + IRand(3); // How many potions of the first type are generated (1-3)
-		numberOfPotionType2 = 1 + IRand(3); // // How many potions of the first type are generated (1-3)
+		numberPotionType2 = 1 + IRand(3); // // How many potions of the first type are generated (1-3)
 		while (potionType1 == potionType2) // Ensure different potion types
 			potionType2 = IRand(5);
 
@@ -23,7 +22,7 @@ namespace Tmpl8
 			potionType1 = 0;
 			potionType2 = 1;
 			numberPotionType1 = 1;
-			numberOfPotionType2 = 2;
+			numberPotionType2 = 2;
 		}
 
 		// Create order text and calculate price
@@ -36,9 +35,9 @@ namespace Tmpl8
 		else
 		{
 			// Order with two potions
-			sprintf(order, "%s x%d, %s x%d", potionsTypes[potionType1], numberPotionType1, potionsTypes[potionType2], numberOfPotionType2);
-			int rewardBonus = 30 * (numberPotionType1 + numberOfPotionType2); // Bonus for two potions 
-			price = (priceNumbers[potionType1] * numberPotionType1) + (priceNumbers[potionType2] * numberOfPotionType2) + rewardBonus;
+			sprintf(order, "%s x%d, %s x%d", potionsTypes[potionType1], numberPotionType1, potionsTypes[potionType2], numberPotionType2);
+			int rewardBonus = 30 * (numberPotionType1 + numberPotionType2); // Bonus for two potions 
+			price = (priceNumbers[potionType1] * numberPotionType1) + (priceNumbers[potionType2] * numberPotionType2) + rewardBonus;
 		}
 
 		// Create send and complete texts
@@ -46,7 +45,7 @@ namespace Tmpl8
 		sprintf(complete, "completed");
 		//std::cout <<" Potion number: " << potionNumber << std::endl;
 	}
-	void Order::Logic(int& coinCounter)
+	void Order::Update(int& coinCounter)
 	{
 		// Check if send button is clicked
 		int button = Input::GetMouseButtonPressed(1) && Input::GetMouseX() >= (475 - range) && Input::GetMouseX() <= (526 + range) && Input::GetMouseY() >= (235 + orderNumber * 35 - range) && Input::GetMouseY() <= (242 + orderNumber * 35 + range);
@@ -74,11 +73,11 @@ namespace Tmpl8
 			if (potionNumber > 1)
 			{
 				// Check if enough potions in inventory
-				if (inventory.GetItemCount(potion1) >= numberPotionType1 && inventory.GetItemCount(potion2) >= numberOfPotionType2)
+				if (inventory.GetItemCount(potion1) >= numberPotionType1 && inventory.GetItemCount(potion2) >= numberPotionType2)
 				{
 					// Remove potions from inventory and add coins
 					inventory.AddItem(potion1, -numberPotionType1); // Remove potions from inventory
-					inventory.AddItem(potion2, -numberOfPotionType2);
+					inventory.AddItem(potion2, -numberPotionType2);
 					coinCounter += price;
 					// Mark order as completed
 					completed = true;
